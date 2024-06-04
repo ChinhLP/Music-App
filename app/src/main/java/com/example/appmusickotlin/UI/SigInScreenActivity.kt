@@ -1,6 +1,5 @@
-package com.example.appmusickotlin
+package com.example.appmusickotlin.UI
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -9,25 +8,30 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.appmusickotlin.UI.SigupScreenActivity
-import com.example.appmusickotlin.model.User
+import com.example.appmusickotlin.R
+import com.example.appmusickotlin.model.myUser
 
-class MainActivity : AppCompatActivity() {
+class SigInScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_sig_in_screen)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val intent = Intent(this, SigupScreenActivity::class.java)
-        startActivity(intent)
+        val button = findViewById<Button>(R.id.button)
 
+        button.setOnClickListener {
+            val email = findViewById<EditText>(R.id.editTextText1)
+            val password = findViewById<EditText>(R.id.editTextText2)
+            if(email.text.toString() != myUser.email || password.text.toString() != myUser.password ){
+                Toast.makeText(this, "email hoac password sai ", Toast.LENGTH_SHORT).show()
+
+            }
+        }
 
     }
-
-
 }

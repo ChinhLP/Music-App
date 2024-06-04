@@ -1,4 +1,11 @@
-package com.example.appmusickotlin
+package com.example.appmusickotlin.model
+ object myUser {
+     var username: String? = ""
+     var email: String? = ""
+     var phoneNumber: String? = ""
+     var password: String? = ""
+     var rePassword: String? = ""
+ }
 
 class User(
     var username: String? = "",
@@ -7,6 +14,7 @@ class User(
     var password: String? = "",
     var rePassword: String? = ""
 ) {
+
 
     fun validUsername(): Boolean{
         return isValidUsername(username)

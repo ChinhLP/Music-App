@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.SigInScreenActivity">
+
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:layout_gravity="center"
+            android:hint="email"
+            android:paddingHorizontal="20dp"
+            android:id="@+id/editTextText1"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:ems="10"
+            android:inputType="text"
+            android:textColor="#888888"
+            />
+
+        <EditText
+            android:layout_gravity="center"
+            android:hint="password"
+            android:paddingHorizontal="20dp"
+            android:id="@+id/editTextText2"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:ems="10"
+            android:inputType="text"
+            android:textColor="#888888"
+            />
+
+        <Button
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:id="@+id/button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            />
+git
+        <TextView
+            android:textColor="#007FFF"
+            android:layout_marginVertical="30dp"
+            android:gravity="center"
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SignUp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
