@@ -2,6 +2,9 @@ package com.example.appmusickotlin.controller
 
 import com.example.appmusickotlin.model.myUser
 
+/**
+ * Api đăng nhập
+ */
 abstract class Controller {
     abstract fun SignIn(email: String, password: String): String
     abstract fun SignUp(
@@ -13,7 +16,15 @@ abstract class Controller {
     )
 }
 
+/**
+ * Impl Api đăng nhập
+ */
+
 class ControllerImpl : Controller() {
+
+    /**
+     * Đăng nhập
+     */
     override fun SignIn(email: String, password: String): String {
         if (email != myUser.email || password != myUser.password) {
             return "Tài khoản hoặc mật khẩu sai"
@@ -22,6 +33,9 @@ class ControllerImpl : Controller() {
         }
     }
 
+    /**
+     * Đăng ký
+     */
     override fun SignUp(
         username: String,
         email: String,

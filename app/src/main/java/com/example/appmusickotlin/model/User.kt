@@ -1,5 +1,8 @@
 package com.example.appmusickotlin.model
 
+/**
+ * data class
+ */
 
 data class User(
     var username: String? = "",

@@ -1,5 +1,6 @@
 package com.example.appmusickotlin.UI
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -10,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
-import com.example.appmusickotlin.model.myUser
+import com.example.appmusickotlin.controller.ControllerImpl
 
 class SigInScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,23 +24,39 @@ class SigInScreenActivity : AppCompatActivity() {
             insets
         }
 
-        val button = findViewById<Button>(R.id.button)
-        val signUpTextView = findViewById<TextView>(R.id.textView3)
+        /**
+         * khai bao bien chung
+         */
+        val btnButton = findViewById<Button>(R.id.button)
+        val txtSignUpTextView = findViewById<TextView>(R.id.textView3)
 
 
-        button.setOnClickListener {
+        /**
+         * xu ly khi click vao button
+         */
+        btnButton.setOnClickListener {
             val email = findViewById<EditText>(R.id.editTextText1)
             val password = findViewById<EditText>(R.id.editTextText2)
-            if(email.text.toString() != myUser.email || password.text.toString() != myUser.password ){
-                Toast.makeText(this, "email hoac password sai ", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "dang nhap thanh cong ", Toast.LENGTH_SHORT).show()
+            val controllerImpl = ControllerImpl()
+            val text = controllerImpl.SignIn(email.text.toString(), password.text.toString())
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
+            /**
+             * chuyen sang man hinh home
+             */
+
+            if (text == "Đăng nhập thành công"){
+                val intent = Intent(this, HomeScreenActivity::class.java)
+                startActivity(intent)
             }
+
         }
-        signUpTextView.setOnClickListener {
-            finish()
-        }
+        /**
+         * xu ly khi click vao txtSignUpTextView
+         */
+        txtSignUpTextView.setOnClickListener {
+            val intent = Intent(this, SigupScreenActivity::class.java)
+            startActivity(intent)        }
 
 
     }
