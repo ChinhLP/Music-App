@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:text="Sign In"
             />
-git
+
         <TextView
             android:textColor="#007FFF"
             android:layout_marginVertical="30dp"

@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
+import com.example.appmusickotlin.component.CheckInput
+import com.example.appmusickotlin.controller.Controller
+import com.example.appmusickotlin.controller.ControllerImpl
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.model.myUser
 
@@ -33,8 +36,10 @@ class SigupScreenActivity : AppCompatActivity() {
             val phoneNumber = findViewById<EditText>(R.id.editTextText3)
             val password = findViewById<EditText>(R.id.editTextText4)
             val rePassword = findViewById<EditText>(R.id.editTextText5)
+            val controllerImpl = ControllerImpl()
+            val user: User
 
-            val user = User(
+            user = User(
                 username.text.toString(),
                 email.text.toString(),
                 phoneNumber.text.toString(),
@@ -42,12 +47,16 @@ class SigupScreenActivity : AppCompatActivity() {
                 rePassword.text.toString()
             )
 
+            val checkInput = CheckInput(
+                user
+            )
 
-            val isValidusername = user.validUsername()
-            val isValidemail = user.validEmail()
-            val isValidphoneNumber = user.validPhoneNumber()
-            val isValidpassword = user.validPassword()
-            val isValidrePassword = user.validRePassword()
+
+            val isValidusername = checkInput.validUsername()
+            val isValidemail = checkInput.validEmail()
+            val isValidphoneNumber = checkInput.validPhoneNumber()
+            val isValidpassword = checkInput.validPassword()
+            val isValidrePassword = checkInput.validRePassword()
 
             if (isValidusername == false) {
                 Toast.makeText(this, "sai cu phap ten", Toast.LENGTH_SHORT).show()
@@ -65,13 +74,15 @@ class SigupScreenActivity : AppCompatActivity() {
                 Toast.makeText(this, "RePassword khong trung password", Toast.LENGTH_SHORT).show()
             }
 
-            if(isValidusername == true && isValidemail == true && isValidphoneNumber == true && isValidpassword == true && isValidrePassword == true){
+            if (isValidusername == true && isValidemail == true && isValidphoneNumber == true && isValidpassword == true && isValidrePassword == true) {
                 val intent = Intent(this, SigInScreenActivity::class.java)
-                myUser.username = username.text.toString()
-                myUser.email = email.text.toString()
-                myUser.phoneNumber = phoneNumber.text.toString()
-                myUser.password = password.text.toString()
-                myUser.rePassword = rePassword.text.toString()
+                controllerImpl.SignUp(
+                    username.text.toString(),
+                    email.text.toString(),
+                    phoneNumber.text.toString(),
+                    password.text.toString(),
+                    rePassword.text.toString()
+                )
                 startActivity(intent)
             }
 

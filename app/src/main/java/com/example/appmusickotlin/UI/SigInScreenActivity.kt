@@ -3,6 +3,7 @@ package com.example.appmusickotlin.UI
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,15 +24,23 @@ class SigInScreenActivity : AppCompatActivity() {
         }
 
         val button = findViewById<Button>(R.id.button)
+        val signUpTextView = findViewById<TextView>(R.id.textView3)
+
 
         button.setOnClickListener {
             val email = findViewById<EditText>(R.id.editTextText1)
             val password = findViewById<EditText>(R.id.editTextText2)
             if(email.text.toString() != myUser.email || password.text.toString() != myUser.password ){
                 Toast.makeText(this, "email hoac password sai ", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "dang nhap thanh cong ", Toast.LENGTH_SHORT).show()
 
             }
         }
+        signUpTextView.setOnClickListener {
+            finish()
+        }
+
 
     }
 }
