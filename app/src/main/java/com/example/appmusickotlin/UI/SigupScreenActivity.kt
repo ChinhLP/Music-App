@@ -22,6 +22,7 @@ class SigupScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding = ActivitySigupScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -29,6 +30,14 @@ class SigupScreenActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+//        if (savedInstanceState != null) {
+//            // Khôi phục dữ liệu từ Bundle nếu có
+//            val restoredData = savedInstanceState.getString("key")
+//            // Tiếp tục xử lý dữ liệu
+//            if (restoredData != null) {
+//                binding.txtNextSignin.setText(restoredData)
+//            }
+//        }
 
         /**
          * btnButtonCheckValidity check validity
@@ -37,8 +46,7 @@ class SigupScreenActivity : AppCompatActivity() {
 
 
         binding.txtNextSignin.setOnClickListener {
-            val intent = Intent(this, SigInScreenActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
 
@@ -134,4 +142,10 @@ class SigupScreenActivity : AppCompatActivity() {
 
         }
     }
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        // Lưu dữ liệu vào Bundle
+//        val textToSave = binding.edtUsername.text.toString()
+//        outState.putString("key", textToSave)
+//        super.onSaveInstanceState(outState)
+//    }
 }

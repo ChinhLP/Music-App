@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">app music kotlin</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_button_theme">change theme</string>
+    <string name="home_home_item">Home</string>
+    <string name="home_library_item">Library</string>
+    <string name="home_playlist_item">Playlist</string>
+    <string name="home_button_langue">en</string>
 </resources>

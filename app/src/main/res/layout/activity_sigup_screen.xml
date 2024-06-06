@@ -94,6 +94,7 @@
             android:textSize="12dp" />
 
         <EditText
+            android:inputType="textPassword"
             android:backgroundTint="@color/ThemeTextField"
             android:textColorHint="@color/HindTextField"
             android:id="@+id/edt_repassword"
@@ -103,7 +104,6 @@
             android:background="@drawable/rounded_edittext_background"
             android:ems="10"
             android:hint="Retype Password"
-            android:inputType="text"
             android:paddingHorizontal="20dp"
             android:textColor="#888888" />
 

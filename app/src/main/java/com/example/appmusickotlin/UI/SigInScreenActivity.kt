@@ -2,6 +2,7 @@ package com.example.appmusickotlin.UI
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -29,9 +30,6 @@ class SigInScreenActivity : AppCompatActivity() {
             insets
         }
 
-
-
-
         /**
          * xu ly khi click vao button
          */
@@ -58,5 +56,35 @@ class SigInScreenActivity : AppCompatActivity() {
             startActivity(intent)        }
 
 
+    }
+
+
+    override fun onStart() {
+        Log.e("TAG", "onStart: ", )
+        super.onStart()
+
+    }
+    override fun onResume() {
+        Log.e("TAG", "onResume: ", )
+
+        super.onResume()
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onPause() {
+        Log.e("TAG", "onPause: ", )
+        super.onPause()
+        Log.e("TAG", "onPause: ", )
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show()
+    }
+    override fun onStop() {
+        super.onStop()
+        Log.e("TAG", "onStop: ", )
+        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("TAG", "onDestroy: ", )
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show()
     }
 }

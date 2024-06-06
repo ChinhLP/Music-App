@@ -1,7 +1,9 @@
 package com.example.appmusickotlin.UI
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Switch
@@ -13,6 +15,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.databinding.ActivityHomeScreenBinding
 import com.example.appmusickotlin.databinding.ActivitySigupScreenBinding
+import java.util.Locale
+
+private const val TAG = "HomeScreenActivity"
 
 class HomeScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeScreenBinding
@@ -46,9 +51,94 @@ class HomeScreenActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(newMode)
         }
 
+        val resources = this.resources
+        val config = resources.configuration
+        val locale1 = Locale("en")
+        config.setLocale(locale1)
+
+        binding.btnLw.setOnClickListener {
+            // Lấy ngôn ngữ hiện tại của thiết bị
+            val currentLocale = Locale.getDefault()
+            val currentLanguage = currentLocale.language
+
+            if (currentLanguage == Locale.ENGLISH.language) {
+                // Chuyển từ tiếng Anh sang tiếng Việt
+                Locale.setDefault(Locale("vi"))
+            } else {
+                // Chuyển từ tiếng Việt sang tiếng Anh
+                Locale.setDefault(Locale.ENGLISH)
+            }
+
+            // Cập nhật cấu hình ngôn ngữ của tài nguyên
+            val configuration = resources.configuration
+            configuration.setLocale(Locale.getDefault())
+
+            // Cập nhật cấu hình ngôn ngữ cho Context
+            val resources = applicationContext.resources
+            resources.updateConfiguration(configuration, resources.displayMetrics)
+
+            // Khởi động lại Activity hiện tại
+            recreate()
+        }
+
+
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.btnHome -> {
+                    val fragment = BlankFragment2()
+
+                    val transaction = supportFragmentManager.beginTransaction()
+
+                    transaction.replace(R.id.fragment_container, fragment)
+
+                    transaction.addToBackStack("BlankFragment2")
+
+                    transaction.commit()
+                    true
+                }
+
+                R.id.btnLibrary -> {
+                    val fragment3 = BlankFragment3()
+
+                    // Bắt đầu một FragmentTransaction
+                    val transaction = supportFragmentManager.beginTransaction()
+
+                    // Thay đổi Fragment hiện tại (Fragment2) bằng Fragment3
+                    transaction.replace(R.id.fragment_container, fragment3)
+
+                    // Thêm transaction vào Back Stack nếu bạn muốn cho phép quay lại Fragment trước đó bằng nút back
+                    transaction.addToBackStack("BlankFragment3")
+
+                    // Commit FragmentTransaction
+                    transaction.commit()
+                    // Xử lý khi nút Library được chọn
+                    true
+                }
+
+                R.id.btnPlaylist -> {
+                    val fragment = BlankFragment1()
+
+                    val transaction = supportFragmentManager.beginTransaction()
+
+                    transaction.replace(R.id.fragment_container, fragment)
+
+                    transaction.addToBackStack("BlankFragment1")
+
+                    transaction.commit()
+                    // Xử lý khi nút Playlist được chọn
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+
+
         binding.btnBack.setOnClickListener {
             finish()
         }
+
 
     }
 

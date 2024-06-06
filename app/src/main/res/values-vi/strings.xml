@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">app music kotlin</string>
+    <string name="home_button_theme">chu de</string>
+    <string name="home_home_item">man chinh</string>
+    <string name="home_library_item">thu vien</string>
+    <string name="home_playlist_item">danh sach nhac</string>
+    <string name="home_button_langue">vn</string>
+</resources>

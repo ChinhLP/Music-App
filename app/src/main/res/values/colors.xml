@@ -11,6 +11,10 @@
     <color name="ThemeTextField">#dbe7e8</color>
     <color name="TextButtonColor">#e9f6f8</color>
 
+    /** button navigation bar */
+    <color name="home">#121111</color>
+    <color name="homeFocus">#00C2CB</color>
+
 
 
 
