@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="ThemeBackground">#121111</color>
+    <color name="TitleText">#fbfbfb</color>
+    <color name="HindTextField">#bbbbbb</color>
+    <color name="ThemeButton">#08a0b5</color>
+    <color name="ThemeTextField">#1e1e1e</color>
+    <color name="TextButtonColor">#e9f6f8</color>
+
+</resources>
