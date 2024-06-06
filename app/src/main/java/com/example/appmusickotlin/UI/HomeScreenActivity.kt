@@ -60,25 +60,26 @@ class HomeScreenActivity : AppCompatActivity() {
             // Lấy ngôn ngữ hiện tại của thiết bị
             val currentLocale = Locale.getDefault()
             val currentLanguage = currentLocale.language
+            var locale = Locale.getDefault()
 
-            if (currentLanguage == Locale.ENGLISH.language) {
+            if (currentLanguage == "en") {
                 // Chuyển từ tiếng Anh sang tiếng Việt
                 Locale.setDefault(Locale("vi"))
-            } else {
+                locale = Locale("vi")
+
+            } else if(currentLanguage == "vi") {
                 // Chuyển từ tiếng Việt sang tiếng Anh
-                Locale.setDefault(Locale.ENGLISH)
+                Locale.setDefault(Locale("en"))
+                locale = Locale("en")
+
             }
 
             // Cập nhật cấu hình ngôn ngữ của tài nguyên
-            val configuration = resources.configuration
-            configuration.setLocale(Locale.getDefault())
+            val config = Configuration()
+            config.locale = locale
+            resources.updateConfiguration(config, resources.displayMetrics)
+            recreate() // Tái khởi động Activity để áp dụng thay đổi ngôn ngữ
 
-            // Cập nhật cấu hình ngôn ngữ cho Context
-            val resources = applicationContext.resources
-            resources.updateConfiguration(configuration, resources.displayMetrics)
-
-            // Khởi động lại Activity hiện tại
-            recreate()
         }
 
 
