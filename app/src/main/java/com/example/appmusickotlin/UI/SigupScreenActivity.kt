@@ -13,13 +13,17 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.validat.CheckInput
 import com.example.appmusickotlin.controller.ControllerImpl
+import com.example.appmusickotlin.databinding.ActivitySigupScreenBinding
 import com.example.appmusickotlin.model.User
 
 class SigupScreenActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySigupScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_sigup_screen)
+        binding = ActivitySigupScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -30,10 +34,9 @@ class SigupScreenActivity : AppCompatActivity() {
          * btnButtonCheckValidity check validity
          * txtSignIn intent SigInScreenActivity
          */
-        val btnButtonCheckValidity = findViewById<Button>(R.id.button)
-        val txtSignIn = findViewById<TextView>(R.id.textView4)
 
-        txtSignIn.setOnClickListener {
+
+        binding.txtNextSignin.setOnClickListener {
             val intent = Intent(this, SigInScreenActivity::class.java)
             startActivity(intent)
         }
@@ -43,16 +46,12 @@ class SigupScreenActivity : AppCompatActivity() {
         /**
          * btnButtonCheckValidity click
          */
-        btnButtonCheckValidity.setOnClickListener {
+        binding.btnSignup.setOnClickListener {
 
             /**
              * edtEdtUsername, edtEmail, edtPhoneNumber, edtPassword, edtRePassword get value
              */
-            val edtEdtUsername = findViewById<EditText>(R.id.editTextText1)
-            val edtEmail = findViewById<EditText>(R.id.editTextText2)
-            val edtPhoneNumber = findViewById<EditText>(R.id.editTextText3)
-            val edtPassword = findViewById<EditText>(R.id.editTextText4)
-            val edtRePassword = findViewById<EditText>(R.id.editTextText5)
+
             val controllerImpl = ControllerImpl()
             val user: User
 
@@ -61,11 +60,11 @@ class SigupScreenActivity : AppCompatActivity() {
              */
 
             user = User(
-                edtEdtUsername.text.toString(),
-                edtEmail.text.toString(),
-                edtPhoneNumber.text.toString(),
-                edtPassword.text.toString(),
-                edtRePassword.text.toString()
+                binding.edtUsername.text.toString(),
+                binding.edtEmailSignup.text.toString(),
+                binding.edtPhone.text.toString(),
+                binding.edtPasswordSignup.text.toString(),
+                binding.edtRepassword.text.toString()
             )
             /**
              * checkInput get value
@@ -118,11 +117,11 @@ class SigupScreenActivity : AppCompatActivity() {
             if (isValidusername == true && isValidemail == true && isValidphoneNumber == true && isValidpassword == true && isValidrePassword == true) {
                 val intent = Intent(this, SigInScreenActivity::class.java)
                 controllerImpl.SignUp(
-                    edtEdtUsername.text.toString(),
-                    edtEmail.text.toString(),
-                    edtPhoneNumber.text.toString(),
-                    edtPassword.text.toString(),
-                    edtRePassword.text.toString()
+                    binding.edtUsername.text.toString(),
+                    binding.edtEmailSignup.text.toString(),
+                    binding.edtPhone.text.toString(),
+                    binding.edtPasswordSignup.text.toString(),
+                    binding.edtRepassword.text.toString()
                 )
 
                 /**

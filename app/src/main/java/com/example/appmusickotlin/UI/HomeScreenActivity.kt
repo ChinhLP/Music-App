@@ -11,23 +11,26 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
+import com.example.appmusickotlin.databinding.ActivityHomeScreenBinding
+import com.example.appmusickotlin.databinding.ActivitySigupScreenBinding
 
 class HomeScreenActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityHomeScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_home_screen)
+        binding = ActivityHomeScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val btnTheme = findViewById<Button>(R.id.button1)
-        val btnBack = findViewById<ImageButton>(R.id.btn_back)
 
 
 
-        btnTheme.setOnClickListener {
+        binding.btnTheme.setOnClickListener {
 
             // Kiểm tra chủ đề hiện tại của thiết bị
             val uiMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
@@ -43,7 +46,7 @@ class HomeScreenActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(newMode)
         }
 
-        btnBack.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             finish()
         }
 

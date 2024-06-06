@@ -12,33 +12,32 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.controller.ControllerImpl
+import com.example.appmusickotlin.databinding.ActivitySigInScreenBinding
+import com.example.appmusickotlin.databinding.ActivitySigupScreenBinding
 
 class SigInScreenActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySigInScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_sig_in_screen)
+        binding = ActivitySigInScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        /**
-         * khai bao bien chung
-         */
-        val btnButton = findViewById<Button>(R.id.button)
-        val txtSignUpTextView = findViewById<TextView>(R.id.textView3)
+
 
 
         /**
          * xu ly khi click vao button
          */
-        btnButton.setOnClickListener {
-            val email = findViewById<EditText>(R.id.editTextText1)
-            val password = findViewById<EditText>(R.id.editTextText2)
+        binding.btnLogin.setOnClickListener {
             val controllerImpl = ControllerImpl()
-            val text = controllerImpl.SignIn(email.text.toString(), password.text.toString())
+            val text = controllerImpl.SignIn(binding.edtEmail.text.toString(), binding.edtPassword.text.toString())
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
             /**
@@ -54,7 +53,7 @@ class SigInScreenActivity : AppCompatActivity() {
         /**
          * xu ly khi click vao txtSignUpTextView
          */
-        txtSignUpTextView.setOnClickListener {
+        binding.txtSignup.setOnClickListener {
             val intent = Intent(this, SigupScreenActivity::class.java)
             startActivity(intent)        }
 
