@@ -20,4 +20,5 @@
     <string name="SignUp_requitePassword_hint">Must be 8 or more charaters and contain at least 1 number and 1 special character</string>
     <string name="SignUp_question_textview">you have an account?</string>
     <string name="SignUp_SignIn_textview">SignIn</string>
+    <string name="home_logout_button">Logout</string>
 </resources>

@@ -1,20 +1,17 @@
-package com.example.appmusickotlin.UI
+package com.example.appmusickotlin.UI.authetication
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
+import com.example.appmusickotlin.UI.home.HomeScreenActivity
 import com.example.appmusickotlin.controller.ControllerImpl
 import com.example.appmusickotlin.databinding.ActivitySigInScreenBinding
-import com.example.appmusickotlin.databinding.ActivitySigupScreenBinding
 
 class SigInScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySigInScreenBinding

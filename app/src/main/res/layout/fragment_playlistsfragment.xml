@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.BlankFragment1">
-
+    tools:context=".UI.home.Fragment.PlayListsFragment">
 
     <LinearLayout
         android:gravity="center"
-        android:background="@color/HindTextField"
+        android:background="@color/ThemeButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

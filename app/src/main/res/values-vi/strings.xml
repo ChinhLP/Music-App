@@ -20,4 +20,5 @@
     <string name="SignUp_requitePassword_hint">phai co 8 ky tu tro len chua it nhat 1 so va 1 ky tu dac biet</string>
     <string name="SignUp_question_textview">ban da co tai khoan ?</string>
     <string name="SignUp_SignIn_textview">dang nhap</string>
+    <string name="home_logout_button">dang xuat</string>
 </resources>
