@@ -20,9 +20,9 @@
             android:backgroundTint="@color/ThemeTextField"
             android:textColorHint="@color/HindTextField"
             android:layout_gravity="center"
-            android:hint="email"
+            android:hint="@string/SignIn_email_hint"
             android:paddingHorizontal="20dp"
-            android:id="@+id/edt_email"
+            android:id="@+id/edtEmail"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginVertical="10dp"
@@ -36,9 +36,9 @@
             android:backgroundTint="@color/ThemeTextField"
             android:textColorHint="@color/HindTextField"
             android:layout_gravity="center"
-            android:hint="password"
+            android:hint="@string/SignIn_password_hint"
             android:paddingHorizontal="20dp"
-            android:id="@+id/edt_password"
+            android:id="@+id/edtPassword"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginVertical="10dp"
@@ -53,21 +53,20 @@
             android:textColor="@color/TextButtonColor"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:id="@+id/btn_login"
+            android:id="@+id/btnLogin"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Sign In"
+            android:text="@string/SignIn_Login_button"
             />
 
         <TextView
-
             android:textColor="@color/ThemeButton"
             android:layout_marginVertical="30dp"
             android:gravity="center"
-            android:id="@+id/txt_signup"
+            android:id="@+id/txtSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SignUp" />
+            android:text="@string/SignIn_SignUp_textview" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

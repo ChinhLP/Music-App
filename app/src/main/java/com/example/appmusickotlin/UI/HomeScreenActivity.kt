@@ -51,10 +51,7 @@ class HomeScreenActivity : AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(newMode)
         }
 
-        val resources = this.resources
-        val config = resources.configuration
-        val locale1 = Locale("en")
-        config.setLocale(locale1)
+
 
         binding.btnLw.setOnClickListener {
             // Lấy ngôn ngữ hiện tại của thiết bị
@@ -135,11 +132,11 @@ class HomeScreenActivity : AppCompatActivity() {
         }
 
 
-
         binding.btnBack.setOnClickListener {
+            val intent = Intent(this, SigInScreenActivity::class.java)
+            startActivity(intent)
             finish()
         }
-
 
     }
 

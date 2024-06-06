@@ -45,6 +45,7 @@ class SigInScreenActivity : AppCompatActivity() {
             if (text == "Đăng nhập thành công"){
                 val intent = Intent(this, HomeScreenActivity::class.java)
                 startActivity(intent)
+                finish()
             }
 
         }

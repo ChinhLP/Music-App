@@ -6,4 +6,18 @@
     <string name="home_library_item">Library</string>
     <string name="home_playlist_item">Playlist</string>
     <string name="home_button_langue">en</string>
+    <string name="SignIn_email_hint">email</string>
+    <string name="SignIn_password_hint">password</string>
+    <string name="SignIn_Login_button">Sign In</string>
+    <string name="SignIn_SignUp_textview">Sign Up</string>
+    <string name="SignUp_title_textview">Sign Up</string>
+    <string name="SignUp_username_hint">username</string>
+    <string name="SignUp_email_hint">email</string>
+    <string name="SignUp_phone_hint">phone</string>
+    <string name="SignUp_password_hint">password</string>
+    <string name="SignUp_repassword">repassword</string>
+    <string name="SignUp_location_hint">location</string>
+    <string name="SignUp_requitePassword_hint">Must be 8 or more charaters and contain at least 1 number and 1 special character</string>
+    <string name="SignUp_question_textview">you have an account?</string>
+    <string name="SignUp_SignIn_textview">SignIn</string>
 </resources>

@@ -6,4 +6,18 @@
     <string name="home_library_item">thu vien</string>
     <string name="home_playlist_item">danh sach nhac</string>
     <string name="home_button_langue">vn</string>
+    <string name="SignIn_email_hint">email</string>
+    <string name="SignIn_password_hint">mat khau</string>
+    <string name="SignIn_Login_button">dang nhap</string>
+    <string name="SignIn_SignUp_textview">Dang Ky</string>
+    <string name="SignUp_title_textview">Dang Ky</string>
+    <string name="SignUp_username_hint">ten nguoi dung</string>
+    <string name="SignUp_email_hint">email</string>
+    <string name="SignUp_phone_hint">so dien thoai</string>
+    <string name="SignUp_password_hint">mat khau</string>
+    <string name="SignUp_repassword">nhap lai mat khau</string>
+    <string name="SignUp_location_hint">dia phuong</string>
+    <string name="SignUp_requitePassword_hint">phai co 8 ky tu tro len chua it nhat 1 so va 1 ky tu dac biet</string>
+    <string name="SignUp_question_textview">ban da co tai khoan ?</string>
+    <string name="SignUp_SignIn_textview">dang nhap</string>
 </resources>
