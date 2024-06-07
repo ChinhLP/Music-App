@@ -5,13 +5,41 @@
     android:layout_height="match_parent"
     tools:context=".UI.home.Fragment.HomeFragment">
 
-
     <LinearLayout
         android:gravity="center"
         android:background="@color/HindTextField"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <Button
+            android:layout_marginBottom="20dp"
+            android:background="@color/black"
+            android:id="@+id/btnBack"
+            android:text="Back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:background="@color/black"
+            android:id="@+id/btnPlayMusic"
+            android:text="playmusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:background="@color/black"
+            android:id="@+id/btnPauseMusic"
+            android:text="PauseMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:background="@color/black"
+            android:id="@+id/btnNext"
+            android:text="Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
     </LinearLayout>

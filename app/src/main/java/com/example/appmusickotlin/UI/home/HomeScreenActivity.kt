@@ -19,6 +19,10 @@ import java.util.Locale
 class HomeScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeScreenBinding
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("language_key", Locale.getDefault().language)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -51,6 +55,8 @@ class HomeScreenActivity : AppCompatActivity() {
 
 
         binding.btnLw.setOnClickListener {
+
+
             // Lấy ngôn ngữ hiện tại của thiết bị
             val currentLocale = Locale.getDefault()
             val currentLanguage = currentLocale.language
@@ -80,7 +86,7 @@ class HomeScreenActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.btnHome -> {
-                    val fragment = LibraryFragment()
+                    val fragment = HomeFragment()
 
                     val transaction = supportFragmentManager.beginTransaction()
 
@@ -93,13 +99,15 @@ class HomeScreenActivity : AppCompatActivity() {
                 }
 
                 R.id.btnLibrary -> {
-                    val fragment3 = PlayListsFragment()
+
+                    val fragment = LibraryFragment()
+
 
                     // Bắt đầu một FragmentTransaction
                     val transaction = supportFragmentManager.beginTransaction()
 
                     // Thay đổi Fragment hiện tại (Fragment2) bằng Fragment3
-                    transaction.replace(R.id.fragment_container, fragment3)
+                    transaction.replace(R.id.fragment_container, fragment)
 
                     // Thêm transaction vào Back Stack nếu bạn muốn cho phép quay lại Fragment trước đó bằng nút back
                     transaction.addToBackStack("BlankFragment3")
@@ -111,7 +119,7 @@ class HomeScreenActivity : AppCompatActivity() {
                 }
 
                 R.id.btnPlaylist -> {
-                    val fragment = HomeFragment()
+                    val fragment = PlayListsFragment()
 
                     val transaction = supportFragmentManager.beginTransaction()
 
