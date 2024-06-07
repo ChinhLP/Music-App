@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startForegroundService
+import androidx.core.view.isVisible
+import com.example.appmusickotlin.R
 import com.example.appmusickotlin.databinding.FragmentHomefragmentBinding
 
 
@@ -22,17 +24,21 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentHomefragmentBinding.inflate(inflater, container, false)
 
         binding.btnPlayMusic.setOnClickListener {
 
 
-            // Tạo Intent với hành động là "resume"
-            val resumeIntent = Intent(requireContext(), MusicService::class.java).apply {
-                action = "ACTION_RESUME"
-            }
-            // Gửi Intent đến dịch vụ
-            requireContext().startService(resumeIntent)
+                // Nếu src hiện tại không phải là ic_play, chuyển sang src ic_play
+                val resumeIntent = Intent(requireContext(), MusicService::class.java).apply {
+                    action = "ACTION_RESUME"
+                }
+            binding.btnPlayMusic.visibility = View.GONE
+            binding.btnPauseMusic.visibility = View.VISIBLE
+                requireContext().startService(resumeIntent)
+
+
 
         }
 
@@ -41,9 +47,30 @@ class HomeFragment : Fragment() {
             val pauseIntent = Intent(requireContext(), MusicService::class.java).apply {
                 action = "ACTION_PAUSE"
             }
+            binding.btnPlayMusic.visibility = View.VISIBLE
+            binding.btnPauseMusic.visibility = View.GONE
             // Gửi Intent đến dịch vụ
             requireContext().startService(pauseIntent)
         }
+
+        binding.btnNext.setOnClickListener {
+            // Tạo Intent với hành động là "stop"
+            val nextIntent = Intent(requireContext(), MusicService::class.java).apply {
+                action = "ACTION_NEXT"
+
+            }
+            requireContext().startService(nextIntent)
+
+        }
+            binding.btnBack.setOnClickListener {
+                // Tạo Intent với hành động là "stop"
+                val backIntent = Intent(requireContext(), MusicService::class.java).apply {
+                    action = "ACTION_BACK"
+                }
+                requireContext().startService(backIntent)
+
+            }
+
 
 
 

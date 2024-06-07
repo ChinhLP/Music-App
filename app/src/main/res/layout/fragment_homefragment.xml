@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,41 +8,48 @@
 
     <LinearLayout
         android:gravity="center"
-        android:background="@color/HindTextField"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <Button
-            android:layout_marginBottom="20dp"
-            android:background="@color/black"
-            android:id="@+id/btnBack"
-            android:text="Back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:background="@color/black"
-            android:id="@+id/btnPlayMusic"
-            android:text="playmusic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:background="@color/HindTextField">
 
-        <Button
-            android:layout_marginTop="20dp"
-            android:background="@color/black"
-            android:id="@+id/btnPauseMusic"
-            android:text="PauseMusic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <Button
-            android:layout_marginTop="20dp"
-            android:background="@color/black"
-            android:id="@+id/btnNext"
-            android:text="Next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_previous" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/btnPlayMusic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_play" />
+                <ImageButton
+                    android:id="@+id/btnPauseMusic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_pause"
+                    android:visibility="gone"
+                    />
+            </RelativeLayout>
 
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next" />
+        </LinearLayout>
 
     </LinearLayout>
+
+
 
 </FrameLayout>

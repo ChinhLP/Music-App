@@ -33,7 +33,16 @@ class HomeScreenActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val fragmentManager = supportFragmentManager
+        val fragmentCount = fragmentManager.backStackEntryCount
 
+        if(fragmentCount == 0) {
+            val fragment = HomeFragment()
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, fragment)
+            transaction.addToBackStack("HomeFragment")
+            transaction.commit()
+        }
 
 
         binding.btnTheme.setOnClickListener {
@@ -86,8 +95,18 @@ class HomeScreenActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.btnHome -> {
-                    val fragment = HomeFragment()
+                    // Nếu không có fragment nào trong stack, thực hiện chuyển đổi fragment
+                    if (supportFragmentManager.backStackEntryCount == 0) {
+                        // Nếu không có fragment nào trong stack, thực hiện chuyển đổi fragment
+                        val fragment = HomeFragment()
+                        val transaction = supportFragmentManager.beginTransaction()
+                        transaction.replace(R.id.fragment_container, fragment)
+                        transaction.addToBackStack("BlankFragment2")
+                        transaction.commit()
+                        true // Trả về true sau khi giao dịch được thêm vào thành công
+                    }
 
+                    val fragment = HomeFragment()
                     val transaction = supportFragmentManager.beginTransaction()
 
                     transaction.replace(R.id.fragment_container, fragment)

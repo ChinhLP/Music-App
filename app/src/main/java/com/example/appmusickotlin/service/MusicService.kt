@@ -17,7 +17,8 @@ import com.example.appmusickotlin.R
 
      private var mediaPlayer: MediaPlayer? = null
      private val channelId = "MusicServiceChannel"
-     private val songList = listOf(R.raw.kemduyen, R.raw.rrr)
+     private val songList = listOf(R.raw.kemduyen, R.raw.nenvahoa,R.raw.yeu5)
+     private var currentSongIndex = 0
 
 
      override fun onBind(intent: Intent): IBinder? {
@@ -29,7 +30,7 @@ import com.example.appmusickotlin.R
          createNotificationChannel()
 
          // Khởi tạo MediaPlayer với đường dẫn tới file nhạc trên thiết bị
-         mediaPlayer = MediaPlayer.create(this, R.raw.kemduyen)
+         mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
          mediaPlayer?.isLooping = true
 
 
@@ -39,6 +40,22 @@ import com.example.appmusickotlin.R
          startForeground()
 
          when (intent?.action) {
+             "ACTION_NEXT" -> {
+                 if(currentSongIndex == songList.size - 1){
+                     mediaPlayer?.stop()
+                     mediaPlayer?.release()
+                     currentSongIndex = 0
+                     mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+                     mediaPlayer?.start()
+                 }else{
+                     mediaPlayer?.stop()
+                     mediaPlayer?.release()
+                     currentSongIndex ++
+                     mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+                     mediaPlayer?.start()
+                 }
+
+             }
              "ACTION_PAUSE" -> {
                  // Thực hiện hành động tạm dừng phát nhạc
                  mediaPlayer?.pause()
@@ -46,6 +63,21 @@ import com.example.appmusickotlin.R
              "ACTION_RESUME" -> {
                  // Thực hiện hành động tiếp tục phát nhạc
                  mediaPlayer?.start()
+             }
+             "ACTION_BACK" -> {
+                 if(currentSongIndex == 0){
+                     mediaPlayer?.stop()
+                     mediaPlayer?.release()
+                     currentSongIndex = songList.size - 1
+                     mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+                     mediaPlayer?.start()
+                 }else{
+                     mediaPlayer?.stop()
+                     mediaPlayer?.release()
+                     currentSongIndex --
+                     mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+                     mediaPlayer?.start()
+                 }
              }
              // Xử lý các hành động khác nếu cần
          }
