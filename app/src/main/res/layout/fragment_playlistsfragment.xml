@@ -3,14 +3,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ThemeBackground"
     tools:context=".UI.home.Fragment.PlayListsFragment">
 
     <LinearLayout
-        android:gravity="center"
-        android:background="@color/ThemeButton"
+        android:background="@color/ThemeBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/playlist_title_textview"
+            android:textFontWeight="700"
+            android:textColor="@color/TitleText"
+            android:textSize="20dp"
+            android:lineHeight="30dp"
+            android:textStyle="bold"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:text="You don't have any playlists. Click the “+” button to add"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textFontWeight="400"
+                android:layout_width="239dp"
+                android:layout_height="210dp"
+                android:textColor="@color/TitleText"
+                />
+            <ImageButton
+                android:id="@+id/btnAddPlaylist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/ic_vector"
+                />
+
+
+
+        </LinearLayout>
+
+
+
 
 
     </LinearLayout>

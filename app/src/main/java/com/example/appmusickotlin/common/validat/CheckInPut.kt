@@ -1,4 +1,4 @@
-package com.example.appmusickotlin.validat
+package com.example.appmusickotlin.common.validat
 
 import com.example.appmusickotlin.model.User
 

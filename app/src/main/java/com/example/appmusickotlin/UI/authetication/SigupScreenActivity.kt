@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
-import com.example.appmusickotlin.validat.CheckInput
+import com.example.appmusickotlin.common.validat.CheckInput
 import com.example.appmusickotlin.controller.ControllerImpl
 import com.example.appmusickotlin.databinding.ActivitySigupScreenBinding
 import com.example.appmusickotlin.model.User

@@ -6,11 +6,15 @@
     tools:context=".UI.home.Fragment.LibraryFragment">
 
     <LinearLayout
-        android:gravity="center"
-        android:background="@color/cardview_dark_background"
+        android:background="@color/ThemeBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
 
     </LinearLayout>
 

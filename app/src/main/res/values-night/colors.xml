@@ -8,12 +8,14 @@
     <color name="ThemeButton">#08a0b5</color>
     <color name="ThemeTextField">#1e1e1e</color>
     <color name="TextButtonColor">#e9f6f8</color>
+    <color name="DialogBackground">#8A9A9D</color>
 
 
 
     /** button navigation bar */
     <color name="home">#FFFFFFFF</color>
     <color name="homeFocus">#00C2CB</color>
+    <color name="ThemeBackgroundNavigation">#000000</color>
 
 
 

@@ -21,4 +21,7 @@
     <string name="SignUp_question_textview">ban da co tai khoan ?</string>
     <string name="SignUp_SignIn_textview">dang nhap</string>
     <string name="home_logout_button">dang xuat</string>
+    <string name="playlist_title_textview">danh sach nhac cua toi</string>
+    <string name="Item_music_song_title">kem duyen</string>
+
 </resources>

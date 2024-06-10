@@ -21,4 +21,12 @@
     <string name="SignUp_question_textview">you have an account?</string>
     <string name="SignUp_SignIn_textview">SignIn</string>
     <string name="home_logout_button">Logout</string>
+    <string name="playlist_title_textview">My Playlist</string>
+
+
+    // Name music
+    <string name="Item_music_song_title">kem duyen</string>
+
+
 </resources>
+

@@ -4,16 +4,20 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="ThemeBackground">#FFFFFFFF</color>
+    <color name="ThemeBackground">#E8E8E8</color>
     <color name="TitleText">#1a1a1a</color>
     <color name="HindTextField">#797f7f</color>
     <color name="ThemeButton">#08a0b5</color>
     <color name="ThemeTextField">#dbe7e8</color>
     <color name="TextButtonColor">#e9f6f8</color>
+    <color name="DialogBackground">#8A9A9D</color>
+
 
     /** button navigation bar */
     <color name="home">#121111</color>
     <color name="homeFocus">#00C2CB</color>
+    <color name="ThemeBackgroundNavigation">#FFFFFF</color>
+
 
 
 
