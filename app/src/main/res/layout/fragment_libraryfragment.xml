@@ -1,21 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/ThemeBackground"
     tools:context=".UI.home.Fragment.LibraryFragment">
 
-    <LinearLayout
-        android:background="@color/ThemeBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+    <TextView
+        android:textFontWeight="700"
+        android:textSize="20dp"
+        android:lineHeight="30dp"
+        android:textColor="@color/TitleText"
+        android:text="Library"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintVertical_bias="0.0" />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnLeft"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="Local"
+        android:background="@drawable/rounded_dialog_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"/>
 
-</FrameLayout>
+    <Button
+        android:background="@drawable/rounded_dialog_background"
+        android:id="@+id/btnRight"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="Remote"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="30dp"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLeft"
+        android:layout_marginTop="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

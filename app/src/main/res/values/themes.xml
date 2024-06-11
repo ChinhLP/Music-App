@@ -5,4 +5,8 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@drawable/rounded_popupmenu_background</item>
+        <item name="android:textColor">@color/TitleText</item>
+    </style>
 </resources>
