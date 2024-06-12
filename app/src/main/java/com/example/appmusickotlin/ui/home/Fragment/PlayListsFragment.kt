@@ -1,4 +1,4 @@
-package com.example.appmusickotlin.UI.home.Fragment
+package com.example.appmusickotlin.ui.home.Fragment
 
 import android.app.AlertDialog
 import android.os.Bundle

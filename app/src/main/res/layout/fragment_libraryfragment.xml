@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/ThemeBackground"
-    tools:context=".UI.home.Fragment.LibraryFragment">
+    tools:context=".ui.home.Fragment.LibraryFragment">
 
     <TextView
         android:textFontWeight="700"
@@ -20,39 +20,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLeft"
-        android:layout_width="130dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Local"
-        android:background="@drawable/rounded_dialog_background"
+        android:background="@drawable/rounded_button_auth_background"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnRight"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"/>
 
-    <Button
-        android:background="@drawable/rounded_dialog_background"
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRight"
-        android:layout_width="130dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Remote"
+        app:layout_constraintStart_toEndOf="@+id/btnLeft"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-        android:layout_marginEnd="70dp"
-        android:layout_marginTop="30dp"/>
-
-    <ListView
-        android:id="@+id/listView"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="70dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLeft"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

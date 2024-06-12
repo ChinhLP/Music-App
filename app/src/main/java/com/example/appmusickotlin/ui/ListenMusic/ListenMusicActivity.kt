@@ -1,4 +1,4 @@
-package com.example.appmusickotlin.UI.ListenMusic
+package com.example.appmusickotlin.ui.ListenMusic
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

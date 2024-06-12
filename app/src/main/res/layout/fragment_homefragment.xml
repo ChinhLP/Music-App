@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".UI.home.Fragment.HomeFragment">
+    tools:context=".ui.home.Fragment.HomeFragment">
 
 
     <LinearLayout
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

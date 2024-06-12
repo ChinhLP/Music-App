@@ -1,25 +1,24 @@
-package com.example.appmusickotlin.UI.home.Fragment
+package com.example.appmusickotlin.ui.home.Fragment
 
-import android.content.ContentUris
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
-import com.example.appmusickotlin.R
+import android.view.animation.OvershootInterpolator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.appmusickotlin.ui.diaglogs.DialogAddLibraryFragment
 import com.example.appmusickotlin.adapter.MusicAdapter
+import com.example.appmusickotlin.adapter.OnEditButtonClickListener
 import com.example.appmusickotlin.databinding.FragmentLibraryfragmentBinding
 import com.example.appmusickotlin.model.Song
-import java.util.TreeSet
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 
-class LibraryFragment : Fragment() {
+class LibraryFragment : Fragment(), OnEditButtonClickListener {
 
     private lateinit var binding: FragmentLibraryfragmentBinding
 
@@ -31,16 +30,33 @@ class LibraryFragment : Fragment() {
     ): View {
         binding = FragmentLibraryfragmentBinding.inflate(inflater, container, false)
 
-
         val listMusic =  getAllMusic()
-        val adapter = MusicAdapter(this.context,listMusic)
-        val musicAdapter = MusicAdapter(this.context, listMusic)
+        val adapter = MusicAdapter(this.context,listMusic,this)
 
-        binding.listView.adapter = adapter
+        binding.recyclerView.layoutManager  = LinearLayoutManager(this.context)
+        binding.recyclerView.adapter = adapter
+
+        // THEM DATA VAO DANH SACH
+        binding.btnLeft.setOnClickListener {
+            binding.recyclerView.itemAnimator = SlideInLeftAnimator()
+            val newItem = Song("1","them vao",200L , 0)
+            adapter.addItem(newItem,1)
+
+
+        }
+        binding.btnRight.setOnClickListener {
+            binding.recyclerView.itemAnimator = SlideInUpAnimator(OvershootInterpolator(1f))
+            val positionToRemove = 0
+            adapter.removeItem(positionToRemove)
+
+        }
+
         return binding.root
     }
 
-    private fun getAllMusic(): List<Song> {
+
+
+    private fun getAllMusic(): MutableList<Song> {
 
 
         val musicUriList = mutableListOf<Song>()
@@ -97,4 +113,12 @@ class LibraryFragment : Fragment() {
 
         return musicUriList
     }
+
+    override fun onEditButtonClick(song: Song) {
+        val addDialog = DialogAddLibraryFragment()
+        addDialog.show(childFragmentManager,"Add Dialog")
+    }
+
+
+
 }

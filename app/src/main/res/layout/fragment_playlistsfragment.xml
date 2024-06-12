@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ThemeBackground"
-    tools:context=".UI.home.Fragment.PlayListsFragment">
+    tools:context=".ui.home.Fragment.PlayListsFragment">
 
     <LinearLayout
+        android:layout_marginTop="30dp"
         android:background="@color/ThemeBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

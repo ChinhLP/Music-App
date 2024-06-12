@@ -30,7 +30,7 @@
             </intent-filter>
         </receiver>
         <activity
-            android:name=".UI.ListenMusic.ListenMusicActivity"
+            android:name=".ui.ListenMusic.ListenMusicActivity"
             android:exported="false" />
 
         <service
@@ -40,15 +40,15 @@
             android:foregroundServiceType="mediaPlayback" />
 
         <activity
-            android:name=".UI.authetication.SigInScreenActivity"
+            android:name=".ui.authetication.SigInScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.authetication.SigupScreenActivity"
+            android:name=".ui.authetication.SigupScreenActivity"
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".UI.SigInScreenActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".UI.home.HomeScreenActivity"
+            android:name=".ui.home.HomeScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

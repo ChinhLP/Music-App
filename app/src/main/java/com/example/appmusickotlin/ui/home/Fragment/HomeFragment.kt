@@ -1,4 +1,4 @@
-package com.example.appmusickotlin.UI.home.Fragment
+package com.example.appmusickotlin.ui.home.Fragment
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -15,7 +15,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.example.appmusickotlin.UI.authetication.SigInScreenActivity
+import com.example.appmusickotlin.ui.authetication.SigInScreenActivity
 import com.example.appmusickotlin.viewModel.MediaViewModel
 import com.example.appmusickotlin.databinding.FragmentHomefragmentBinding
 import java.util.Locale

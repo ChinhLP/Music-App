@@ -1,5 +1,6 @@
 package com.example.appmusickotlin.controller
 
+import android.util.Log
 import android.view.MenuItem
 import com.example.appmusickotlin.model.myUser
 
@@ -7,11 +8,10 @@ import com.example.appmusickotlin.model.myUser
  * Api đăng nhập
  */
 abstract class Controller {
-    abstract fun SignIn(email: String, password: String): String
+    abstract fun SignIn(username: String, password: String): String
     abstract fun SignUp(
         username: String,
         email: String,
-        phoneNumber: String,
         password: String,
         rePassword: String,
     )
@@ -28,8 +28,8 @@ class ControllerImpl : Controller() {
     /**
      * Đăng nhập
      */
-    override fun SignIn(email: String, password: String): String {
-        if (email != myUser.email || password != myUser.password) {
+    override fun SignIn(username: String, password: String): String {
+        if (username != myUser.username || password != myUser.password) {
             return "Tài khoản hoặc mật khẩu sai"
         } else {
             return "Đăng nhập thành công"
@@ -37,18 +37,17 @@ class ControllerImpl : Controller() {
     }
 
     /**
+     *
      * Đăng ký
      */
     override fun SignUp(
         username: String,
         email: String,
-        phoneNumber: String,
         password: String,
         rePassword: String
     ) {
         myUser.username = username
         myUser.email = email
-        myUser.phoneNumber = phoneNumber
         myUser.password = password
         myUser.rePassword = rePassword
     }

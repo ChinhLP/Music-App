@@ -3,7 +3,7 @@
     android:layout_width="300dp"
     android:layout_height="216dp"
     android:layout_gravity="center"
-    android:background="@drawable/rounded_dialog_background"
+    android:background="@drawable/rounded_button_auth_background"
     >
     <LinearLayout
         android:padding="30dp"

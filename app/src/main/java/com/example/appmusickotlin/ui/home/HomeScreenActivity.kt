@@ -1,4 +1,4 @@
-package com.example.appmusickotlin.UI.home
+package com.example.appmusickotlin.ui.home
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
-import com.example.appmusickotlin.UI.home.Fragment.HomeFragment
-import com.example.appmusickotlin.UI.home.Fragment.LibraryFragment
-import com.example.appmusickotlin.UI.home.Fragment.PlayListsFragment
+import com.example.appmusickotlin.ui.home.Fragment.HomeFragment
+import com.example.appmusickotlin.ui.home.Fragment.LibraryFragment
+import com.example.appmusickotlin.ui.home.Fragment.PlayListsFragment
 import com.example.appmusickotlin.broadcastReceivers.BluetoothReceiver
 import com.example.appmusickotlin.databinding.ActivityHomeScreenBinding
 import java.util.Locale
@@ -39,14 +39,6 @@ class HomeScreenActivity : AppCompatActivity() {
 
 
         bluetoothReceiver()
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
 
         fragmentCheckManager()
 

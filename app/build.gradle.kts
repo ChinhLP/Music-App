@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
+
 android {
     namespace = "com.example.appmusickotlin"
     compileSdk = 34
@@ -43,6 +44,7 @@ dependencies {
 
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation(libs.generativeai)
+    implementation(libs.androidx.media3.common)
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -59,5 +61,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("jp.wasabeef:recyclerview-animators:4.0.2")
+    implementation ("com.squareup.picasso:picasso:2.71828")
 
 }

@@ -19,10 +19,6 @@ class CheckInput(
         return isValidEmail(user.email)
     }
 
-    fun validPhoneNumber(): Boolean {
-        return isValidPhoneNumber(user.phoneNumber)
-    }
-
     fun validPassword(): Boolean {
         return isValidPassword(user.password)
     }
@@ -31,38 +27,22 @@ class CheckInput(
         return isValidRePassword(user.rePassword)
     }
 
-    /**
-     * check username
-     */
     private fun isValidUsername(username: String?): Boolean {
         val specialChars = Regex("[^A-Za-z0-9]")
         return !specialChars.containsMatchIn(username!!) && !username.contains(" ")
     }
 
-    /**
-     * check email
-     */
     private fun isValidEmail(email: String?): Boolean {
-
-        return email?.endsWith("@apero.vn") ?: false
+        // Sử dụng regex để kiểm tra định dạng email hợp lệ
+        val regex = "^[a-zA-Z0-9._-]+@apero\\.vn\$"
+        // Kiểm tra email có khớp với regex và không chứa khoảng trắng
+        return email?.matches(regex.toRegex()) == true && !email.contains(" ")
     }
 
-    /**
-     * check phone number
-     */
-    private fun isValidPhoneNumber(phoneNumber: String?): Boolean {
-        if (phoneNumber == null) return false
 
-        val digits = phoneNumber.filter { it.isDigit() }
-        return digits.length in 10..11 && digits.length == phoneNumber.length
-    }
-
-    /**
-     *  check password
-     */
     private fun isValidPassword(password: String?): Boolean {
         val specialChars = Regex("[^A-Za-z0-9]")
-        return !password.isNullOrEmpty() && !password.contains(specialChars)
+        return !password.isNullOrEmpty() && !password.contains(specialChars) && !password.contains(" ")
     }
 
     /**
