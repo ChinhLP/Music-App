@@ -8,7 +8,7 @@ import com.example.appmusickotlin.model.DataListPlayList
 
 class AlbumAdapter(
     private val albumList: MutableList<DataListPlayList>,
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener,
 
 ) : RecyclerView.Adapter<AlbumAdapter.AlbumHolder>() {
 

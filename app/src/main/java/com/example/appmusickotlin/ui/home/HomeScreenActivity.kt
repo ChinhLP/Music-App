@@ -1,27 +1,17 @@
 package com.example.appmusickotlin.ui.home
 
-import android.bluetooth.BluetoothAdapter
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.ui.home.Fragment.HomeFragment
 import com.example.appmusickotlin.ui.home.Fragment.LibraryFragment
 import com.example.appmusickotlin.ui.home.Fragment.PlayListsFragment
-import com.example.appmusickotlin.broadcastReceivers.BluetoothReceiver
 import com.example.appmusickotlin.databinding.ActivityHomeScreenBinding
 import java.util.Locale
 
 class HomeScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeScreenBinding
-    private lateinit var bluetoothReceiver: BluetoothReceiver
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -33,22 +23,9 @@ class HomeScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
-
         binding = ActivityHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-        bluetoothReceiver()
-
         fragmentCheckManager()
-
-
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(bluetoothReceiver)
     }
 
     private fun fragmentCheckManager() {
@@ -131,58 +108,5 @@ class HomeScreenActivity : AppCompatActivity() {
 
 
     }
-
-    private fun bluetoothReceiver() {
-
-        bluetoothReceiver = BluetoothReceiver()
-
-        val intentFilter = IntentFilter().apply {
-            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
-            addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
-        }
-        registerReceiver(bluetoothReceiver, intentFilter)
-    }
-
-    private fun getAllMusic(): List<Uri> {
-
-
-        val musicUriList = mutableListOf<Uri>()
-
-
-        val musicProjection = arrayOf(
-            MediaStore.Audio.Media._ID,
-            MediaStore.Audio.Media.TITLE,
-            MediaStore.Audio.Media.ARTIST,
-            MediaStore.Audio.Media.DATA
-        )
-
-        val musicCursor = contentResolver.query(
-            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-            musicProjection,
-            null,
-            null,
-            null
-        )
-
-        musicCursor?.use { cursor ->
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-            val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
-            val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
-            val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
-
-            while (cursor.moveToNext()) {
-                val id = cursor.getString(idColumn)
-                val title = cursor.getString(titleColumn)
-                val artist = cursor.getString(artistColumn)
-                val data = cursor.getString(dataColumn)
-
-                // In thông tin âm nhạc ra màn hình
-                Log.d("Music", "Id: $id, Title: $title, Artist: $artist, Data: $data")
-            }
-        }
-
-        return musicUriList
-    }
-
 
 }

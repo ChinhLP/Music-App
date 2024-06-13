@@ -31,7 +31,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener {
         binding = FragmentLibraryfragmentBinding.inflate(inflater, container, false)
 
         val listMusic =  getAllMusic()
-        val adapter = MusicAdapter(this.context,listMusic,this,true)
+        val adapter = MusicAdapter(this.context,listMusic,this,true,true,false)
 
         binding.recyclerView.layoutManager  = LinearLayoutManager(this.context)
         binding.recyclerView.adapter = adapter

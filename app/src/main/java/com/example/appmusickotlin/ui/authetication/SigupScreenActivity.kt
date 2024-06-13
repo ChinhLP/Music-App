@@ -2,18 +2,13 @@ package com.example.appmusickotlin.ui.authetication
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.example.appmusickotlin.R
-import com.example.appmusickotlin.common.validat.CheckInput
+import com.example.appmusickotlin.controller.CheckInput
 import com.example.appmusickotlin.controller.ControllerImpl
 import com.example.appmusickotlin.databinding.ActivitySigupScreenBinding
 import com.example.appmusickotlin.model.User

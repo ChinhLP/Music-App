@@ -6,137 +6,134 @@ import android.net.Uri
 import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.appmusickotlin.R
+import com.example.appmusickotlin.databinding.MusicItemGridLayoutBinding
 import com.example.appmusickotlin.databinding.MusicItemLayoutBinding
 import com.example.appmusickotlin.model.Song
+import java.util.Collections
 
 class MusicAdapter(
     private val context: Context?,
     private val musicUriList: MutableList<Song>,
     private val listener: OnEditButtonClickListener,
-    private val menu: Boolean
-) : RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
+    private val menu: Boolean,
+    private val swap: Boolean,
+    private val isGrid: Boolean // Biến để đánh dấu kiểu hiển thị là grid hay linear
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class MusicViewHolder(val binding: MusicItemLayoutBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        // Không cần khai báo các thành phần giao diện người dùng tại đây
+    companion object {
+        private const val VIEW_TYPE_LINEAR = 1
+        private const val VIEW_TYPE_GRID = 2
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = MusicItemLayoutBinding.inflate(inflater, parent, false)
-        return MusicViewHolder(binding)
+    inner class MusicLinearViewHolder(val binding: MusicItemLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    inner class MusicGridViewHolder(val binding: MusicItemGridLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (isGrid) {
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = MusicItemGridLayoutBinding.inflate(inflater, parent, false)
+            MusicGridViewHolder(binding)
+        } else {
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = MusicItemLayoutBinding.inflate(inflater, parent, false)
+            MusicLinearViewHolder(binding)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val viewType = getItemViewType(position)
+        when (viewType) {
+            VIEW_TYPE_LINEAR -> {
+                val musicUri = musicUriList[position]
+                val linearHolder = holder as MusicLinearViewHolder
 
-        val musicUri = musicUriList[position]
+                val sArt = Uri.parse("content://media/external/audio/albumart")
+                val uri = ContentUris.withAppendedId(sArt, musicUri.albumId!!).toString()
 
-
-        val sArt = Uri.parse("content://media/external/audio/albumart")
-        val uri = ContentUris.withAppendedId(sArt, musicUri.albumId!!).toString()
-
-
-        holder.binding.root.context?.let {
-            Glide.with(it)
-                .load(uri)
-                .apply(RequestOptions().placeholder(R.drawable.rectangle).centerCrop())
-                .into(holder.binding.avatarImageView)
-        }
-
-        // Hiển thị thông tin lấy được vào các thành phần UI
-        holder.binding.songTitleTextView.text = musicUri.name
-        holder.binding.subtitleTextView.text = "subtitleTextView"
-        holder.binding.durationTextView.text = formatDuration(musicUri.duration!!)
-
-
-
-
-        // Thiết lập sự kiện cho nút chỉnh sửa nếu cần
-        holder.binding.editButton.setOnClickListener {
-
-
-
-            val popupMenu =
-                PopupMenu(
-                    this.context,
-                    holder.binding.editButton,
-                    Gravity.END,
-                    0,
-                    R.style.PopupMenu
-                )
-            if(menu == true){
-                popupMenu.menuInflater.inflate(R.menu.menu__popup, popupMenu.menu)
-
-                popupMenu.setOnMenuItemClickListener { menuItem ->
-
-                    when (menuItem.itemId) {
-                        R.id.add -> {
-
-                            listener.onEditButtonClick(musicUri)
-                            // Xử lý khi MenuItem 1 được chọn
-                            Toast.makeText(context, "Item 1 clicked", Toast.LENGTH_SHORT).show()
-                            true
-                        }
-
-                        R.id.share -> {
-                            // Xử lý khi MenuItem 2 được chọn
-                            Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
-                            true
-                        }
-
-                        // Xử lý cho các mục menu khác nếu cần
-                        else -> false
-                    }
-
+                linearHolder.binding.root.context?.let {
+                    Glide.with(it)
+                        .load(uri)
+                        .apply(RequestOptions().placeholder(R.drawable.rectangle).centerCrop())
+                        .into(linearHolder.binding.avatarImageView)
                 }
-                popupMenu.setForceShowIcon(true)
-            } else {
-                popupMenu.menuInflater.inflate(R.menu.menu_popup_music_album, popupMenu.menu)
 
-                popupMenu.setOnMenuItemClickListener { menuItem ->
+                // Hiển thị thông tin vào các thành phần UI
+                linearHolder.binding.songTitleTextView.text = musicUri.name
+                linearHolder.binding.subtitleTextView.text = "subtitleTextView"
+                linearHolder.binding.durationTextView.text = formatDuration(musicUri.duration!!)
 
-                    when (menuItem.itemId) {
-                        R.id.remove -> {
-
-                            listener.onDeleteButtonClick(musicUri,position)
-                            // Xử lý khi MenuItem 1 được chọn
-                            Toast.makeText(context, "Item 1 clicked", Toast.LENGTH_SHORT).show()
-                            true
-                        }
-
-                        R.id.share -> {
-                            // Xử lý khi MenuItem 2 được chọn
-                            Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
-                            true
-                        }
-
-                        // Xử lý cho các mục menu khác nếu cần
-                        else -> false
-                    }
-
+                if (swap) {
+                    linearHolder.binding.editButton.visibility = View.VISIBLE
+                    linearHolder.binding.ibnSwap.visibility = View.GONE
+                } else {
+                    linearHolder.binding.editButton.visibility = View.GONE
+                    linearHolder.binding.ibnSwap.visibility = View.VISIBLE
                 }
-                popupMenu.setForceShowIcon(true)
+
+                // Thiết lập sự kiện cho nút chỉnh sửa nếu cần
+                linearHolder.binding.editButton.setOnClickListener {
+                    showPopupMenu(linearHolder.binding.editButton, musicUri, position)
+                }
+
+                // Thiết lập sự kiện cho ibnSwap nếu cần
+                linearHolder.binding.ibnSwap.setOnClickListener {
+                    // Xử lý khi nút swap được click (nếu có)
+                }
             }
-            // Inflating popup menu from popup_menu.xml file
 
-            // Showing the popup menu
-            popupMenu.show()
+            VIEW_TYPE_GRID -> {
+                val musicUri = musicUriList[position]
+                val gridHolder = holder as MusicGridViewHolder
+
+                val sArt = Uri.parse("content://media/external/audio/albumart")
+                val uri = ContentUris.withAppendedId(sArt, musicUri.albumId!!).toString()
+
+                gridHolder.binding.root.context?.let {
+                    Glide.with(it)
+                        .load(uri)
+                        .apply(RequestOptions().placeholder(R.drawable.rectangle).centerCrop())
+                        .into(gridHolder.binding.avatarImageView)
+                }
+
+                // Hiển thị thông tin vào các thành phần UI
+                gridHolder.binding.txtTitle.text = musicUri.name
+                gridHolder.binding.subtitle.text = "subtitleTextView"
+                gridHolder.binding.txtTime.text = formatDuration(musicUri.duration!!)
+
+
+                // Thiết lập sự kiện cho nút chỉnh sửa nếu cần
+                gridHolder.binding.editButton.setOnClickListener {
+                    showPopupMenu(gridHolder.binding.editButton, musicUri, position)
+                }
+
+                // Thiết lập sự kiện cho ibnSwap nếu cần
+                gridHolder.binding.editButton.setOnClickListener {
+                    // Xử lý khi nút swap được click (nếu có)
+                }
+            }
         }
-
-
     }
 
     override fun getItemCount(): Int {
         return musicUriList.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (isGrid) VIEW_TYPE_GRID else VIEW_TYPE_LINEAR
     }
 
     private fun formatDuration(duration: Long): String {
@@ -145,19 +142,86 @@ class MusicAdapter(
         return String.format("%02d:%02d", minutes, seconds)
     }
 
-    fun addItem(item: Song,position: Int) {
-        musicUriList.add(position,item)
+    fun addItem(item: Song, position: Int) {
+        musicUriList.add(position, item)
         notifyItemInserted(position)
     }
+
     fun removeItem(position: Int) {
         musicUriList.removeAt(position)
         notifyItemRemoved(position)
     }
+    // Hàm để cho phép Swipe và Drag
+    fun enableSwipeAndDrag(recyclerView: RecyclerView) {
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+            0 // Không cần vuốt để xóa
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                // Xử lý khi người dùng kéo và thả một mục
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+                Collections.swap(musicUriList, fromPosition, toPosition)
+                notifyItemMoved(fromPosition, toPosition)
+                return true
+            }
 
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                // Không xử lý vuốt trong trường hợp này
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun showPopupMenu(view: View, musicUri: Song, position: Int) {
+        val popupMenu = PopupMenu(context, view, Gravity.END, 0, R.style.PopupMenu)
+        if (menu) {
+            popupMenu.menuInflater.inflate(R.menu.menu__popup, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.add -> {
+                        listener.onEditButtonClick(musicUri)
+                        Toast.makeText(context, "Item 1 clicked", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.share -> {
+                        Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.setForceShowIcon(true)
+        } else {
+            popupMenu.menuInflater.inflate(R.menu.menu_popup_music_album, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.remove -> {
+                        listener.onDeleteButtonClick(musicUri, position)
+                        Toast.makeText(context, "Item 1 clicked", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.share -> {
+                        Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.setForceShowIcon(true)
+        }
+        popupMenu.show()
+    }
 }
 
 interface OnEditButtonClickListener {
     fun onEditButtonClick(song: Song)
     fun onDeleteButtonClick(song: Song, position: Int)
 }
-
