@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:showAsAction="always"    >
-    <item android:title="Add to playlist"
-        android:id="@+id/add"
-        android:icon="@drawable/ic_addmusic"
+    <item android:title="Remove from playlist"
+        android:id="@+id/remove"
+        android:icon="@drawable/ic_remove"
         app:showAsAction="ifRoom"
         />
     <item android:title="Share"

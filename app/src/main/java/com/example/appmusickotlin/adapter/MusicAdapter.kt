@@ -20,7 +20,8 @@ import com.example.appmusickotlin.model.Song
 class MusicAdapter(
     private val context: Context?,
     private val musicUriList: MutableList<Song>,
-    private val listener: OnEditButtonClickListener
+    private val listener: OnEditButtonClickListener,
+    private val menu: Boolean
 ) : RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
 
     inner class MusicViewHolder(val binding: MusicItemLayoutBinding) :
@@ -41,7 +42,7 @@ class MusicAdapter(
 
 
         val sArt = Uri.parse("content://media/external/audio/albumart")
-        val uri = ContentUris.withAppendedId(sArt, musicUri.albumId).toString()
+        val uri = ContentUris.withAppendedId(sArt, musicUri.albumId!!).toString()
 
 
         holder.binding.root.context?.let {
@@ -54,11 +55,16 @@ class MusicAdapter(
         // Hiển thị thông tin lấy được vào các thành phần UI
         holder.binding.songTitleTextView.text = musicUri.name
         holder.binding.subtitleTextView.text = "subtitleTextView"
-        holder.binding.durationTextView.text = formatDuration(musicUri.duration)
+        holder.binding.durationTextView.text = formatDuration(musicUri.duration!!)
+
+
 
 
         // Thiết lập sự kiện cho nút chỉnh sửa nếu cần
         holder.binding.editButton.setOnClickListener {
+
+
+
             val popupMenu =
                 PopupMenu(
                     this.context,
@@ -67,33 +73,66 @@ class MusicAdapter(
                     0,
                     R.style.PopupMenu
                 )
-            // Inflating popup menu from popup_menu.xml file
-            popupMenu.menuInflater.inflate(R.menu.menu__popup, popupMenu.menu)
+            if(menu == true){
+                popupMenu.menuInflater.inflate(R.menu.menu__popup, popupMenu.menu)
 
-            popupMenu.setOnMenuItemClickListener { menuItem ->
+                popupMenu.setOnMenuItemClickListener { menuItem ->
 
-                when (menuItem.itemId) {
-                    R.id.add -> {
+                    when (menuItem.itemId) {
+                        R.id.add -> {
 
-                        listener.onEditButtonClick(musicUri)
-                        // Xử lý khi MenuItem 1 được chọn
-                        Toast.makeText(context, "Item 1 clicked", Toast.LENGTH_SHORT).show()
-                        true
+                            listener.onEditButtonClick(musicUri)
+                            // Xử lý khi MenuItem 1 được chọn
+                            Toast.makeText(context, "Item 1 clicked", Toast.LENGTH_SHORT).show()
+                            true
+                        }
+
+                        R.id.share -> {
+                            // Xử lý khi MenuItem 2 được chọn
+                            Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
+                            true
+                        }
+
+                        // Xử lý cho các mục menu khác nếu cần
+                        else -> false
                     }
 
-                    R.id.share -> {
-                        // Xử lý khi MenuItem 2 được chọn
-                        Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    // Xử lý cho các mục menu khác nếu cần
-                    else -> false
                 }
+                popupMenu.setForceShowIcon(true)
+            } else {
+                popupMenu.menuInflater.inflate(R.menu.menu_popup_music_album, popupMenu.menu)
+
+                popupMenu.setOnMenuItemClickListener { menuItem ->
+
+                    when (menuItem.itemId) {
+                        R.id.remove -> {
+
+                            listener.onDeleteButtonClick(musicUri,position)
+                            // Xử lý khi MenuItem 1 được chọn
+                            Toast.makeText(context, "Item 1 clicked", Toast.LENGTH_SHORT).show()
+                            true
+                        }
+
+                        R.id.share -> {
+                            // Xử lý khi MenuItem 2 được chọn
+                            Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
+                            true
+                        }
+
+                        // Xử lý cho các mục menu khác nếu cần
+                        else -> false
+                    }
+
+                }
+                popupMenu.setForceShowIcon(true)
             }
-            popupMenu.setForceShowIcon(true)
+            // Inflating popup menu from popup_menu.xml file
+
             // Showing the popup menu
             popupMenu.show()
         }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -119,4 +158,6 @@ class MusicAdapter(
 
 interface OnEditButtonClickListener {
     fun onEditButtonClick(song: Song)
+    fun onDeleteButtonClick(song: Song, position: Int)
 }
+

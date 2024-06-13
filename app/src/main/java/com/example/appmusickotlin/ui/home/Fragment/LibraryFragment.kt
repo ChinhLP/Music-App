@@ -31,7 +31,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener {
         binding = FragmentLibraryfragmentBinding.inflate(inflater, container, false)
 
         val listMusic =  getAllMusic()
-        val adapter = MusicAdapter(this.context,listMusic,this)
+        val adapter = MusicAdapter(this.context,listMusic,this,true)
 
         binding.recyclerView.layoutManager  = LinearLayoutManager(this.context)
         binding.recyclerView.adapter = adapter
@@ -42,13 +42,11 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener {
             val newItem = Song("1","them vao",200L , 0)
             adapter.addItem(newItem,1)
 
-
         }
         binding.btnRight.setOnClickListener {
             binding.recyclerView.itemAnimator = SlideInUpAnimator(OvershootInterpolator(1f))
             val positionToRemove = 0
             adapter.removeItem(positionToRemove)
-
         }
 
         return binding.root
@@ -99,7 +97,6 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener {
 
                 val song = Song(id,title,duration,albumId)
 
-
                 musicUriList.add(song)
                 // In thông tin âm nhạc ra màn hình
                 Log.d("Music", "Id: $id, Title: $title, Artist: $albumId, time: $duration")
@@ -114,11 +111,19 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener {
         return musicUriList
     }
 
-    override fun onEditButtonClick(song: Song) {
+    override fun onEditButtonClick(song: Song ) {
         val addDialog = DialogAddLibraryFragment()
+        val args = Bundle()
+        args.putSerializable("song", song) // Đặt đối tượng Song vào Bundle
+
+        // Đặt Bundle vào DialogFragment
+        addDialog.arguments = args
+
         addDialog.show(childFragmentManager,"Add Dialog")
     }
 
+    override fun onDeleteButtonClick(song: Song, position: Int) {
+    }
 
 
 }
