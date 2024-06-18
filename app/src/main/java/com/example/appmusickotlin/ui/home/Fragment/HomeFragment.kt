@@ -15,9 +15,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.example.appmusickotlin.ui.authetication.SigInScreenActivity
-import com.example.appmusickotlin.viewModel.MediaViewModel
+import com.example.appmusickotlin.ui.viewModel.MediaViewModel
 import com.example.appmusickotlin.databinding.FragmentHomefragmentBinding
+import com.example.appmusickotlin.model.User
+import com.example.appmusickotlin.model.saveUser
+import com.example.appmusickotlin.model.setMyUser
+import com.example.appmusickotlin.ui.authetication.AuthActivity
 import java.util.Locale
 
 
@@ -112,8 +115,10 @@ class HomeFragment : Fragment() {
     }
     private fun btnBack() {
         binding.btnBack.setOnClickListener {
+                val user = setMyUser()
+                saveUser(user)
 
-            val intent = Intent(requireContext(), SigInScreenActivity::class.java)
+            val intent = Intent(requireContext(), AuthActivity::class.java)
             startActivity(intent)
             requireActivity().finish()
 
@@ -122,12 +127,10 @@ class HomeFragment : Fragment() {
     private fun btnLw() {
         binding.btnLw.setOnClickListener {
 
-
             // Lấy ngôn ngữ hiện tại của thiết bị
             val currentLocale = Locale.getDefault()
             val currentLanguage = currentLocale.language
             var locale = Locale.getDefault()
-
             if (currentLanguage == "en") {
                 // Chuyển từ tiếng Anh sang tiếng Việt
                 Locale.setDefault(Locale("vi"))
@@ -221,5 +224,3 @@ class HomeFragment : Fragment() {
 
 
 }
-
-

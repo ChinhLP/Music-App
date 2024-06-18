@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ThemeBackground"
+    tools:context=".ui.authetication.SignUpFragment">
+
+    <ImageView
+        android:id="@+id/imvLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_app"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    <TextView
+        android:id="@+id/tvSignUpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SignUp_title_textview"
+        android:textColor="@color/TitleText"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@+id/imvLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:drawableStart="@drawable/ic_username"
+        android:drawablePadding="10dp"
+        android:id="@+id/edtUsername"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:ems="10"
+        android:hint="@string/SignUp_username_hint"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:textColor="#888888"
+        android:textColorHint="@color/HindTextField"
+        app:layout_constraintTop_toBottomOf="@id/tvSignUpTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtErrorUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="Invalid format"
+        app:layout_constraintTop_toBottomOf="@id/edtUsername"
+        app:layout_constraintStart_toStartOf="@id/edtUsername"
+        android:visibility="invisible"
+        />
+
+
+
+
+    <EditText
+        android:drawableStart="@drawable/ic_password"
+        android:drawablePadding="10dp"
+        android:id="@+id/edtPasswordSignup"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:ems="10"
+        android:hint="@string/SignUp_password_hint"
+        android:inputType="textPassword"
+        android:paddingHorizontal="20dp"
+        android:textColor="#888888"
+        android:textColorHint="@color/HindTextField"
+        app:layout_constraintTop_toBottomOf="@+id/edtUsername"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/imgShowPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_eye"
+        app:layout_constraintEnd_toEndOf="@+id/edtPasswordSignup"
+        app:layout_constraintTop_toTopOf="@+id/edtPasswordSignup"
+        app:layout_constraintBottom_toBottomOf="@+id/edtPasswordSignup"
+        android:layout_marginEnd="10dp"
+        />
+
+    <TextView
+        android:id="@+id/txtErrorPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="Invalid format"
+        app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignup"
+        app:layout_constraintStart_toStartOf="@+id/edtPasswordSignup"
+        android:visibility="invisible"
+        />
+
+
+    <EditText
+        android:drawableStart="@drawable/ic_password"
+        android:drawablePadding="10dp"
+        android:id="@+id/edtRepassword"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:ems="10"
+        android:hint="@string/SignUp_repassword"
+        android:inputType="textPassword"
+        android:paddingHorizontal="20dp"
+        android:textColor="#888888"
+        android:textColorHint="@color/HindTextField"
+        app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <ImageView
+        android:id="@+id/imgShowRePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_eye"
+        app:layout_constraintEnd_toEndOf="@+id/edtRepassword"
+        app:layout_constraintTop_toTopOf="@+id/edtRepassword"
+        app:layout_constraintBottom_toBottomOf="@+id/edtRepassword"
+        android:layout_marginEnd="10dp"
+        />
+
+    <TextView
+        android:id="@+id/txtErrorRepassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="Confirmation password does not match"
+        app:layout_constraintTop_toBottomOf="@+id/edtRepassword"
+        app:layout_constraintStart_toStartOf="@+id/edtRepassword"
+        android:visibility="invisible"
+        />
+
+    <EditText
+        android:drawableStart="@drawable/ic_mail"
+        android:drawablePadding="10dp"
+        android:id="@+id/edtEmailSignup"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:ems="10"
+        android:hint="@string/SignUp_email_hint"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:textColor="#888888"
+        android:textColorHint="@color/HindTextField"
+        app:layout_constraintTop_toBottomOf="@+id/edtRepassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtErrorEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="Invalid format"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmailSignup"
+        app:layout_constraintStart_toStartOf="@+id/edtEmailSignup"
+        android:visibility="invisible"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSignup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/rounded_button_auth_background"
+        android:text="@string/SignUp_title_textview"
+        android:textColor="@color/TextButtonColor"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmailSignup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

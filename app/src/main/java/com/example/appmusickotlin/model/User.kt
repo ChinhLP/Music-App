@@ -1,12 +1,10 @@
 package com.example.appmusickotlin.model
 
-/**
- * data class
- */
 
-data class User(
-    var username: String? = "",
-    var email: String? = "",
-    var password: String? = "",
-    var rePassword: String? = ""
-)
+object User  {
+    var userId: Long? = System.currentTimeMillis()
+    var username: String? = ""
+    var email: String? = ""
+    var password: String? = ""
+    //var albumsLst: MutableList<DataListPlayList> = mutableListOf()
+}

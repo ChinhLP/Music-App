@@ -1,0 +1,46 @@
+package com.example.appmusickotlin.db.repository
+
+import androidx.lifecycle.LiveData
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
+import com.example.appmusickotlin.db.dao.PlaylistDao
+import com.example.appmusickotlin.db.entity.PlaylistEntity
+import com.example.appmusickotlin.db.mapper.toDataListPlayList
+import com.example.appmusickotlin.db.mapper.toPlaylistEntity
+import com.example.appmusickotlin.model.DataListPlayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+class PlaylistRepository(private val playlistDao : PlaylistDao) {
+    val allPlaylists : LiveData<MutableList<PlaylistEntity>> = playlistDao.getAllUsers()
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+    suspend fun insert(playlist : DataListPlayList){
+        coroutineScope.launch {
+            val playlistEntity = playlist.toPlaylistEntity()
+            playlistDao.insertPlaylist(playlistEntity)
+        }
+    }
+    suspend fun getPlaylist(userId : Long) : MutableList<DataListPlayList> {
+
+        return withContext(Dispatchers.IO) {
+            val playlistEntities =  playlistDao.getPlaylistsByUserId(userId)
+            val dataListPlayLists: MutableList<DataListPlayList> = playlistEntities.toDataListPlayList()
+             dataListPlayLists
+        }
+
+    }
+
+    suspend fun delete(id: Long) {
+        coroutineScope.launch(Dispatchers.IO) {
+            playlistDao.deletePlaylist(id)
+        }
+    }
+
+
+
+
+
+}

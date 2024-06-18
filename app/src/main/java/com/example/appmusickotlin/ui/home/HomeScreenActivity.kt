@@ -1,17 +1,37 @@
 package com.example.appmusickotlin.ui.home
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.ui.home.Fragment.HomeFragment
 import com.example.appmusickotlin.ui.home.Fragment.LibraryFragment
 import com.example.appmusickotlin.ui.home.Fragment.PlayListsFragment
 import com.example.appmusickotlin.databinding.ActivityHomeScreenBinding
+import com.example.appmusickotlin.model.Song
+import com.example.appmusickotlin.model.User
+import com.example.appmusickotlin.model.saveUser
+import com.example.appmusickotlin.model.setMyUser
+import com.example.appmusickotlin.ui.authetication.SigInScreenFragment
+import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
+import com.example.appmusickotlin.util.formatDuration.formatDuration
+import com.example.appmusickotlin.util.mediaPlay.MusicPlayer
+import com.orhanobut.hawk.Hawk
 import java.util.Locale
 
 class HomeScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeScreenBinding
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var musicPlayer: MusicPlayer
+    private var play = true
+    private lateinit var music: Song
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -21,11 +41,49 @@ class HomeScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
         binding = ActivityHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        musicPlayer = MusicPlayer(this, binding.seekBar)
+
+
+        homeViewModel.song.observe(this, Observer { song ->
+            musicPlayer.stopAndRelease()
+
+            binding.grPlayMusic.visibility =  View.VISIBLE
+
+            musicPlayer.setDataSource(song.data!!)
+
+            binding.txtNameMusic.text = song.name
+            binding.txtDuration.text = song.duration!!.formatDuration()
+        })
+        binding.ibnPlay.setOnClickListener {
+            if (play) {
+                musicPlayer.play()
+                play = false
+            } else {
+                musicPlayer.pause()
+                play = true
+            }
+            changePlayMusic()
+
+        }
+
+
+        if (savedInstanceState == null) {
+            showHomeFragment()
+        }
         fragmentCheckManager()
+    }
+
+
+    private fun changePlayMusic() {
+        if (play) {
+            binding.ibnPlay.setImageResource(R.drawable.ic_play)
+        } else {
+            binding.ibnPlay.setImageResource(R.drawable.ic_pause)
+        }
     }
 
     private fun fragmentCheckManager() {
@@ -44,61 +102,21 @@ class HomeScreenActivity : AppCompatActivity() {
 
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
+
             when (item.itemId) {
                 R.id.btnHome -> {
-                    // Nếu không có fragment nào trong stack, thực hiện chuyển đổi fragment
-                    if (supportFragmentManager.backStackEntryCount == 0) {
-                        // Nếu không có fragment nào trong stack, thực hiện chuyển đổi fragment
-                        val fragment = HomeFragment()
-                        val transaction = supportFragmentManager.beginTransaction()
-                        transaction.replace(R.id.fragment_container, fragment)
-                        transaction.addToBackStack("BlankFragment2")
-                        transaction.commit()
-                        // Trả về true sau khi giao dịch được thêm vào thành công
-                    }
-
-                    val fragment = HomeFragment()
-                    val transaction = supportFragmentManager.beginTransaction()
-
-                    transaction.replace(R.id.fragment_container, fragment)
-
-                    transaction.addToBackStack("BlankFragment2")
-
-                    transaction.commit()
+                    showHomeFragment()
                     true
                 }
 
                 R.id.btnLibrary -> {
 
-                    val fragment = LibraryFragment()
-
-
-                    // Bắt đầu một FragmentTransaction
-                    val transaction = supportFragmentManager.beginTransaction()
-
-                    // Thay đổi Fragment hiện tại (Fragment2) bằng Fragment3
-                    transaction.replace(R.id.fragment_container, fragment)
-
-                    // Thêm transaction vào Back Stack nếu bạn muốn cho phép quay lại Fragment trước đó bằng nút back
-                    transaction.addToBackStack("BlankFragment3")
-
-                    // Commit FragmentTransaction
-                    transaction.commit()
-                    // Xử lý khi nút Library được chọn
+                    showLibraryFragment()
                     true
                 }
 
                 R.id.btnPlaylist -> {
-                    val fragment = PlayListsFragment()
-
-                    val transaction = supportFragmentManager.beginTransaction()
-
-                    transaction.replace(R.id.fragment_container, fragment)
-
-                    transaction.addToBackStack("BlankFragment1")
-
-                    transaction.commit()
-                    // Xử lý khi nút Playlist được chọn
+                    showPlayListsFragment()
                     true
                 }
 
@@ -109,4 +127,43 @@ class HomeScreenActivity : AppCompatActivity() {
 
     }
 
+    private fun showHomeFragment() {
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(binding.fragmentContainer.id, HomeFragment())
+        }
+    }
+
+    private fun showLibraryFragment() {
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(binding.fragmentContainer.id, LibraryFragment())
+        }
+    }
+
+    private fun showPlayListsFragment() {
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(binding.fragmentContainer.id, PlayListsFragment())
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val user = setMyUser()
+        Log.d("User", "******$user")
+        saveUser(user)
+    }
+    override fun onStop() {
+        super.onStop()
+        val user = setMyUser()
+        Log.d("User", "******$user")
+        saveUser(user)
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        val user = setMyUser()
+        Log.d("User", "******$user")
+        saveUser(user)
+    }
 }

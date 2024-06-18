@@ -1,21 +1,91 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeScreenActivity">
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
+        app:layout_constraintBottom_toTopOf="@id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grPlayMusic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="vListener,seekBar,ibnPlay,txtDuration,txtNameMusic"
+        app:layout_constraintBottom_toBottomOf="@+id/vListener"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/vListener"
+        android:visibility="gone"
+        />
+
+    <View
+        android:id="@+id/vListener"
+        android:layout_width="0dp"
+        android:layout_height="130px"
+        android:background="#292929"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
+        tools:ignore="MissingConstraints" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:progressDrawable="@drawable/progress_drawable"
+        android:thumb="@null"
+        android:thumbOffset="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/vListener"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/ibnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_play"
+        app:layout_constraintBottom_toBottomOf="@+id/vListener"
+        app:layout_constraintStart_toStartOf="@+id/vListener"
+        app:layout_constraintTop_toTopOf="@+id/vListener"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/txtNameMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:maxLength="23"
+        android:maxLines="1"
+        android:text="Title"
+        android:textColor="@android:color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/vListener"
+        app:layout_constraintStart_toEndOf="@+id/ibnPlay"
+        app:layout_constraintTop_toTopOf="@+id/vListener" />
+
+    <TextView
+        android:id="@+id/txtDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="duration"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/vListener"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/vListener" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"

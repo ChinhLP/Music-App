@@ -12,7 +12,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.appmusickotlin.R
-import com.example.appmusickotlin.viewModel.MediaViewModel
+import com.example.appmusickotlin.ui.viewModel.MediaViewModel
 import com.example.appmusickotlin.databinding.FragmentHomefragmentBinding
 
 
@@ -30,10 +30,6 @@ class MusicService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
-    }
-
-    fun setData(newData: Boolean) {
-        isPlaying = newData
     }
 
     override fun onCreate() {
