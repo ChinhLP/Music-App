@@ -56,7 +56,7 @@ class DialogAddLibraryFragment : DialogFragment(), OnItemClickListener {
                 } else {
                     binding.groupTextViews.visibility = View.GONE
                     binding.rccAlbum.visibility = View.VISIBLE
-                    val adapter = AlbumAdapter(playlist, this)
+                    val adapter = AlbumAdapter(playlist, this,null)
                     binding.rccAlbum.layoutManager = LinearLayoutManager(requireContext())
                     binding.rccAlbum.adapter = adapter
                 }
@@ -97,6 +97,7 @@ class DialogAddLibraryFragment : DialogFragment(), OnItemClickListener {
 
 
     }
+
 
 }
 

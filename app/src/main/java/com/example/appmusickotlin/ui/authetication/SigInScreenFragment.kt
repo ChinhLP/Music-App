@@ -3,6 +3,7 @@ package com.example.appmusickotlin.ui.authetication
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,21 +61,21 @@ class SigInScreenFragment : Fragment() {
             // Query dữ liệu từ database
 
             userViewModel.getUser(userName, password)
+
             userViewModel.user.observe(requireActivity(),Observer{ user ->
+
                 if (user != null) {
                     User.userId = user.id
                     User.username = user.username
                     User.password = user.password
                     User.email = user.email
-                    // Login successful, navigate to another screen
-
-                    playlistViewModel.getPlaylist(user.id)
-                    val intent = Intent(requireContext(), HomeScreenActivity::class.java)
+                    val intent = Intent(requireActivity(), HomeScreenActivity::class.java)
                     startActivity(intent)
+
                     requireActivity().finish()
                 } else {
 
-                    Toast.makeText(requireContext(), "Login failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), "Login failed", Toast.LENGTH_SHORT).show()
                 }
 
             })
@@ -97,12 +98,12 @@ class SigInScreenFragment : Fragment() {
         binding.imgShowPassword.setOnClickListener {
             if (binding.edtPassword.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
                 binding.edtPassword.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                binding.imgShowPassword.setImageResource(R.drawable.ic_eyeclose)
-            } else {
-                binding.edtPassword.inputType =
                     (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
                 binding.imgShowPassword.setImageResource(R.drawable.ic_eye)
+            } else {
+                binding.edtPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.imgShowPassword.setImageResource(R.drawable.ic_eyeclose)
             }
         }
     }

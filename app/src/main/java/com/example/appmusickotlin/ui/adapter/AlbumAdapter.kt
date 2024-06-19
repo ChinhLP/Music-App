@@ -1,22 +1,20 @@
 package com.example.appmusickotlin.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appmusickotlin.databinding.PlaylistItemLayoutBinding
-import com.example.appmusickotlin.db.entity.PlaylistEntity
 import com.example.appmusickotlin.model.DataListPlayList
-import com.example.appmusickotlin.model.User
+import com.example.appmusickotlin.util.callBack.OnEditPopupAlbumButtonClickListener
 import com.example.appmusickotlin.util.callBack.OnItemClickListener
-import java.util.Collections
 
 class AlbumAdapter(
     private val albumList: MutableList<DataListPlayList> ,
     private val listener: OnItemClickListener,
+    private val editPopupAlbumButtonClickListener: OnEditPopupAlbumButtonClickListener?
 
-    ) : RecyclerView.Adapter<AlbumAdapter.AlbumHolder>() {
+
+) : RecyclerView.Adapter<AlbumAdapter.AlbumHolder>() {
 
     inner class AlbumHolder(val binding: PlaylistItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -39,12 +37,16 @@ class AlbumAdapter(
 
 
 
-    override fun onBindViewHolder(holder: AlbumHolder, position: Int) {
+        override fun onBindViewHolder(holder: AlbumHolder, position: Int) {
 
-        val album = albumList[position]
-        holder.binding.txtTitle.text = album.title
-        //holder.binding.txtNumber.text = numberMusic.toString()?:  "0"
-    }
+            val album = albumList[position]
+            holder.binding.txtTitle.text = album.title
+            //holder.binding.txtNumber.text = numberMusic.toString()?:  "0"
+
+            holder.binding.editButton.setOnClickListener {
+                editPopupAlbumButtonClickListener?.onEditPopupAlbumButtonClick(holder.binding.editButton,album.id)
+            }
+        }
 
     override fun getItemCount(): Int {
         return albumList.size

@@ -31,3 +31,12 @@ fun DataListPlayList.toPlaylistEntity(): PlaylistEntity {
         userId = this.userId
     )
 }
+
+fun PlaylistEntity.toDataListPlayList(): DataListPlayList {
+    return DataListPlayList(
+        id = this.id,
+        title = this.name,
+        userId = this.userId
+        // Các trường khác nếu có
+    )
+}

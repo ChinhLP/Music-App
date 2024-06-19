@@ -75,8 +75,6 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
         binding.btnRight.setOnClickListener {
 
-            musicRemoteViewModel.fetchAllMusic()
-
             musicRemoteViewModel.musicList.observe(viewLifecycleOwner, Observer { musicRemoteList ->
 
                 val adapterRemote = MusicAdapter(this.context,musicRemoteList,this,true,false)
@@ -114,6 +112,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
         //viewModel.setSongAlbum(song)
         Log.d("ppp", "onItemClick")
     }
+
 
 
 }

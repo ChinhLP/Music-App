@@ -5,9 +5,11 @@ import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.example.appmusickotlin.db.dao.PlaylistDao
 import com.example.appmusickotlin.db.entity.PlaylistEntity
+import com.example.appmusickotlin.db.mapper.toDataListPlayList
 import com.example.appmusickotlin.db.mapper.toDataListPlayListLiveData
 import com.example.appmusickotlin.db.mapper.toPlaylistEntity
 import com.example.appmusickotlin.model.DataListPlayList
+import com.example.appmusickotlin.model.User.userId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,9 +36,27 @@ class PlaylistRepository(private val playlistDao : PlaylistDao) {
     }
 
     suspend fun delete(id: Long) {
-        coroutineScope.launch(Dispatchers.IO) {
+        coroutineScope.launch {
             playlistDao.deletePlaylist(id)
         }
+    }
+
+    suspend fun updatePlaylistName(playlist : DataListPlayList) {
+        coroutineScope.launch {
+            val playlistEntity = playlist.toPlaylistEntity()
+            playlistDao.updatePlaylistName(playlistEntity)
+        }
+
+    }
+
+    suspend fun getPlaylistById(id : Long) : DataListPlayList {
+
+        return withContext(Dispatchers.IO) {
+            val playlist =  playlistDao.getPlaylistById(id)
+            val playlistData = playlist!!.toDataListPlayList()
+            playlistData
+        }
+
     }
 
 

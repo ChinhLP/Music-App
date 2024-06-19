@@ -1,6 +1,7 @@
 package com.example.appmusickotlin.db.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,6 +25,7 @@ class PlaylistViewModel(application: Application) : AndroidViewModel(application
    // private var _playlist = MutableLiveData<MutableList<DataListPlayList>>()
 
     var playlist : LiveData<MutableList<DataListPlayList>>? = null
+
     init {
         val playlistDao = AppDatabase.getDatabase(application).playlistDao()
         _playlistRepository = PlaylistRepository(playlistDao)
@@ -35,8 +37,16 @@ class PlaylistViewModel(application: Application) : AndroidViewModel(application
     }
     fun getPlaylist(userId : Long) = viewModelScope.launch{
         playlist = _playlistRepository.getPlaylist(userId)
+        Log.d("ppp" , playlist.toString())
+
     }
     fun deletePlaylist(userId : Long) = viewModelScope.launch{
         _playlistRepository.delete(userId)
+    }
+
+    fun updateNamePlaylist(id : Long,name : String, position : Long) = viewModelScope.launch {
+        val newPlaylist = _playlistRepository.getPlaylistById(id)
+        newPlaylist.title = name
+        _playlistRepository.updatePlaylistName(newPlaylist)
     }
 }

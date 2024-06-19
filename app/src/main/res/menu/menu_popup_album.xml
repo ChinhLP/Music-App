@@ -8,8 +8,8 @@
         android:icon="@drawable/ic_remove"
         app:showAsAction="ifRoom"
         />
-    <item android:title="Share"
-        android:id="@+id/share"
-        android:icon="@drawable/ic_share"
+    <item android:title="Rename"
+        android:id="@+id/rename"
+        android:icon="@drawable/ic_rename"
         app:showAsAction="ifRoom"/>
 </menu>
