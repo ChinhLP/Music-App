@@ -10,8 +10,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.model.User
-import com.example.appmusickotlin.model.getUser
-import com.example.appmusickotlin.model.isLoggedIn
+//import com.example.appmusickotlin.model.getUser
+//import com.example.appmusickotlin.model.isLoggedIn
 import com.example.appmusickotlin.db.database.AppDatabase
 import com.example.appmusickotlin.ui.authetication.AuthActivity
 import com.example.appmusickotlin.ui.home.HomeScreenActivity
@@ -31,30 +31,31 @@ class SplashActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        Hawk.init(this).build()
-
+//        Hawk.init(this).build()
+//
 
         Handler().postDelayed({
-            val isLoggedIn = isLoggedIn()
-
-            if (isLoggedIn) {
-                val user = getUser()
-                if (user != null) {
-                    User.userId = user.userId!!
-                    User.username = user.username
-                    User.password = user.password
-                    User.email = user.email
-                    //User.albumsLst = user.albumsLst
-                    val intent = Intent(this, HomeScreenActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Log.e("SplashActivity", "Failed to load user data")
-                    finish()
-                }
-            } else {
-                val intent = Intent(this, AuthActivity::class.java)
-                startActivity(intent)
-            }
+//            val isLoggedIn = isLoggedIn()
+//
+//            if (isLoggedIn) {
+//                val user = getUser()
+//                if (user != null) {
+//                    User.userId = user.userId!!
+//                    User.username = user.username
+//                    User.password = user.password
+//                    User.email = user.email
+//                    //User.albumsLst = user.albumsLst
+//                    val intent = Intent(this, HomeScreenActivity::class.java)
+//                    startActivity(intent)
+//                } else {
+//                    Log.e("SplashActivity", "Failed to load user data")
+//                    finish()
+//                }
+//            } else {
+//
+//            }
+            val intent = Intent(this, AuthActivity::class.java)
+            startActivity(intent)
             finish()
         }, splashTimeOut)
 

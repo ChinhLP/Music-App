@@ -1,24 +1,29 @@
 package com.example.appmusickotlin.db.mapper
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import com.example.appmusickotlin.db.entity.PlaylistEntity
 import com.example.appmusickotlin.model.DataListPlayList
 
 // Hàm mở rộng để chuyển đổi MutableList<PlaylistEntity> thành MutableList<DataListPlayList>
-fun MutableList<PlaylistEntity>.toDataListPlayList(): MutableList<DataListPlayList> {
-
-    val dataList = mutableListOf<DataListPlayList>()
-
-    for (playlistEntity in this) {
-        val dataListPlayList = DataListPlayList(
-            id = playlistEntity.id,
-            title = playlistEntity.name,
-            userId = playlistEntity.userId
-        )
-        dataList.add(dataListPlayList)
+fun LiveData<MutableList<PlaylistEntity>>.toDataListPlayListLiveData(): LiveData<MutableList<DataListPlayList>> {
+    val result = MediatorLiveData<MutableList<DataListPlayList>>()
+    result.addSource(this) { playlistEntities ->
+        val dataList = mutableListOf<DataListPlayList>()
+        playlistEntities?.let {
+            for (playlistEntity in it) {
+                val dataListPlayList = DataListPlayList(
+                    id = playlistEntity.id,
+                    title = playlistEntity.name,
+                    userId = playlistEntity.userId
+                )
+                dataList.add(dataListPlayList)
+            }
+            result.value = dataList
+        }
     }
-    return dataList
+    return result
 }
-
 fun DataListPlayList.toPlaylistEntity(): PlaylistEntity {
     return PlaylistEntity(
         id = this.id,

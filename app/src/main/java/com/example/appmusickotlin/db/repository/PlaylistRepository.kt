@@ -5,7 +5,7 @@ import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import com.example.appmusickotlin.db.dao.PlaylistDao
 import com.example.appmusickotlin.db.entity.PlaylistEntity
-import com.example.appmusickotlin.db.mapper.toDataListPlayList
+import com.example.appmusickotlin.db.mapper.toDataListPlayListLiveData
 import com.example.appmusickotlin.db.mapper.toPlaylistEntity
 import com.example.appmusickotlin.model.DataListPlayList
 import kotlinx.coroutines.CoroutineScope
@@ -23,11 +23,11 @@ class PlaylistRepository(private val playlistDao : PlaylistDao) {
             playlistDao.insertPlaylist(playlistEntity)
         }
     }
-    suspend fun getPlaylist(userId : Long) : MutableList<DataListPlayList> {
+    suspend fun getPlaylist(userId : Long) : LiveData<MutableList<DataListPlayList>> {
 
         return withContext(Dispatchers.IO) {
             val playlistEntities =  playlistDao.getPlaylistsByUserId(userId)
-            val dataListPlayLists: MutableList<DataListPlayList> = playlistEntities.toDataListPlayList()
+            val dataListPlayLists: LiveData<MutableList<DataListPlayList>> = playlistEntities.toDataListPlayListLiveData()
              dataListPlayLists
         }
 

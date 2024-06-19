@@ -10,10 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.databinding.ActivityAuthBinding
-import com.example.appmusickotlin.model.MyUser
-import com.example.appmusickotlin.model.User
-import com.example.appmusickotlin.model.saveUser
-import com.example.appmusickotlin.model.setMyUser
+
+//import com.example.appmusickotlin.model.saveUser
+//import com.example.appmusickotlin.model.setMyUser
 import com.example.appmusickotlin.ui.authetication.viewmodel.AuthViewModel
 
 class AuthActivity : AppCompatActivity() {
@@ -44,8 +43,8 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        val user = setMyUser()
-        saveUser(user)
+//        val user = setMyUser()
+//        saveUser(user)
     }
 
 

@@ -72,7 +72,7 @@ class MusicAdapter(
                 val linearHolder = holder as MusicLinearViewHolder
 
                 val sArt = Uri.parse("content://media/external/audio/albumart")
-                val uri = ContentUris.withAppendedId(sArt, musicUri.albumId!!).toString()
+                val uri = musicUri.albumId?.let { ContentUris.withAppendedId(sArt, it).toString() }
 
                 linearHolder.binding.root.context?.let {
                     Glide.with(it)

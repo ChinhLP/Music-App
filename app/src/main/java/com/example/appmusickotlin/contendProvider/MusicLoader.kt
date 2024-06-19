@@ -43,7 +43,7 @@ class MusicLoader(private val context: Context) {
                 val duration = cursor.getLong(durationColumn)
                 val artist = cursor.getString(artistColumn)
 
-                val song = Song(id, title, duration, albumId, artist)
+                val song = Song(id = id,name = title, duration = duration, albumId = albumId, artist =  artist)
                 musicUriList.add(song)
             }
         }

@@ -1,9 +1,11 @@
-package com.example.appmusickotlin.viewmodel
+package com.example.appmusickotlin.db.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.appmusickotlin.db.database.AppDatabase
 import com.example.appmusickotlin.db.entity.MusicEntity
@@ -18,9 +20,9 @@ class MusicViewModel(application: Application) : AndroidViewModel(application)  
     private val _musicRepository: MusicRepository
     val allMusic: LiveData<MutableList<MusicEntity>>
 
-    private var _music = MutableLiveData<MutableList<Song>>()
+    //private var _music = MutableLiveData<MutableList<Song>>()
 
-    var music : LiveData<MutableList<Song>>  = _music
+    var music : LiveData<MutableList<Song>>? = liveData {  }
 
     init {
         val musicDao = AppDatabase.getDatabase(application).musicDao()
@@ -32,12 +34,15 @@ class MusicViewModel(application: Application) : AndroidViewModel(application)  
         _musicRepository.insert(musicEntity)
     }
 
-    fun delete(id: Long) = viewModelScope.launch {
+    fun delete(id: Long,playlistId :Long ) = viewModelScope.launch {
         _musicRepository.delete(id)
+        getMusic(playlistId)
     }
 
     fun getMusic(id: Long) = viewModelScope.launch {
-        _music.value = _musicRepository.getMusic(id)
+        music = _musicRepository.getMusic(id)
+        Log.d("MusicFragment", "Quan sát music LiveData và cập nhật UI")
+
     }
     fun deleteAll(playlistId : Long) = viewModelScope.launch {
         _musicRepository.deleteAll(playlistId)

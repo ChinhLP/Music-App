@@ -11,7 +11,7 @@ import com.example.appmusickotlin.db.entity.PlaylistEntity
 import com.example.appmusickotlin.model.DataListPlayList
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.util.callBack.PlaylistAddedListener
-import com.example.appmusickotlin.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
 
 
 class DialogAddPlaylistFragment : DialogFragment() {

@@ -13,13 +13,13 @@ interface MusicDao {
     suspend fun insertMusic(music: MusicEntity)
 
     @Query("SELECT * FROM musics WHERE playlistId = :playlistId")
-    suspend fun getMusicsByPlaylistId(playlistId: Long): MutableList<MusicEntity>
+    fun getMusicsByPlaylistId(playlistId: Long): LiveData<MutableList<MusicEntity>>
 
     @Query("SELECT * FROM musics")
      fun getAllMusics(): LiveData<MutableList<MusicEntity>>
 
     @Query("DELETE FROM musics WHERE id = :id")
-     suspend fun deleteMusic(id: Long)
+      fun deleteMusic(id: Long)
 
     @Query("DELETE FROM musics WHERE playlistId = :playlistId")
     suspend fun deleteAllMusic(playlistId: Long)

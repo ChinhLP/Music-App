@@ -21,8 +21,8 @@ import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.ui.home.Fragment.PlayListsFragment
 import com.example.appmusickotlin.util.callBack.OnItemClickListener
-import com.example.appmusickotlin.viewmodel.MusicViewModel
-import com.example.appmusickotlin.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.db.viewmodel.MusicViewModel
+import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -47,21 +47,21 @@ class DialogAddLibraryFragment : DialogFragment(), OnItemClickListener {
 
         playlistViewModel.getPlaylist(User.userId!!)
 
-        playlistViewModel.playlist.observe(viewLifecycleOwner, Observer { playlist ->
+        playlistViewModel.playlist?.observe(viewLifecycleOwner, Observer { playlist ->
 
-                if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-                    if (playlist.isNullOrEmpty()) {
-                        binding.groupTextViews.visibility = View.VISIBLE
-                        binding.rccAlbum.visibility = View.GONE
-                    } else {
-                        binding.groupTextViews.visibility = View.GONE
-                        binding.rccAlbum.visibility = View.VISIBLE
-                        val adapter = AlbumAdapter(playlist, this)
-                        binding.rccAlbum.layoutManager = LinearLayoutManager(requireContext())
-                        binding.rccAlbum.adapter = adapter
-                    }
+            if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                if (playlist.isNullOrEmpty()) {
+                    binding.groupTextViews.visibility = View.VISIBLE
+                    binding.rccAlbum.visibility = View.GONE
+                } else {
+                    binding.groupTextViews.visibility = View.GONE
+                    binding.rccAlbum.visibility = View.VISIBLE
+                    val adapter = AlbumAdapter(playlist, this)
+                    binding.rccAlbum.layoutManager = LinearLayoutManager(requireContext())
+                    binding.rccAlbum.adapter = adapter
                 }
-            })
+            }
+        })
 
         binding.btnAddmusic.setOnClickListener {
             val newFragment = PlayListsFragment()
@@ -88,13 +88,10 @@ class DialogAddLibraryFragment : DialogFragment(), OnItemClickListener {
 
     override fun onItemClick(position: Int, idPlayList : Long) {
 
-
-
         var song: Song? = arguments?.getSerializable("song") as? Song
-
         song!!.playlistId = idPlayList
         musicViewModel.insert(song)
-        musicViewModel.getMusic( song.id)
+        //musicViewModel.getMusic( song.id)
 
         dismiss()
 

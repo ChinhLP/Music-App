@@ -1,4 +1,4 @@
-package com.example.appmusickotlin.viewmodel
+package com.example.appmusickotlin.db.viewmodel
 
 import android.app.Application
 import android.util.Log

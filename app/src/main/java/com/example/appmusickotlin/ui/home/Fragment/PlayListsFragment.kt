@@ -25,8 +25,8 @@ import com.example.appmusickotlin.ui.popup.DialogAddPlaylistFragment
 import com.example.appmusickotlin.util.callBack.OnEditButtonClickListener
 import com.example.appmusickotlin.util.callBack.OnItemClickListener
 import com.example.appmusickotlin.util.callBack.PlaylistAddedListener
-import com.example.appmusickotlin.viewmodel.MusicViewModel
-import com.example.appmusickotlin.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.db.viewmodel.MusicViewModel
+import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
 
 
 class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener,
@@ -49,7 +49,8 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
 
         playlistViewModel.getPlaylist(User.userId!!)
 
-        playlistViewModel.playlist.observe(requireActivity(), Observer { playlist ->
+        playlistViewModel.playlist?.observe(requireActivity(), Observer { playlist ->
+
             binding.grSwap.visibility = View.GONE
             binding.ibnSwap.visibility = View.GONE
             binding.ibnLinear.visibility = View.GONE
@@ -61,6 +62,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 binding.rccAlbum.visibility = View.GONE
                 binding.rccMusicAlbum.visibility = View.GONE
             } else {
+
                 val adapter = AlbumAdapter(playlist, this)
                 binding.rccAlbum.layoutManager = LinearLayoutManager(this.context)
                 binding.rccAlbum.adapter = adapter
@@ -104,7 +106,9 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
             binding.ibnLinear.visibility = View.VISIBLE
 
             musicViewModel.getMusic(idPlayList)
-            musicViewModel.music.observe(requireActivity(), Observer { listMusic ->
+
+            musicViewModel.music?.observe(requireActivity(), Observer { listMusic ->
+
                 if (listMusic.isNullOrEmpty()) {
                     Toast.makeText(context, "chua co music ", Toast.LENGTH_SHORT).show()
                 } else {
@@ -128,7 +132,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
             binding.ibnGrid.visibility = View.VISIBLE
             musicViewModel.getMusic(idPlayList)
 
-            musicViewModel.music.observe(requireActivity(), Observer { listMusic ->
+            musicViewModel.music?.observe(requireActivity(), Observer { listMusic ->
                 if (listMusic.isNullOrEmpty()) {
                     Toast.makeText(context, "chua co music ", Toast.LENGTH_SHORT).show()
                 } else {
@@ -154,7 +158,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
 
         binding.rccAlbum.visibility = View.VISIBLE
 
-        playlistViewModel.playlist.observe(requireActivity(), Observer { playlist ->
+        playlistViewModel.playlist?.observe(requireActivity(), Observer { playlist ->
 
             val adapter = AlbumAdapter(playlist, this)
             binding.rccAlbum.layoutManager = LinearLayoutManager(this.context)
@@ -162,11 +166,6 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
             binding.group.visibility = View.GONE
             binding.rccAlbum.visibility = View.VISIBLE
         })
-//            User.albumsLst = listAlbum
-
-//        val listAlbum = User.albumsLst
-//        listAlbum.add(album)
-
 
     }
 
@@ -175,48 +174,48 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
 
         musicViewModel.getMusic(idPlayList)
 
-        musicViewModel.music.observe(requireActivity(), Observer { listMusic ->
-            if (isAdded && viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+        musicViewModel.music?.observe(requireActivity() , Observer { listMusic ->
 
-                if (listMusic.isNullOrEmpty()) {
-                    //Toast.makeText(context, "chua co music ", Toast.LENGTH_SHORT).show()
-                } else {
-                    val musicAdapter = MusicAdapter(
-                        requireContext(),
-                        listMusic, this, false, false
-                    )
-                    binding.rccMusicAlbum.layoutManager = LinearLayoutManager(this.context)
-                    binding.rccMusicAlbum.adapter = musicAdapter
+            Log.d("MusicFragment", "Quan sát music LiveData và cập nhật UI")
 
-                    val musicGridAdapter = MusicAdapter(
-                        requireContext(),
-                        listMusic, this, false, true
-                    )
-                    binding.rccGridMusicAlbum.layoutManager = GridLayoutManager(this.context, 2)
-                    binding.rccGridMusicAlbum.adapter = musicGridAdapter
+            if (listMusic.isNullOrEmpty()) {
+                //Toast.makeText(context, "chua co music ", Toast.LENGTH_SHORT).show()
+            } else {
+                val musicAdapter = MusicAdapter(
+                    requireContext(),
+                    listMusic, this, false, false
+                )
+                binding.rccMusicAlbum.layoutManager = LinearLayoutManager(this.context)
+                binding.rccMusicAlbum.adapter = musicAdapter
 
-                    binding.group.visibility = View.GONE
-                    binding.rccAlbum.visibility = View.GONE
-                    binding.rccMusicAlbum.visibility = View.VISIBLE
-                    binding.rccGridMusicAlbum.visibility = View.GONE
+                val musicGridAdapter = MusicAdapter(
+                    requireContext(),
+                    listMusic, this, false, true
+                )
+                binding.rccGridMusicAlbum.layoutManager = GridLayoutManager(this.context, 2)
+                binding.rccGridMusicAlbum.adapter = musicGridAdapter
+
+                binding.group.visibility = View.GONE
+                binding.rccAlbum.visibility = View.GONE
+                binding.rccMusicAlbum.visibility = View.VISIBLE
+                binding.rccGridMusicAlbum.visibility = View.GONE
+                binding.grSwap.visibility = View.GONE
+                binding.ibnSwap.visibility = View.VISIBLE
+                binding.ibnGrid.visibility = View.VISIBLE
+
+                binding.ibnSwap.setOnClickListener {
+                    binding.grSwap.visibility = View.VISIBLE
+                    binding.ibnSwap.visibility = View.GONE
+                    musicAdapter.setSwap(swap = true)
+                    musicGridAdapter.enableSwipeAndDrag(binding.rccGridMusicAlbum, true)
+                    musicAdapter.enableSwipeAndDrag(binding.rccMusicAlbum, true)
+                }
+                binding.grSwap.setOnClickListener {
                     binding.grSwap.visibility = View.GONE
                     binding.ibnSwap.visibility = View.VISIBLE
-                    binding.ibnGrid.visibility = View.VISIBLE
-
-                    binding.ibnSwap.setOnClickListener {
-                        binding.grSwap.visibility = View.VISIBLE
-                        binding.ibnSwap.visibility = View.GONE
-                        musicAdapter.setSwap(swap = true)
-                        musicGridAdapter.enableSwipeAndDrag(binding.rccGridMusicAlbum, true)
-                        musicAdapter.enableSwipeAndDrag(binding.rccMusicAlbum, true)
-                    }
-                    binding.grSwap.setOnClickListener {
-                        binding.grSwap.visibility = View.GONE
-                        binding.ibnSwap.visibility = View.VISIBLE
-                        musicAdapter.setSwap(swap = false)
-                        musicGridAdapter.enableSwipeAndDrag(binding.rccGridMusicAlbum, false)
-                        musicAdapter.enableSwipeAndDrag(binding.rccMusicAlbum, false)
-                    }
+                    musicAdapter.setSwap(swap = false)
+                    musicGridAdapter.enableSwipeAndDrag(binding.rccGridMusicAlbum, false)
+                    musicAdapter.enableSwipeAndDrag(binding.rccMusicAlbum, false)
                 }
             }
         })
@@ -233,10 +232,9 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
     }
 
     override fun onDeleteButtonClick(song: Song, position: Int) {
-//        // code chat GPT
-//        val selectedAlbum = User.albumsLst.find { it.listMusic?.contains(song) == true }
-//        selectedAlbum?.listMusic?.remove(song)
-//        binding.rccMusicAlbum.adapter?.notifyItemRemoved(position)
+
+        musicViewModel.delete(song.id, idPlayList)
+        Log.d("run","delete")
     }
 
 

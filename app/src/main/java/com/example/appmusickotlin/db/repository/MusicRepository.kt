@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.appmusickotlin.db.dao.MusicDao
 import com.example.appmusickotlin.db.entity.MusicEntity
 import com.example.appmusickotlin.db.mapper.toMusicEntity
-import com.example.appmusickotlin.db.mapper.toSongList
+import com.example.appmusickotlin.db.mapper.toSongListLiveData
 import com.example.appmusickotlin.model.Song
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,10 +21,10 @@ class MusicRepository(private val musicDao: MusicDao) {
             musicDao.insertMusic(musicEntity)
         }
     }
-    suspend fun getMusic(albumId: Long): MutableList<Song> {
+    suspend fun getMusic(albumId: Long): LiveData<MutableList<Song>> {
         return withContext(Dispatchers.IO) {
             val listMusicEntity = musicDao.getMusicsByPlaylistId(albumId)
-            val song = listMusicEntity.toSongList()
+            val song = listMusicEntity.toSongListLiveData()
             song
         }
     }

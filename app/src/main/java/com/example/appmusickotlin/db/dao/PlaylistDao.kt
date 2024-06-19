@@ -14,7 +14,7 @@ interface PlaylistDao {
     suspend fun insertPlaylist(playlist: PlaylistEntity)
 
     @Query("SELECT * FROM playlists WHERE userId = :userId")
-    suspend fun getPlaylistsByUserId(userId: Long): MutableList<PlaylistEntity>
+    fun getPlaylistsByUserId(userId: Long): LiveData<MutableList<PlaylistEntity>>
 
     @Query("SELECT * FROM playlists")
     fun getAllUsers(): LiveData<MutableList<PlaylistEntity>>

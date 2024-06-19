@@ -17,9 +17,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.appmusickotlin.ui.viewModel.MediaViewModel
 import com.example.appmusickotlin.databinding.FragmentHomefragmentBinding
-import com.example.appmusickotlin.model.User
-import com.example.appmusickotlin.model.saveUser
-import com.example.appmusickotlin.model.setMyUser
+//import com.example.appmusickotlin.model.User
+//import com.example.appmusickotlin.model.saveUser
+//import com.example.appmusickotlin.model.setMyUser
 import com.example.appmusickotlin.ui.authetication.AuthActivity
 import java.util.Locale
 
@@ -115,8 +115,8 @@ class HomeFragment : Fragment() {
     }
     private fun btnBack() {
         binding.btnBack.setOnClickListener {
-                val user = setMyUser()
-                saveUser(user)
+//                val user = setMyUser()
+//                saveUser(user)
 
             val intent = Intent(requireContext(), AuthActivity::class.java)
             startActivity(intent)

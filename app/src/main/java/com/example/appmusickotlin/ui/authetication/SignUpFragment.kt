@@ -17,7 +17,7 @@ import com.example.appmusickotlin.db.database.AppDatabase
 import com.example.appmusickotlin.db.entity.UserEntity
 import com.example.appmusickotlin.ui.authetication.viewmodel.AuthViewModel
 import com.example.appmusickotlin.util.validate.Validate
-import com.example.appmusickotlin.viewmodel.UserViewModel
+import com.example.appmusickotlin.db.viewmodel.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

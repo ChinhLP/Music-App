@@ -16,11 +16,13 @@ import androidx.room.InvalidationTracker
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.databinding.FragmentSigInScreenBinding
 import com.example.appmusickotlin.db.database.AppDatabase
+import com.example.appmusickotlin.db.viewmodel.MusicViewModel
+import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.model.User.username
 import com.example.appmusickotlin.ui.authetication.viewmodel.AuthViewModel
 import com.example.appmusickotlin.ui.home.HomeScreenActivity
-import com.example.appmusickotlin.viewmodel.UserViewModel
+import com.example.appmusickotlin.db.viewmodel.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,6 +33,8 @@ class SigInScreenFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var authViewModel: AuthViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var playlistViewModel: PlaylistViewModel
+    private lateinit var musicViewModel: MusicViewModel
 
 
     override fun onCreateView(
@@ -45,7 +49,8 @@ class SigInScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         authViewModel = ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-
+        playlistViewModel = ViewModelProvider(requireActivity()).get(PlaylistViewModel::class.java)
+        musicViewModel = ViewModelProvider(requireActivity()).get(MusicViewModel::class.java)
 
         binding.btnLogin.setOnClickListener {
 
@@ -62,6 +67,8 @@ class SigInScreenFragment : Fragment() {
                     User.password = user.password
                     User.email = user.email
                     // Login successful, navigate to another screen
+
+                    playlistViewModel.getPlaylist(user.id)
                     val intent = Intent(requireContext(), HomeScreenActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish()

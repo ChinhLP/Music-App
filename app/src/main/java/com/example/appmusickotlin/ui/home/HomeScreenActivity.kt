@@ -17,8 +17,8 @@ import com.example.appmusickotlin.ui.home.Fragment.PlayListsFragment
 import com.example.appmusickotlin.databinding.ActivityHomeScreenBinding
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.model.User
-import com.example.appmusickotlin.model.saveUser
-import com.example.appmusickotlin.model.setMyUser
+//import com.example.appmusickotlin.model.saveUser
+//import com.example.appmusickotlin.model.setMyUser
 import com.example.appmusickotlin.ui.authetication.SigInScreenFragment
 import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.util.formatDuration.formatDuration
@@ -53,7 +53,7 @@ class HomeScreenActivity : AppCompatActivity() {
 
             binding.grPlayMusic.visibility =  View.VISIBLE
 
-            musicPlayer.setDataSource(song.data!!)
+            musicPlayer.setDataSource(song.path!!)
 
             binding.txtNameMusic.text = song.name
             binding.txtDuration.text = song.duration!!.formatDuration()
@@ -150,20 +150,20 @@ class HomeScreenActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        val user = setMyUser()
-        Log.d("User", "******$user")
-        saveUser(user)
+//        val user = setMyUser()
+//        Log.d("User", "******$user")
+//        saveUser(user)
     }
     override fun onStop() {
         super.onStop()
-        val user = setMyUser()
-        Log.d("User", "******$user")
-        saveUser(user)
+//        val user = setMyUser()
+//        Log.d("User", "******$user")
+//        saveUser(user)
     }
     override fun onDestroy() {
         super.onDestroy()
-        val user = setMyUser()
-        Log.d("User", "******$user")
-        saveUser(user)
+//        val user = setMyUser()
+//        Log.d("User", "******$user")
+//        saveUser(user)
     }
 }
