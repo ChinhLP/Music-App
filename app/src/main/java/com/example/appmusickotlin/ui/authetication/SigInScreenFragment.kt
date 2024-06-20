@@ -16,14 +16,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.room.InvalidationTracker
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.databinding.FragmentSigInScreenBinding
-import com.example.appmusickotlin.db.database.AppDatabase
-import com.example.appmusickotlin.db.viewmodel.MusicViewModel
-import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.data.local.db.database.AppDatabase
+import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.model.User.username
 import com.example.appmusickotlin.ui.authetication.viewmodel.AuthViewModel
 import com.example.appmusickotlin.ui.home.HomeScreenActivity
-import com.example.appmusickotlin.db.viewmodel.UserViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -63,22 +63,24 @@ class SigInScreenFragment : Fragment() {
             userViewModel.getUser(userName, password)
 
             userViewModel.user.observe(requireActivity(),Observer{ user ->
+                lifecycleScope.launchWhenResumed {
+                    if (user != null && isAdded) {
+                        User.userId = user.id
+                        User.username = user.username
+                        User.password = user.password
+                        User.email = user.email
 
+                        val intent = Intent(requireActivity(), HomeScreenActivity::class.java)
+                        startActivity(intent)
 
-                if (user != null && isAdded) {
-                    User.userId = user.id
-                    User.username = user.username
-                    User.password = user.password
-                    User.email = user.email
+                        requireActivity().finish()
+                    } else {
 
-                    val intent = Intent(requireActivity(), HomeScreenActivity::class.java)
-                    startActivity(intent)
-
-                    requireActivity().finish()
-                } else {
-
-                    Toast.makeText(requireActivity(), "Login failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), "Login failed", Toast.LENGTH_SHORT).show()
+                    }
                 }
+
+
 
             })
             // Xử lý dữ liệu user ở đây

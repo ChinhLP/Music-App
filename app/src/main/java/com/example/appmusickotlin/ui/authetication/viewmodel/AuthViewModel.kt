@@ -8,9 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.appmusickotlin.db.dao.UserDao
-import com.example.appmusickotlin.db.database.AppDatabase
-import com.example.appmusickotlin.db.entity.UserEntity
+import com.example.appmusickotlin.data.local.db.dao.UserDao
+import com.example.appmusickotlin.data.local.db.database.AppDatabase
+import com.example.appmusickotlin.data.local.db.entity.UserEntity
 import com.example.appmusickotlin.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

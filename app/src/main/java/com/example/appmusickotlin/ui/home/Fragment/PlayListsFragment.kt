@@ -27,8 +27,8 @@ import com.example.appmusickotlin.ui.popup.DialogAddPlaylistFragment
 import com.example.appmusickotlin.util.callBack.OnEditButtonClickListener
 import com.example.appmusickotlin.util.callBack.OnItemClickListener
 import com.example.appmusickotlin.util.callBack.PlaylistAddedListener
-import com.example.appmusickotlin.db.viewmodel.MusicViewModel
-import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.ui.popup.DialogRenamePlaylistFragment
 import com.example.appmusickotlin.util.callBack.OnEditPopupAlbumButtonClickListener
 

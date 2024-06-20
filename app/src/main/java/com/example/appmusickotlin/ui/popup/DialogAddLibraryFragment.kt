@@ -16,13 +16,13 @@ import com.example.appmusickotlin.R
 import com.example.appmusickotlin.ui.adapter.AlbumAdapter
 import com.example.appmusickotlin.ui.home.HomeScreenActivity
 import com.example.appmusickotlin.databinding.FragmentDialogAddLibraryBinding
-import com.example.appmusickotlin.db.entity.MusicEntity
+import com.example.appmusickotlin.data.local.db.entity.MusicEntity
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.ui.home.Fragment.PlayListsFragment
 import com.example.appmusickotlin.util.callBack.OnItemClickListener
-import com.example.appmusickotlin.db.viewmodel.MusicViewModel
-import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch

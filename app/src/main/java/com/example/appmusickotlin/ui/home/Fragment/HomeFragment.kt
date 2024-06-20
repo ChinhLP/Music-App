@@ -6,6 +6,7 @@ import com.example.appmusickotlin.service.MusicService
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -76,6 +77,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val uiMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (uiMode != Configuration.UI_MODE_NIGHT_YES){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES )
+        }
+
         mediaViewModel.isPlaying.observe(this.viewLifecycleOwner, Observer { isPlaying ->
             isPlay = isPlaying
             updatePlayPauseButton()
@@ -101,18 +107,18 @@ class HomeFragment : Fragment() {
     private fun BtnTheme() {
         binding.btnTheme.setOnClickListener {
 
-            // Kiểm tra chủ đề hiện tại của thiết bị
-            val uiMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-
-            // Nếu đang ở chủ đề tối, chuyển sang chủ đề sáng và ngược lại
-            val newMode = if (uiMode == Configuration.UI_MODE_NIGHT_YES) {
-                AppCompatDelegate.MODE_NIGHT_NO // Chủ đề sáng
-            } else {
-                AppCompatDelegate.MODE_NIGHT_YES // Chủ đề tối
-            }
-
-            // Đặt chế độ chủ đề mới cho thiết bị
-            AppCompatDelegate.setDefaultNightMode(newMode)
+//            // Kiểm tra chủ đề hiện tại của thiết bị
+//            val uiMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+//
+//            // Nếu đang ở chủ đề tối, chuyển sang chủ đề sáng và ngược lại
+//            val newMode = if (uiMode == Configuration.UI_MODE_NIGHT_YES) {
+//                AppCompatDelegate.MODE_NIGHT_NO // Chủ đề sáng
+//            } else {
+//                AppCompatDelegate.MODE_NIGHT_YES // Chủ đề tối
+//            }
+//
+//            // Đặt chế độ chủ đề mới cho thiết bị
+//            AppCompatDelegate.setDefaultNightMode(newMode)
         }
     }
     private fun btnBack() {

@@ -1,22 +1,51 @@
 package com.example.appmusickotlin.service
 
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service.NOTIFICATION_SERVICE
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startForegroundService
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.ui.ListenMusic.ListenMusicActivity
 import com.example.appmusickotlin.ui.home.HomeScreenActivity
 
 class NotificationManager(private val context: Context) {
+
     private val CHANNEL_ID = "MusicPlayerChannel"
-    private val NOTIFICATION_ID = 1
+
+    init {
+        createNotificationChannel()
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "Music Player Channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = "Channel for foreground music player service"
+            }
+
+            val notificationManager = context.getSystemService(NotificationManager::class.java)
+
+            notificationManager?.createNotificationChannel(channel)
+        }
+    }
 
     fun buildNotification(contentText: String): Notification {
-        // Tạo Intent để mở ứng dụng khi người dùng nhấn vào Notification
+
         val notificationIntent = Intent(context, ListenMusicActivity::class.java)
+
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+        // bao bọc notificationIntent và có thể được sử dụng để khởi chạy ListenMusicActivity khi người dùng nhấn vào thông báo
         val pendingIntent = PendingIntent.getActivity(
             context,
             0,
@@ -24,7 +53,7 @@ class NotificationManager(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // Xây dựng notification
+        // Build the notification
         return NotificationCompat.Builder(context, CHANNEL_ID)
             .setContentTitle("Media Service")
             .setContentText(contentText)
@@ -40,29 +69,4 @@ class NotificationManager(private val context: Context) {
             )
             .build()
     }
-
-//    fun createNotificationChannel() {
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            val channel = NotificationChannel(
-//                CHANNEL_ID,
-//                "Music Player Channel",
-//                NotificationManager.IMPORTANCE_DEFAULT
-//            )
-//            val notificationManager =
-//                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//            notificationManager.createNotificationChannel(channel)
-//        }
-//    }
-//
-//    fun showNotification(notification: Notification) {
-//        val notificationManager =
-//            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        notificationManager.notify(NOTIFICATION_ID, notification)
-//    }
-//
-//    fun cancelNotification() {
-//        val notificationManager =
-//            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        notificationManager.cancel(NOTIFICATION_ID)
-//    }
 }

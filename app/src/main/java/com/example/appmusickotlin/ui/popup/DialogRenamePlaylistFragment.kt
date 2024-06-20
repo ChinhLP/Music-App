@@ -14,8 +14,8 @@ import com.example.appmusickotlin.R
 import com.example.appmusickotlin.databinding.DialogFragmentLayoutAddMusicBinding
 import com.example.appmusickotlin.databinding.FragmentDialogAddLibraryBinding
 import com.example.appmusickotlin.databinding.FragmentDialogRenamePlaylistBinding
-import com.example.appmusickotlin.db.viewmodel.MusicViewModel
-import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.model.DataListPlayList
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.model.User

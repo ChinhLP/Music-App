@@ -12,7 +12,7 @@ import com.example.appmusickotlin.R
 import com.example.appmusickotlin.model.User
 //import com.example.appmusickotlin.model.getUser
 //import com.example.appmusickotlin.model.isLoggedIn
-import com.example.appmusickotlin.db.database.AppDatabase
+import com.example.appmusickotlin.data.local.db.database.AppDatabase
 import com.example.appmusickotlin.ui.authetication.AuthActivity
 import com.example.appmusickotlin.ui.home.HomeScreenActivity
 import com.orhanobut.hawk.Hawk

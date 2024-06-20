@@ -3,49 +3,64 @@ package com.example.appmusickotlin.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.widget.SeekBar
-import com.example.appmusickotlin.model.Song
-import com.example.appmusickotlin.util.mediaPlay.MusicPlayer
 
 
 class ForegroundService : Service() {
 
     private lateinit var musicPlayer: MusicPlayer
-    private lateinit var seekBar: SeekBar
+    private lateinit var notificationManager: NotificationManager
 
-
-    override fun onCreate() {
-        super.onCreate()
-        musicPlayer = MusicPlayer(this, null)
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startForeground(1,null)
-
-        when (intent?.action) {
-            "ACTION_NEXT" -> handleActionNext(intent)
-//            "ACTION_PAUSE" -> handleActionPause()
-//            "ACTION_RESUME" -> handleActionPlay()
-//            "ACTION_BACK" -> handleActionPrevious()
-//            "ACTION_STOP" -> handleActionStop()
-            // Xử lý các hành động khác nếu cần
-        }
-        return START_NOT_STICKY
-    }
-
-    fun handleActionNext(intent: Intent?){
-//        val song: Song? = intent?.getParcelableExtra("songPlay")
-//        musicPlayer.stopAndRelease()
-//        musicPlayer.setDataSource(song.path!!)
-
+    companion object {
+        private const val NOTIFICATION_ID = 1
     }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
+    override fun onCreate() {
+        super.onCreate()
+
+        musicPlayer = MusicPlayer(this)
+        notificationManager = NotificationManager(this)
+
+        // Create and display the foreground notification
+        val notification = notificationManager.buildNotification("Service is running")
+        startForeground(NOTIFICATION_ID, notification)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            "ACTION_RESUME" -> handleActionResume(intent)
+            "ACTION_PAUSE" -> handleActionPause()
+            "ACTION_PLAY" -> handleActionPlay()
+            "ACTION_CLOSE" -> handleActionClose()
+        }
+        return START_NOT_STICKY
+    }
+
+    private fun handleActionResume(intent: Intent?) {
+        val songPath = intent?.getStringExtra("songPlay")
+        musicPlayer.stopAndRelease()
+        musicPlayer.setDataSource(songPath!!)
+    }
+
+    private fun handleActionPause() {
+        musicPlayer.pause()
+    }
+
+    private fun handleActionPlay() {
+        musicPlayer.play()
+    }
+    private fun handleActionClose(){
+        musicPlayer.release()
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
         musicPlayer.release()
     }
+
+
 }

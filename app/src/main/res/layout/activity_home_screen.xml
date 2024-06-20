@@ -19,8 +19,8 @@
     <androidx.constraintlayout.widget.Group
         android:id="@+id/grPlayMusic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="vListener,seekBar,ibnPlay,txtDuration,txtNameMusic"
+        android:layout_height="130px"
+        app:constraint_referenced_ids="vListener,ibnCloseService,seekBar,ibnPlay,txtDuration,txtNameMusic"
         app:layout_constraintBottom_toBottomOf="@+id/vListener"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +28,14 @@
         android:visibility="gone"
         />
 
+    <ImageButton
+        android:id="@+id/ibnCloseService"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_delete"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"/>
     <View
         android:id="@+id/vListener"
         android:layout_width="0dp"

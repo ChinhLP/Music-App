@@ -6,17 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieComposition
-import com.airbnb.lottie.LottieListener
-import com.airbnb.lottie.OnCompositionLoadedListener
 import com.example.appmusickotlin.R
-import com.example.appmusickotlin.contendProvider.MusicLoader
+import com.example.appmusickotlin.data.local.contendProvider.MusicLoader
 import com.example.appmusickotlin.ui.diaglogs.DialogAddLibraryFragment
 import com.example.appmusickotlin.ui.adapter.MusicAdapter
 import com.example.appmusickotlin.databinding.FragmentLibraryfragmentBinding
@@ -24,10 +19,10 @@ import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.util.callBack.OnEditButtonClickListener
 import com.example.appmusickotlin.util.callBack.OnMusicClickListener
-import com.example.appmusickotlin.db.viewmodel.MusicViewModel
-import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
-import com.example.appmusickotlin.retrofit2.Result.State
-import com.example.appmusickotlin.retrofit2.viewmodel.MusicRemoteViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.data.remoteRetrofit.Result.State
+import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.MusicRemoteViewModel
 
 
 class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListener {

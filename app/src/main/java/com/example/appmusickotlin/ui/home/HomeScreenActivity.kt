@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
@@ -15,16 +16,17 @@ import com.example.appmusickotlin.ui.home.Fragment.HomeFragment
 import com.example.appmusickotlin.ui.home.Fragment.LibraryFragment
 import com.example.appmusickotlin.ui.home.Fragment.PlayListsFragment
 import com.example.appmusickotlin.databinding.ActivityHomeScreenBinding
-import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.model.User
-import com.example.appmusickotlin.retrofit2.viewmodel.MusicRemoteViewModel
+import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.MusicRemoteViewModel
 import com.example.appmusickotlin.service.ForegroundService
 //import com.example.appmusickotlin.model.saveUser
 //import com.example.appmusickotlin.model.setMyUser
 import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.util.formatDuration.formatDuration
-import com.example.appmusickotlin.util.mediaPlay.MusicPlayer
+import com.example.appmusickotlin.service.MusicPlayer
+import com.example.appmusickotlin.ui.ListenMusic.ListenMusicActivity
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -58,48 +60,76 @@ class HomeScreenActivity : AppCompatActivity() {
         playlistViewModel.getPlaylist(User.userId!!)
         Log.d("ppp", "ccccc2")
 
-
-
-
-
-
-        musicPlayer = MusicPlayer(this, binding.seekBar)
-
-
         homeViewModel.song.observe(this, Observer { song ->
-
             val serviceIntent = Intent(this, ForegroundService::class.java).apply {
                 action = "ACTION_RESUME"
             }
-            serviceIntent.putExtra("songPlay", song)
+            serviceIntent.putExtra("songPlay", song.path)
+            serviceIntent.putExtra("nameSong",song.name)
+            serviceIntent.putExtra("durationSong", song.duration!!.formatDuration())
             startService(serviceIntent)
-
-
-
-            musicPlayer.stopAndRelease()
 
             binding.grPlayMusic.visibility =  View.VISIBLE
             play = false
             changePlayMusic()
 
-            musicPlayer.setDataSource(song.path!!)
 
             binding.txtNameMusic.text = song.name
+
             binding.txtDuration.text = song.duration!!.formatDuration()
+            binding.vListener.setOnClickListener {
+                val intent = Intent(this,ListenMusicActivity::class.java)
+                val args = Bundle()
+                args.putSerializable("song", song)
+                intent.putExtras(args)
+
+                startActivity(intent)
+            }
+
         })
+
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+        binding.ibnCloseService.setOnClickListener {
+            val serviceIntent = Intent(this, ForegroundService::class.java).apply {
+                action = "ACTION_CLOSE"
+            }
+            startService(serviceIntent)
+            binding.grPlayMusic.visibility =  View.GONE
+        }
+
+
 
         binding.ibnPlay.setOnClickListener {
             if (play) {
-                musicPlayer.play()
+                val serviceIntent = Intent(this, ForegroundService::class.java).apply {
+                    action = "ACTION_PLAY"
+                }
+                startService(serviceIntent)
                 play = false
             } else {
-                musicPlayer.pause()
+                val serviceIntent = Intent(this, ForegroundService::class.java).apply {
+                    action = "ACTION_PAUSE"
+                }
+                startService(serviceIntent)
+
                 play = true
             }
             changePlayMusic()
-
         }
-
 
         if (savedInstanceState == null) {
             showHomeFragment()

@@ -7,11 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.ListenMusic.ListenMusicActivity">
 
+
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:lineHeight="20dp"
         android:text="Now Playing"
         android:textColor="@color/TitleText"
@@ -22,12 +23,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/btnOption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnClose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_menu"
+        android:src="@drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="@+id/imgAvatar"
+        app:layout_constraintTop_toTopOf="@+id/txtTitle"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="@+id/imgAvatar"
         app:layout_constraintTop_toTopOf="@+id/txtTitle"
         tools:ignore="MissingConstraints" />
 
