@@ -20,7 +20,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.databinding.MusicItemGridLayoutBinding
 import com.example.appmusickotlin.databinding.MusicItemLayoutBinding
-import com.example.appmusickotlin.db.entity.MusicEntity
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.util.callBack.OnEditButtonClickListener
 import com.example.appmusickotlin.util.callBack.OnMusicClickListener
@@ -29,7 +28,7 @@ import java.util.Collections
 
 class MusicAdapter(
     private val context: Context?,
-    private val musicUriList: MutableList<Song>,
+    private var musicUriList: MutableList<Song>,
     private val listener: OnEditButtonClickListener,
     private val menu: Boolean,
     private val isGrid: Boolean
@@ -146,6 +145,10 @@ class MusicAdapter(
         return musicUriList.size
     }
 
+    fun  updateData(newList: MutableList<Song>) {
+        musicUriList = newList
+        notifyDataSetChanged()
+    }
     override fun getItemViewType(position: Int): Int {
         return if (isGrid) VIEW_TYPE_GRID else VIEW_TYPE_LINEAR
     }
@@ -155,6 +158,7 @@ class MusicAdapter(
         this.swap = swap
         notifyDataSetChanged()
     }
+
 
     // Hàm để cho phép Swipe và Drag
     fun enableSwipeAndDrag(recyclerView: RecyclerView,swap: Boolean) {

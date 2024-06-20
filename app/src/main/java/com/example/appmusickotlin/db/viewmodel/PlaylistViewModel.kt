@@ -44,7 +44,7 @@ class PlaylistViewModel(application: Application) : AndroidViewModel(application
         _playlistRepository.delete(userId)
     }
 
-    fun updateNamePlaylist(id : Long,name : String, position : Long) = viewModelScope.launch {
+    fun updateNamePlaylist(id : Long,name : String) = viewModelScope.launch {
         val newPlaylist = _playlistRepository.getPlaylistById(id)
         newPlaylist.title = name
         _playlistRepository.updatePlaylistName(newPlaylist)

@@ -6,21 +6,17 @@ import android.net.Uri
 import android.os.Handler
 import android.widget.SeekBar
 
-class MusicPlayer(private val context: Context, private val seekBar: SeekBar) {
+class MusicPlayer(private val context: Context, private val seekBar: SeekBar?) {
 
-    private val mediaPlayer: MediaPlayer = MediaPlayer()
+    private var mediaPlayer: MediaPlayer? = null
     private val handler = Handler()
+    private var isPrepared = false
 
     init {
-        mediaPlayer.setOnPreparedListener {
-            seekBar.max = mediaPlayer.duration
-            updateSeekBar()
-        }
-
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        seekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    mediaPlayer.seekTo(progress)
+                    mediaPlayer?.seekTo(progress)
                 }
             }
 
@@ -30,36 +26,50 @@ class MusicPlayer(private val context: Context, private val seekBar: SeekBar) {
     }
 
     fun setDataSource(uri: String) {
-        mediaPlayer.setDataSource(context, Uri.parse(uri))
-        mediaPlayer.prepareAsync()
+        release()
+        mediaPlayer = MediaPlayer()
+        mediaPlayer?.setOnPreparedListener {
+            mediaPlayer?.start()
+            isPrepared = true
+            seekBar!!.max = mediaPlayer?.duration ?: 0
+            updateSeekBar()
+        }
+        mediaPlayer?.setDataSource(context, Uri.parse(uri))
+        mediaPlayer?.prepareAsync()
     }
 
     fun play() {
-            mediaPlayer.start()
+        if (isPrepared && mediaPlayer?.isPlaying == false) {
+            mediaPlayer?.start()
             updateSeekBar()
-
+        }
     }
 
     fun stopAndRelease() {
-        if (mediaPlayer.isPlaying) {
-            mediaPlayer.stop()
-            mediaPlayer.release()
-        }
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
+        isPrepared = false
+        handler.removeCallbacksAndMessages(null)
     }
 
     fun pause() {
-        if (mediaPlayer.isPlaying) {
-            mediaPlayer.pause()
-        }
+        mediaPlayer?.pause()
+        handler.removeCallbacksAndMessages(null)
     }
 
     fun release() {
+        mediaPlayer?.release()
+        mediaPlayer = null
+        handler.removeCallbacksAndMessages(null)
     }
 
     private fun updateSeekBar() {
-        seekBar.progress = mediaPlayer.currentPosition
-        if (mediaPlayer.isPlaying) {
-            handler.postDelayed({ updateSeekBar() }, 1000)
+        mediaPlayer?.let { player ->
+            seekBar!!.progress = player.currentPosition
+            if (player.isPlaying) {
+                handler.postDelayed({ updateSeekBar() }, 1000)
+            }
         }
     }
 }

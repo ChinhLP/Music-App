@@ -64,11 +64,13 @@ class SigInScreenFragment : Fragment() {
 
             userViewModel.user.observe(requireActivity(),Observer{ user ->
 
-                if (user != null) {
+
+                if (user != null && isAdded) {
                     User.userId = user.id
                     User.username = user.username
                     User.password = user.password
                     User.email = user.email
+
                     val intent = Intent(requireActivity(), HomeScreenActivity::class.java)
                     startActivity(intent)
 

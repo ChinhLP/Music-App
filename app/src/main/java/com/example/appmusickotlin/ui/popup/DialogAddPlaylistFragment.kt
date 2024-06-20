@@ -47,7 +47,4 @@ class DialogAddPlaylistFragment : DialogFragment() {
             dismiss()
         }
     }
-
-
-
 }

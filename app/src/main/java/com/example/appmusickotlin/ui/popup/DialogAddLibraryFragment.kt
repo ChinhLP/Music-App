@@ -34,8 +34,6 @@ class DialogAddLibraryFragment : DialogFragment(), OnItemClickListener {
     private lateinit var playlistViewModel: PlaylistViewModel
     private lateinit var musicViewModel: MusicViewModel
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -150,6 +150,7 @@ class MusicService : Service() {
 
         val notificationIntent = Intent(
             this, FragmentHomefragmentBinding::class.java)
+
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,

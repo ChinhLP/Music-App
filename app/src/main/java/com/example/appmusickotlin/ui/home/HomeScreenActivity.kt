@@ -1,15 +1,14 @@
 package com.example.appmusickotlin.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.ui.home.Fragment.HomeFragment
@@ -20,13 +19,12 @@ import com.example.appmusickotlin.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.retrofit2.viewmodel.MusicRemoteViewModel
+import com.example.appmusickotlin.service.ForegroundService
 //import com.example.appmusickotlin.model.saveUser
 //import com.example.appmusickotlin.model.setMyUser
-import com.example.appmusickotlin.ui.authetication.SigInScreenFragment
 import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.util.formatDuration.formatDuration
 import com.example.appmusickotlin.util.mediaPlay.MusicPlayer
-import com.orhanobut.hawk.Hawk
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -62,14 +60,27 @@ class HomeScreenActivity : AppCompatActivity() {
 
 
 
+
+
+
         musicPlayer = MusicPlayer(this, binding.seekBar)
 
 
         homeViewModel.song.observe(this, Observer { song ->
 
+            val serviceIntent = Intent(this, ForegroundService::class.java).apply {
+                action = "ACTION_RESUME"
+            }
+            serviceIntent.putExtra("songPlay", song)
+            startService(serviceIntent)
+
+
+
             musicPlayer.stopAndRelease()
 
             binding.grPlayMusic.visibility =  View.VISIBLE
+            play = false
+            changePlayMusic()
 
             musicPlayer.setDataSource(song.path!!)
 
@@ -153,7 +164,6 @@ class HomeScreenActivity : AppCompatActivity() {
     }
 
     private fun showLibraryFragment() {
-        musicRemoteViewModel.fetchAllMusic()
         supportFragmentManager.commit {
             //setReorderingAllowed(false)
             replace(binding.fragmentContainer.id, LibraryFragment())

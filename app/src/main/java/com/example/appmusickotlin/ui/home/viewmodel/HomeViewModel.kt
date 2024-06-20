@@ -20,16 +20,9 @@ class HomeViewModel : ViewModel() {
         _user.value = User
     }
 
-//    fun setUserAlbum(listMusic: DataListPlayList) {
-//        _user.value?.albumsLst?.add(listMusic)
-//        User.albumsLst = _user.value!!.albumsLst
-//    }
-
-//    fun setSongAlbum(song: Song) {
-//
-//       _song.value = song
-//
-//    }
+    fun playSong(songPlay: Song) {
+        _song.value = songPlay
+    }
 }
 
 

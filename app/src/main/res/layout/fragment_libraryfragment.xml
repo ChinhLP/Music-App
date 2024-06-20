@@ -58,6 +58,49 @@
         app:layout_constraintTop_toBottomOf="@+id/btnLeft"
         android:layout_marginTop="16dp"
         />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grNoInternet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="imvNoInternet,imvTextNoInternet"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/imvNoInternet"
+        android:src="@drawable/ic_nointernet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+        android:id="@+id/imvTextNoInternet"
+        android:src="@drawable/ic_textnointernet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/imvNoInternet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/vAnimation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_rawRes="@raw/lot_loading"
+            app:lottie_loop="true"
+            android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerRemoteView"
         android:layout_width="0dp"
