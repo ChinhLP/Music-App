@@ -4,7 +4,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.home.HomeScreenActivity">
 
     <FrameLayout
@@ -19,7 +18,8 @@
     <androidx.constraintlayout.widget.Group
         android:id="@+id/grPlayMusic"
         android:layout_width="match_parent"
-        android:layout_height="130px"
+        android:layout_height="100px"
+        android:layout_marginHorizontal="100dp"
         app:constraint_referenced_ids="vListener,ibnCloseService,seekBar,ibnPlay,txtDuration,txtNameMusic"
         app:layout_constraintBottom_toBottomOf="@+id/vListener"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,13 +48,16 @@
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="6dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp"
         android:progressDrawable="@drawable/progress_drawable"
         android:thumb="@null"
-        android:thumbOffset="4dp"
+        android:thumbOffset="0dp"
         app:layout_constraintBottom_toTopOf="@+id/vListener"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
 
+        />
 
     <ImageButton
         android:id="@+id/ibnPlay"

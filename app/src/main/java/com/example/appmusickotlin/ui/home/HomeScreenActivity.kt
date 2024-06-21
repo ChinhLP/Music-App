@@ -1,7 +1,11 @@
 package com.example.appmusickotlin.ui.home
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
@@ -33,19 +37,40 @@ import java.util.Locale
 class HomeScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeScreenBinding
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var musicPlayer: MusicPlayer
     private lateinit var playlistViewModel: PlaylistViewModel
     private lateinit var musicRemoteViewModel: MusicRemoteViewModel
+    private lateinit var currentPositionObserver: Observer<Int>
+    private lateinit var currentPlayObserver : Observer<Boolean>
+    private lateinit var foregroundService: ForegroundService
+    private lateinit var currentMediaObserver: Observer<Boolean>
+    private lateinit var currentSongObserver : Observer<Song>
 
 
     private var play = true
-    private lateinit var music: Song
-
+    private lateinit var songCurrent : Song
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("language_key", Locale.getDefault().language)
     }
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as ForegroundService.LocalBinder
+            foregroundService = binder.getService()
+
+            // Quan sát currentPosition từ ForegroundService
+
+            foregroundService.currentPosition.observe(this@HomeScreenActivity, currentPositionObserver)
+            foregroundService.isPrepared.observe(this@HomeScreenActivity, currentPlayObserver)
+            foregroundService.isMedia.observe(this@HomeScreenActivity, currentMediaObserver)
+            foregroundService.song.observe(this@HomeScreenActivity, currentSongObserver)
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            // Xử lý khi mất kết nối với Service
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,49 +81,79 @@ class HomeScreenActivity : AppCompatActivity() {
         playlistViewModel = ViewModelProvider(this).get(PlaylistViewModel::class.java)
         musicRemoteViewModel = ViewModelProvider(this).get(MusicRemoteViewModel::class.java)
 
+        bindService(Intent(this, ForegroundService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
+        // Liên kết SeekBar từ layout
+        // Tạo observer để lắng nghe thay đổi của currentPosition
+
 
         playlistViewModel.getPlaylist(User.userId!!)
-        Log.d("ppp", "ccccc2")
+
+
+        currentMediaObserver = Observer { isMedia ->
+            if(isMedia){
+                binding.grPlayMusic.visibility = View.VISIBLE
+                currentSongObserver = Observer { song ->
+                    binding.txtNameMusic.text = song.name
+                    binding.txtDuration.text = song.duration!!.formatDuration()
+                    binding.seekBar.max = song.duration!!.toInt()
+                    binding.vListener.setOnClickListener {
+                        val intent = Intent(this,ListenMusicActivity::class.java)
+                        val arg = Bundle()
+                        arg.putSerializable("song", song)
+                        intent.putExtras(arg)
+                        startActivity(intent)
+                    }
+
+                }
+                currentPositionObserver = Observer { newPosition ->
+                    // Chỉ cập nhật giá trị của SeekBar khi không có sự kiện vuốt (tracking touch)
+                    binding.seekBar.progress = newPosition
+                }
+
+                currentPlayObserver = Observer { isPlay ->
+                    play = isPlay
+                    changePlayMusic()
+                }
+
+            } else {
+                binding.grPlayMusic.visibility = View.GONE
+            }
+        }
+
+        currentSongObserver = Observer { song ->
+            binding.txtNameMusic.text = song.name
+            binding.txtDuration.text = song.duration!!.formatDuration()
+            binding.seekBar.max = song.duration!!.toInt()
+        }
+
+        currentPlayObserver = Observer { isPlay ->
+            play = isPlay
+            changePlayMusic()
+        }
+
+        currentPositionObserver = Observer { newPosition ->
+            // Chỉ cập nhật giá trị của SeekBar khi không có sự kiện vuốt (tracking touch)
+            binding.seekBar.progress = newPosition
+        }
+
 
         homeViewModel.song.observe(this, Observer { song ->
             val serviceIntent = Intent(this, ForegroundService::class.java).apply {
                 action = "ACTION_RESUME"
             }
-            serviceIntent.putExtra("songPlay", song.path)
-            serviceIntent.putExtra("nameSong",song.name)
-            serviceIntent.putExtra("durationSong", song.duration!!.formatDuration())
+            songCurrent = song
+
+
+            val args = Bundle()
+            args.putSerializable("song_", song)
+            serviceIntent.putExtras(args)
             startService(serviceIntent)
-
-            binding.grPlayMusic.visibility =  View.VISIBLE
-            play = false
-            changePlayMusic()
-
-
-            binding.txtNameMusic.text = song.name
-
-            binding.txtDuration.text = song.duration!!.formatDuration()
             binding.vListener.setOnClickListener {
                 val intent = Intent(this,ListenMusicActivity::class.java)
-                val args = Bundle()
-                args.putSerializable("song", song)
-                intent.putExtras(args)
-
+                val arg = Bundle()
+                arg.putSerializable("song", song)
+                intent.putExtras(arg)
                 startActivity(intent)
-            }
-
-        })
-
-        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onStartTrackingTouch(p0: SeekBar?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -111,22 +166,20 @@ class HomeScreenActivity : AppCompatActivity() {
             binding.grPlayMusic.visibility =  View.GONE
         }
 
-
-
         binding.ibnPlay.setOnClickListener {
             if (play) {
                 val serviceIntent = Intent(this, ForegroundService::class.java).apply {
-                    action = "ACTION_PLAY"
-                }
-                startService(serviceIntent)
-                play = false
-            } else {
-                val serviceIntent = Intent(this, ForegroundService::class.java).apply {
                     action = "ACTION_PAUSE"
                 }
+                Log.d("eee" , "pause")
                 startService(serviceIntent)
+            } else {
+                val serviceIntent = Intent(this, ForegroundService::class.java).apply {
+                    action = "ACTION_PLAY"
+                }
+                Log.d("eee" , "play")
 
-                play = true
+                startService(serviceIntent)
             }
             changePlayMusic()
         }
@@ -140,9 +193,9 @@ class HomeScreenActivity : AppCompatActivity() {
 
     private fun changePlayMusic() {
         if (play) {
-            binding.ibnPlay.setImageResource(R.drawable.ic_play)
-        } else {
             binding.ibnPlay.setImageResource(R.drawable.ic_pause)
+        } else {
+            binding.ibnPlay.setImageResource(R.drawable.ic_play)
         }
     }
 
@@ -210,6 +263,10 @@ class HomeScreenActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (::foregroundService.isInitialized) {
+            foregroundService.currentPosition.removeObserver(currentPositionObserver)
+            unbindService(serviceConnection)
+        }
         if (supportFragmentManager.backStackEntryCount > 1) {
             supportFragmentManager.popBackStack()
         } else {
@@ -217,4 +274,5 @@ class HomeScreenActivity : AppCompatActivity() {
             finish()
         }
     }
+
 }

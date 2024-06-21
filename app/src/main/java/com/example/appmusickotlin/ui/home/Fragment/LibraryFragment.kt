@@ -147,7 +147,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
     override fun onItemClick(song: Song) {
         viewModel.playSong(song)
-        Log.d("ppp", "onItemClick")
+        Log.d("ppp", "$song")
     }
 
 

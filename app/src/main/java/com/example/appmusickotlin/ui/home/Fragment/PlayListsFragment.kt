@@ -29,6 +29,7 @@ import com.example.appmusickotlin.util.callBack.OnItemClickListener
 import com.example.appmusickotlin.util.callBack.PlaylistAddedListener
 import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
 import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.ui.popup.DialogRenamePlaylistFragment
 import com.example.appmusickotlin.util.callBack.OnEditPopupAlbumButtonClickListener
 
@@ -37,6 +38,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
     OnEditButtonClickListener, OnEditPopupAlbumButtonClickListener {
     private lateinit var binding: FragmentPlaylistsfragmentBinding
     private var idPlayList: Long = 0
+    private lateinit var viewModel: HomeViewModel
     private lateinit var playlistViewModel: PlaylistViewModel
     private lateinit var musicViewModel: MusicViewModel
 
@@ -53,6 +55,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
         super.onViewCreated(view, savedInstanceState)
         playlistViewModel = ViewModelProvider(requireActivity()).get(PlaylistViewModel::class.java)
         musicViewModel = ViewModelProvider(requireActivity()).get(MusicViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         Log.d("ppp", "ccccc1")
 
         playlistViewModel.playlist?.observe(viewLifecycleOwner, Observer { playlist ->

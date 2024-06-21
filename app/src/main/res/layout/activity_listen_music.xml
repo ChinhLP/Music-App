@@ -78,17 +78,21 @@
         app:layout_constraintStart_toStartOf="@+id/txtMusic"
         app:layout_constraintTop_toBottomOf="@+id/txtMusic" />
 
-    <SeekBar
+    <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/sbMusic"
         android:progressDrawable="@drawable/progress_drawable"
         android:background="@android:color/darker_gray"
         android:layout_width="0dp"
         android:layout_height="5dp"
         android:layout_marginTop="10dp"
+        android:thumbOffset="0dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp"
         app:layout_constraintEnd_toEndOf="@+id/imgAvatar"
         app:layout_constraintStart_toStartOf="@+id/imgAvatar"
         app:layout_constraintTop_toBottomOf="@+id/txtArtist"
         tools:ignore="MissingConstraints" />
+
 
     <TextView
         android:id="@+id/txtNumberPlay"

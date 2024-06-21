@@ -14,7 +14,8 @@ class MusicLoader(private val context: Context) {
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.ALBUM_ID,
-            MediaStore.Audio.Media.ARTIST
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.DATA
         )
 
         // Thêm điều kiện cho câu truy vấn
@@ -35,6 +36,7 @@ class MusicLoader(private val context: Context) {
             val durationColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
             val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
             val artistColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+            val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idColumn)
@@ -42,8 +44,9 @@ class MusicLoader(private val context: Context) {
                 val albumId = cursor.getLong(albumIdColumn)
                 val duration = cursor.getLong(durationColumn)
                 val artist = cursor.getString(artistColumn)
+                val data = cursor.getString(dataColumn)
 
-                val song = Song(id = id,name = title, duration = duration, albumId = albumId, artist =  artist)
+                val song = Song(id = id,name = title, duration = duration, albumId = albumId, artist =  artist, path = data)
                 musicUriList.add(song)
             }
         }
