@@ -35,8 +35,7 @@ class MusicPlayer(private val context: Context) {
     }
 
 
-    fun setDataSource(song: Song, listSong: List<Song>?) {
-        if (listSong == null && song != null) {
+    fun setDataSource(song: Song, ) {
             release()
             mediaPlayer = MediaPlayer()
             mediaPlayer?.setOnPreparedListener {
@@ -47,46 +46,8 @@ class MusicPlayer(private val context: Context) {
             mediaPlayer?.prepareAsync()
             _isPrepared.value = true
             _isMedia.value = true
-        } else if (listSong != null && song == null) {
-// Nếu danh sách các bài hát được truyền vào
-            preparePlaylist(listSong)
-
-        }
-
     }
 
-    private fun preparePlaylist(listSong: List<Song>) {
-        // Chuẩn bị danh sách các bài hát để phát
-        currentSongIndex = -1 // Reset lại chỉ số bài hát hiện tại
-        playlist = listSong
-        prepareNextSong()
-    }
-
-    private fun prepareNextSong() {
-        currentSongIndex++
-        if (currentSongIndex < playlist!!.size) {
-            val nextSong = playlist!![currentSongIndex]
-            mediaPlayer?.setOnPreparedListener {
-                mediaPlayer?.start()
-                startUpdatingCurrentPosition()
-            }
-            mediaPlayer?.setOnCompletionListener {
-                // Xử lý khi bài hát kết thúc (ví dụ: chuyển sang bài tiếp theo trong danh sách)
-                if (currentSongIndex + 1 < playlist!!.size) {
-                    prepareNextSong()
-                } else {
-                    // Nếu là bài hát cuối cùng trong danh sách, có thể dừng hoặc xử lý tiếp
-                    mediaPlayer?.release()
-                    _isPrepared.value = false
-                    _isMedia.value = false
-                }
-            }
-            mediaPlayer?.setDataSource(context, Uri.parse(nextSong.path))
-            mediaPlayer?.prepareAsync()
-            _isPrepared.value = true
-            _isMedia.value = true
-        }
-    }
 
     fun play() {
         if (isPrepared.value == false && mediaPlayer?.isPlaying == false) {
@@ -129,6 +90,12 @@ class MusicPlayer(private val context: Context) {
                 handler.postDelayed(this, updateInterval)
             }
         })
+    }
+
+    fun setupMediaPlayerListeners(onCompletion: () -> Unit) {
+        mediaPlayer?.setOnCompletionListener {
+            onCompletion.invoke()
+        }
     }
 
 }

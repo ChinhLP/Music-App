@@ -4,7 +4,7 @@ import java.io.Serializable
 
 
 data class DataListPlayList(
-    var id : Long = System.currentTimeMillis(),
+    var id : Long = System.nanoTime(),
     var title : String,
     var userId : Long = 0
     //var listMusic : MutableList<Song>? = mutableListOf()

@@ -145,9 +145,8 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
     override fun onDeleteButtonClick(song: Song, position: Int) {
     }
 
-    override fun onItemClick(song: Song) {
-        viewModel.playSong(song)
-        Log.d("ppp", "$song")
+    override fun onItemClick(song: Song, listPlays: MutableList<Song>) {
+        viewModel.playSong(song,listPlays)
     }
 
 

@@ -2,6 +2,8 @@ package com.example.appmusickotlin.ui.authetication
 
 import android.os.Bundle
 import android.text.InputType
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,6 +97,7 @@ class SignUpFragment : Fragment() {
                 val password = binding.edtPasswordSignup.text.toString()
 
                 val user = UserEntity(username = username , email = email, password = password )
+                authViewModel.signUp(user)
                 userViewModel.insert(user)
 
 
@@ -107,14 +110,17 @@ class SignUpFragment : Fragment() {
     }
 
     private fun togglePasswordVisibility(editText: EditText, imageView: ImageView) {
-        if (editText.inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-            editText.inputType =
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        if (editText.transformationMethod == PasswordTransformationMethod.getInstance()) {
+            // Đang ẩn mật khẩu, chuyển sang hiển thị mật khẩu
+            editText.transformationMethod = HideReturnsTransformationMethod.getInstance()
             imageView.setImageResource(R.drawable.ic_eyeclose)
         } else {
-            editText.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+            // Đang hiển thị mật khẩu, chuyển sang ẩn mật khẩu
+            editText.transformationMethod = PasswordTransformationMethod.getInstance()
             imageView.setImageResource(R.drawable.ic_eye)
         }
+        // Di chuyển con trỏ đến cuối văn bản
+        editText.setSelection(editText.text.length)
     }
 
     private fun setupFocusListeners() {

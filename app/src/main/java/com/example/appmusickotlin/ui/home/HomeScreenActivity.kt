@@ -24,6 +24,8 @@ import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.MusicRemoteViewModel
+import com.example.appmusickotlin.model.saveUser
+import com.example.appmusickotlin.model.setMyUser
 import com.example.appmusickotlin.service.ForegroundService
 //import com.example.appmusickotlin.model.saveUser
 //import com.example.appmusickotlin.model.setMyUser
@@ -47,7 +49,7 @@ class HomeScreenActivity : AppCompatActivity() {
 
 
     private var play = true
-    private lateinit var songCurrent : Song
+//    private lateinit var songCurrent : Song
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -132,32 +134,42 @@ class HomeScreenActivity : AppCompatActivity() {
         }
 
         currentPositionObserver = Observer { newPosition ->
+
             // Chỉ cập nhật giá trị của SeekBar khi không có sự kiện vuốt (tracking touch)
             binding.seekBar.progress = newPosition
         }
 
-
-        homeViewModel.song.observe(this, Observer { song ->
+        homeViewModel.listSong.observe(this, Observer { listSong ->
             val serviceIntent = Intent(this, ForegroundService::class.java).apply {
-                action = "ACTION_RESUME"
+                action = "ACTION_LOAD_LIST"
             }
-            songCurrent = song
-
-
             val args = Bundle()
-            args.putSerializable("song_", song)
+            args.putSerializable("listSong",  ArrayList(listSong))
             serviceIntent.putExtras(args)
             startService(serviceIntent)
-            binding.vListener.setOnClickListener {
-                val intent = Intent(this,ListenMusicActivity::class.java)
-                val arg = Bundle()
-                arg.putSerializable("song", song)
-                intent.putExtras(arg)
-                startActivity(intent)
-            }
 
         })
 
+        homeViewModel.song.observe(this, Observer { song ->
+            Log.d("dddd", song.toString())
+            val serviceIntents = Intent(this, ForegroundService::class.java).apply {
+                action = "ACTION_RESUME"
+            }
+            val arg = Bundle()
+            arg.putSerializable("song",  song)
+            serviceIntents.putExtras(arg)
+            startService(serviceIntents)
+
+
+
+        })
+
+
+        binding.vListener.setOnClickListener {
+            val intent = Intent(this,ListenMusicActivity::class.java)
+
+            startActivity(intent)
+        }
         binding.ibnCloseService.setOnClickListener {
             val serviceIntent = Intent(this, ForegroundService::class.java).apply {
                 action = "ACTION_CLOSE"
@@ -261,6 +273,18 @@ class HomeScreenActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        val myUser = setMyUser()
+        saveUser(myUser)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val myUser = setMyUser()
+        saveUser(myUser)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (::foregroundService.isInitialized) {
@@ -273,6 +297,8 @@ class HomeScreenActivity : AppCompatActivity() {
             // Nếu chỉ có một fragment trong ngăn xếp, kết thúc activity
             finish()
         }
+        val myUser = setMyUser()
+        saveUser(myUser)
     }
 
 }

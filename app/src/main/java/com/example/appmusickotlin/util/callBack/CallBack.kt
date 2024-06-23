@@ -22,7 +22,7 @@ interface OnItemClickListener {
 }
 
 interface OnMusicClickListener {
-    fun onItemClick(song: Song)
+    fun onItemClick(song: Song , playList: MutableList<Song>)
 }
 
 interface OnEditPopupAlbumButtonClickListener {

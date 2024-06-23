@@ -19,9 +19,15 @@ import kotlinx.coroutines.launch
 class AuthViewModel : ViewModel(){
     private var _currentFragment = MutableLiveData<String>()
     var currentFragment: LiveData<String> = _currentFragment
+    private  var _user = MutableLiveData<UserEntity>()
+    var user: LiveData<UserEntity> = _user
 
 
 
+
+    fun signUp(user : UserEntity) {
+        _user.value = user
+    }
 
 
     fun navigateToSignIn() {

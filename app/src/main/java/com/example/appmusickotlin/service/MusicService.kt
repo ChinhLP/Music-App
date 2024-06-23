@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.ui.viewModel.MediaViewModel
 import com.example.appmusickotlin.databinding.FragmentHomefragmentBinding
+import com.example.appmusickotlin.model.Song
+import java.util.Collections.list
 
 
 class MusicService : Service() {
@@ -21,7 +23,7 @@ class MusicService : Service() {
 
     private var mediaPlayer: MediaPlayer? = null
     private val channelId = "MusicServiceChannel"
-    private val songList = listOf(R.raw.kemduyen, R.raw.nenvahoa, R.raw.yeu5)
+    private val songList : List<Song> = listOf()
     private var currentSongIndex = 0
     private var isPlaying: Boolean = false
     private lateinit var mediaViewModel : MediaViewModel
@@ -43,7 +45,7 @@ class MusicService : Service() {
         createNotificationChannel()
 
         // Khởi tạo MediaPlayer với đường dẫn tới file nhạc trên thiết bị
-        mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+        mediaPlayer = MediaPlayer.create(this, null)
         mediaPlayer?.isLooping = true
     }
 
@@ -83,13 +85,13 @@ class MusicService : Service() {
             mediaPlayer?.stop()
             mediaPlayer?.release()
             currentSongIndex = 0
-            mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+            mediaPlayer = MediaPlayer.create(this, null)
             mediaPlayer?.start()
         } else {
             mediaPlayer?.stop()
             mediaPlayer?.release()
             currentSongIndex++
-            mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+            mediaPlayer = MediaPlayer.create(this, null)
             mediaPlayer?.start()
         }
 
@@ -103,13 +105,13 @@ class MusicService : Service() {
             mediaPlayer?.stop()
             mediaPlayer?.release()
             currentSongIndex = songList.size - 1
-            mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+            mediaPlayer = MediaPlayer.create(this, null)
             mediaPlayer?.start()
         } else {
             mediaPlayer?.stop()
             mediaPlayer?.release()
             currentSongIndex--
-            mediaPlayer = MediaPlayer.create(this, songList[currentSongIndex])
+            mediaPlayer = MediaPlayer.create(this, null)
             mediaPlayer?.start()
         }
 

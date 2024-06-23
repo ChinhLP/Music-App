@@ -97,7 +97,7 @@ class MusicAdapter(
 
                 holder.itemView.setOnClickListener {
                     val song = musicUriList[position]
-                    musicClickListener?.onItemClick(song)
+                    musicClickListener?.onItemClick(song , musicUriList)
                 }
 
                 // Thiết lập sự kiện cho nút chỉnh sửa nếu cần

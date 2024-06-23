@@ -30,8 +30,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SigInScreenFragment : Fragment() {
-    private var _binding: FragmentSigInScreenBinding? = null
-    private val binding get() = _binding!!
+    private var binding: FragmentSigInScreenBinding? = null
     private lateinit var authViewModel: AuthViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var playlistViewModel: PlaylistViewModel
@@ -42,8 +41,8 @@ class SigInScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSigInScreenBinding.inflate(inflater, container, false)
-        return binding.root
+        binding = FragmentSigInScreenBinding.inflate(inflater, container, false)
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,10 +52,16 @@ class SigInScreenFragment : Fragment() {
         playlistViewModel = ViewModelProvider(requireActivity()).get(PlaylistViewModel::class.java)
         musicViewModel = ViewModelProvider(requireActivity()).get(MusicViewModel::class.java)
 
-        binding.btnLogin.setOnClickListener {
 
-            val userName = binding.edtEmail.text.toString()
-            val password = binding.edtPassword.text.toString()
+        authViewModel.user.observe(requireActivity(), Observer { user ->
+            binding?.edtEmail?.setText(user.username)
+            binding?.edtPassword?.setText(user.password)
+        })
+
+        binding?.btnLogin?.setOnClickListener {
+
+            val userName = binding!!.edtEmail.text.toString()
+            val password = binding!!.edtPassword.text.toString()
 
             // Query dữ liệu từ database
 
@@ -81,7 +86,6 @@ class SigInScreenFragment : Fragment() {
                 }
 
 
-
             })
             // Xử lý dữ liệu user ở đây
 
@@ -93,28 +97,30 @@ class SigInScreenFragment : Fragment() {
     }
 
     private fun backSignUp() {
-        binding.txtSignup.setOnClickListener {
+        binding?.txtSignup?.setOnClickListener {
             authViewModel.navigateToSignUp()
         }
     }
 
     private fun showPassword() {
-        binding.imgShowPassword.setOnClickListener {
-            if (binding.edtPassword.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-                binding.edtPassword.inputType =
-                    (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                binding.imgShowPassword.setImageResource(R.drawable.ic_eye)
-            } else {
-                binding.edtPassword.inputType =
+        binding!!.imgShowPassword.setOnClickListener {
+            if (binding?.edtPassword!!.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                binding!!.edtPassword.inputType =
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                binding.imgShowPassword.setImageResource(R.drawable.ic_eyeclose)
+                binding!!.imgShowPassword.setImageResource(R.drawable.ic_eyeclose)
+            } else {
+                binding!!.edtPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding!!.imgShowPassword.setImageResource(R.drawable.ic_eye)
             }
+            // Move the cursor to the end of the text
+            binding!!.edtPassword.setSelection(binding!!.edtPassword.text.length)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
 

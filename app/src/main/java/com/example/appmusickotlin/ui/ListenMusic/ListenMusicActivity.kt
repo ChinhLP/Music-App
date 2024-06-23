@@ -28,6 +28,9 @@ class ListenMusicActivity : AppCompatActivity() {
     private lateinit var currentPositionObserver: Observer<Int>
     private lateinit var currentPlayObserver : Observer<Boolean>
     private lateinit var foregroundService: ForegroundService
+    private lateinit var currentSongObserver : Observer<Song>
+
+
 
     private var play = true
 
@@ -39,6 +42,7 @@ class ListenMusicActivity : AppCompatActivity() {
             // Quan sát currentPosition từ ForegroundService
             foregroundService.currentPosition.observe(this@ListenMusicActivity, currentPositionObserver)
             foregroundService.isPrepared.observe(this@ListenMusicActivity, currentPlayObserver)
+            foregroundService.song.observe(this@ListenMusicActivity, currentSongObserver)
 
         }
 
@@ -58,23 +62,39 @@ class ListenMusicActivity : AppCompatActivity() {
 
 
 
-        val song = intent.getSerializableExtra("song") as? Song
 
         currentPositionObserver = Observer { newPosition ->
             binding.sbMusic.progress = newPosition
             binding.txtNumberPlay.text = newPosition.toLong().formatDuration()
         }
+        currentSongObserver = Observer { song ->
+            binding.sbMusic.max = song.duration!!.toInt()
+            binding.txtMusic.text = song.name
+            binding.txtArtist.text = song.artist
+            binding.txtNumberEnd.text = song.duration!!.formatDuration()
 
-        binding.sbMusic.max = song!!.duration!!.toInt()
-        binding.txtMusic.text = song.name
-        binding.txtArtist.text = song.artist
-        binding.txtNumberEnd.text = song.duration!!.formatDuration()
+
+        }
 
 
         currentPlayObserver = Observer { isPlaying ->
             play = isPlaying
             changePlayMusic()
         }
+
+        binding.btnNext.setOnClickListener {
+            val serviceIntent = Intent(this, ForegroundService::class.java).apply {
+                action = "ACTION_NEXT"
+            }
+            startService(serviceIntent)
+        }
+        binding.btnPrevious.setOnClickListener {
+            val serviceIntent = Intent(this, ForegroundService::class.java).apply {
+                action = "ACTION_PREVIOUS"
+            }
+            startService(serviceIntent)
+        }
+
 
         binding.btnPlayMusic.setOnClickListener {
             if (play) {
@@ -103,6 +123,7 @@ class ListenMusicActivity : AppCompatActivity() {
             startService(serviceIntent)
             finish()
         }
+
 
 
         setContentView(binding.root)

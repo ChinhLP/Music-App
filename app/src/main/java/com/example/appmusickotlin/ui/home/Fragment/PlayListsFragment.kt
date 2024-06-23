@@ -32,10 +32,11 @@ import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.ui.popup.DialogRenamePlaylistFragment
 import com.example.appmusickotlin.util.callBack.OnEditPopupAlbumButtonClickListener
+import com.example.appmusickotlin.util.callBack.OnMusicClickListener
 
 
 class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener,
-    OnEditButtonClickListener, OnEditPopupAlbumButtonClickListener {
+    OnEditButtonClickListener, OnEditPopupAlbumButtonClickListener, OnMusicClickListener {
     private lateinit var binding: FragmentPlaylistsfragmentBinding
     private var idPlayList: Long = 0
     private lateinit var viewModel: HomeViewModel
@@ -209,6 +210,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                             requireContext(),
                             listMusic, this, false, false
                         )
+                        musicAdapter.setOnMusicClickListener(this)
                         binding.rccMusicAlbum.layoutManager = LinearLayoutManager(this.context)
                         binding.rccMusicAlbum.adapter = musicAdapter
 
@@ -216,6 +218,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                             requireContext(),
                             listMusic, this, false, true
                         )
+                        musicGridAdapter.setOnMusicClickListener(this)
                         binding.rccGridMusicAlbum.layoutManager = GridLayoutManager(this.context, 2)
                         binding.rccGridMusicAlbum.adapter = musicGridAdapter
 
@@ -308,6 +311,11 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
         popupMenu.show()
 
 
+    }
+
+    override fun onItemClick(song: Song, playList: MutableList<Song>) {
+
+        viewModel.playSong(song,playList)
     }
 
 }

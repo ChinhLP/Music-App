@@ -5,7 +5,7 @@ import android.os.Parcelable
 import java.io.Serializable
 
 data class Song(
-    var id : Long = System.currentTimeMillis(),
+    var id : Long = System.nanoTime(),
     var name : String? = null,
     var duration : Long? = null,
     var kind : String? = null,
