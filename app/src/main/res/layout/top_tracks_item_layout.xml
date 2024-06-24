@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/avatar_track"
+        android:scaleType="centerCrop"
+        android:background="@drawable/rounded_boder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:id="@+id/songTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Song Title"
+
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:lineHeight="24px"
+        android:maxLength="18"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/avatarImageView"
+        app:layout_constraintTop_toTopOf="@+id/avatarImageView"
+        />
+
+    <ImageView
+        android:id="@+id/imvPlayCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_play_count"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="@+id/avatarImageView"
+        app:layout_constraintBottom_toTopOf="@+id/imvArtist"
+        />
+    <TextView
+        android:id="@+id/txtNumberPlay"
+        android:text="972846"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/imvPlayCount"
+        app:layout_constraintBottom_toBottomOf="@+id/imvPlayCount"
+        app:layout_constraintTop_toTopOf="@+id/imvPlayCount"
+        />
+
+    <ImageView
+        android:id="@+id/imvArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_artist"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="@+id/avatarImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarImageView"
+        />
+    <TextView
+         android:id="@+id/txtListeners"
+        android:text="Sabrina Carpenter"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/imvArtist"
+        app:layout_constraintBottom_toBottomOf="@+id/imvArtist"
+        app:layout_constraintTop_toTopOf="@+id/imvArtist"
+        />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        app:layout_constraintStart_toStartOf="@+id/avatarImageView"
+        app:layout_constraintEnd_toEndOf="@+id/avatarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/avatarImageView"
+        android:background="@android:color/holo_green_light"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

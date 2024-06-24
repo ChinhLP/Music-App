@@ -35,11 +35,13 @@ class PlaylistViewModel(application: Application) : AndroidViewModel(application
     fun insert(playlist: DataListPlayList) = viewModelScope.launch{
         _playlistRepository.insert(playlist)
     }
+
     fun getPlaylist(userId : Long) = viewModelScope.launch{
         playlist = _playlistRepository.getPlaylist(userId)
         Log.d("ppp" , playlist.toString())
 
     }
+
     fun deletePlaylist(userId : Long) = viewModelScope.launch{
         _playlistRepository.delete(userId)
     }

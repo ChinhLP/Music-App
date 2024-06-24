@@ -7,15 +7,97 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".ui.home.Fragment.HomeFragment">
+
     <ImageButton
+        android:id="@+id/imbSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_setting"
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imvAvatar"
+        app:layout_constraintTop_toTopOf="@+id/imvAvatar"
+
         android:layout_marginEnd="30dp"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imvAvatar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_user"
+        android:padding="6dp"
+        app:shapeAppearanceOverlay="@style/CircleImageView"
+        app:strokeColor="#00DBFC"
+        app:strokeWidth="3dp"
+        android:layout_marginStart="20dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="25dp"
+        />
+
+    <TextView
+        android:id="@+id/txtWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome back !"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:lineHeight="22.5px"
+        app:layout_constraintBottom_toTopOf="@+id/txtUsername"
+        app:layout_constraintStart_toEndOf="@+id/imvAvatar"
+        app:layout_constraintTop_toTopOf="@+id/imvAvatar"/>
+    <TextView
+        android:id="@+id/txtUsername"
+        android:text="chandrama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:layout_marginStart="15dp"
+        android:lineHeight="18px"
+        android:letterSpacing="0.03"
+        app:layout_constraintTop_toBottomOf="@+id/txtWelcome"
+        app:layout_constraintStart_toEndOf="@+id/imvAvatar"
+        app:layout_constraintBottom_toBottomOf="@+id/imvAvatar"/>
+
+
+    <ImageView
+        android:id="@+id/imvKing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_king"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/imvAvatar"
+        app:layout_constraintStart_toStartOf="@+id/imvAvatar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rankings"
+        android:textColor="#00C2CB"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        app:layout_constraintStart_toEndOf="@+id/imvKing"
+        app:layout_constraintTop_toTopOf="@+id/imvKing"
+        app:layout_constraintBottom_toBottomOf="@+id/imvKing"
+        android:layout_marginStart="15dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rccParent"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/imvKing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 

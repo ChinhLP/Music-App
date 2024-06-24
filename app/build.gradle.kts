@@ -50,6 +50,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
 
 
+    implementation ("com.google.android.material:material:1.12.0")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation ("com.orhanobut:hawk:2.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")

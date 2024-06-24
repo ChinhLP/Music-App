@@ -26,7 +26,6 @@ class PlaylistRepository(private val playlistDao : PlaylistDao) {
         }
     }
     suspend fun getPlaylist(userId : Long) : LiveData<MutableList<DataListPlayList>> {
-
         return withContext(Dispatchers.IO) {
             val playlistEntities =  playlistDao.getPlaylistsByUserId(userId)
             val dataListPlayLists: LiveData<MutableList<DataListPlayList>> = playlistEntities.toDataListPlayListLiveData()
