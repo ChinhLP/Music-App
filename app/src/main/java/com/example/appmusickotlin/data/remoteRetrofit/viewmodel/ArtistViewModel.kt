@@ -11,18 +11,34 @@ import com.example.appmusickotlin.data.remoteRetrofit.repository.ArtistRepositor
 
 class ArtistViewModel : ViewModel() {
     private val artistRepository = ArtistRepository()
-    private val _artists = MutableLiveData<State<MutableList<Artist>>>()
+    private val _artists = MutableLiveData<State<MutableList<Artist>>?>()
+    private val _allArtists = MutableLiveData<State<MutableList<Artist>>?>()
 
-    val artist: LiveData<State<MutableList<Artist>>> get() = _artists
 
-    fun fetchTopArtist(apiKey: String, format: String, method: String,mbid: String) {
+    val artist: LiveData<State<MutableList<Artist>>?> get() = _artists
+    val allArtists: LiveData<State<MutableList<Artist>>?> get() = _allArtists
+
+
+    fun fetchTop5Artists(apiKey: String, format: String, method: String, limit: Int = 5) {
         _artists.value = State.Loading
-        artistRepository.getTopArtists() { artistList, error ->
+        artistRepository.getTopArtists(apiKey, format, method) { artistList, error ->
             if (error != null) {
                 _artists.value = State.Error(error)
             } else if (artistList != null) {
-                _artists.value = State.Success(artistList)
+                val limitedArtistList = artistList.take(limit).toMutableList()
+                _artists.value = State.Success(limitedArtistList)
             }
         }
     }
+    fun fetchTopArtists(apiKey: String, format: String, method: String) {
+        _allArtists.value = State.Loading
+        artistRepository.getTopArtists(apiKey, format, method) { artistList, error ->
+            if (error != null) {
+                _allArtists.value = State.Error(error)
+            } else if (artistList != null) {
+                _allArtists.value = State.Success(artistList)
+            }
+        }
+    }
+
 }

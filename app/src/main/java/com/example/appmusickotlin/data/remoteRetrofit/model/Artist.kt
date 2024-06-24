@@ -13,7 +13,7 @@ data class Artist(
     val images: List<Image>? = null,
 )
 
-data class Image(
+data class ImageArtist(
     @SerializedName("#text") val text: String,
     val size: String
 )

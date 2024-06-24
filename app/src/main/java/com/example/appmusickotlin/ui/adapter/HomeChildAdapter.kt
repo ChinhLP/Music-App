@@ -9,6 +9,7 @@ import com.example.appmusickotlin.data.remoteRetrofit.model.Album
 import com.example.appmusickotlin.data.remoteRetrofit.model.Artist
 import com.example.appmusickotlin.data.remoteRetrofit.model.Track
 import com.example.appmusickotlin.databinding.PlaylistItemLayoutBinding
+import com.example.appmusickotlin.databinding.TopAlbumItemLayoutBinding
 import com.example.appmusickotlin.databinding.TopArtistItemLayoutBinding
 import com.example.appmusickotlin.databinding.TopTracksItemLayoutBinding
 import com.example.appmusickotlin.model.ParentItem
@@ -20,7 +21,7 @@ class HomeChildAdapter(
     private var type: Int
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class AlbumViewHolder(val binding: PlaylistItemLayoutBinding) :
+    inner class AlbumViewHolder(val binding: TopAlbumItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     inner class ArtistViewHolder(val binding: TopArtistItemLayoutBinding) :
@@ -33,7 +34,7 @@ class HomeChildAdapter(
         return when (type) {
             1 -> {
                 val inflater = LayoutInflater.from(parent.context)
-                val binding = PlaylistItemLayoutBinding.inflate(inflater, parent, false)
+                val binding = TopAlbumItemLayoutBinding.inflate(inflater, parent, false)
                 AlbumViewHolder(binding)
             }
             3 -> {

@@ -31,35 +31,30 @@ class HomeParentAdapter(
         when (item) {
             is ChildItem.TypeAlbum -> {
                 holder.binding.txtTopAlbum.text = "Top Albums"
-                val albumAdapter = HomeChildAdapter(null , null , null, 1) // Assuming HomeChildAdapter accepts MutableList<Album>
-                holder.binding.rccTopMusic.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                val albumAdapter = HomeChildAdapter(item.data, null, null, 1)
+                holder.binding.rccTopMusic.layoutManager = GridLayoutManager(context, 3, RecyclerView.HORIZONTAL, false)
                 holder.binding.rccTopMusic.adapter = albumAdapter
             }
             is ChildItem.TypeTracks -> {
                 holder.binding.txtTopAlbum.text = "Top Tracks"
-                val trackAdapter = HomeChildAdapter(null , null , null, 3) // Assuming HomeChildAdapter accepts MutableList<Track>
+                val trackAdapter = HomeChildAdapter(null, null, item.data, 3)
                 holder.binding.rccTopMusic.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 holder.binding.rccTopMusic.adapter = trackAdapter
             }
             is ChildItem.TypeArtist -> {
                 holder.binding.txtTopAlbum.text = "Top Artists"
-                Log.d("ArtistData", "+++${item.data}")
-
-                val artistAdapter = HomeChildAdapter(null,item.data,null, 2) // Assuming HomeChildAdapter accepts MutableList<Artist>
-                holder.binding.rccTopMusic.layoutManager = GridLayoutManager(context,  5, RecyclerView.HORIZONTAL, false)
+                val artistAdapter = HomeChildAdapter(null, item.data, null, 2)
+                holder.binding.rccTopMusic.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 holder.binding.rccTopMusic.adapter = artistAdapter
-
             }
             else -> {
-                Log.d("ArtistData", "null -----")
-
+                Log.d("ArtistData", "Unknown item type: $item")
                 // Handle other cases or null items as needed
             }
         }
     }
 
     override fun getItemCount(): Int {
-        Log.d("99", "${parentItemList?.size}")
         return parentItemList?.size ?: 0
     }
 }
