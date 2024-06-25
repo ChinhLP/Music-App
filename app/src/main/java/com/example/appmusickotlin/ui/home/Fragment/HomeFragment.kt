@@ -11,26 +11,29 @@ import android.view.LayoutInflater
 import android.view.View
 
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.appmusickotlin.R
 import com.example.appmusickotlin.data.remoteRetrofit.Result.State
-import com.example.appmusickotlin.data.remoteRetrofit.model.Artist
 import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.AlbumViewModel
 import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.ArtistViewModel
 import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.TrackViewModel
-import com.example.appmusickotlin.ui.viewModel.MediaViewModel
 import com.example.appmusickotlin.databinding.FragmentHomefragmentBinding
 import com.example.appmusickotlin.model.ChildItem
+import com.example.appmusickotlin.model.User
+import com.example.appmusickotlin.ui.SeeAll.SeeAllActivity
 import com.example.appmusickotlin.ui.adapter.HomeParentAdapter
+import com.example.appmusickotlin.ui.profile.ProfileActivity
+import com.example.appmusickotlin.util.callBack.OnSeeALLListener
 
 //import com.example.appmusickotlin.model.User
 //import com.example.appmusickotlin.model.saveUser
 //import com.example.appmusickotlin.model.setMyUser
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment() , OnSeeALLListener {
 
     private lateinit var binding: FragmentHomefragmentBinding
     private val parentItemList = ArrayList<Any?>()
@@ -40,6 +43,7 @@ class HomeFragment : Fragment() {
     private lateinit var albumsViewModel: AlbumViewModel
     private lateinit var tracksViewModel: TrackViewModel
     private var successCount = 0
+    private var errorCount = 0
 
 
     private var isPlay: Boolean = false
@@ -56,12 +60,21 @@ class HomeFragment : Fragment() {
         super.onResume()
         val filter = IntentFilter("com.example.syncbuttons.PLAY_ACTION")
         requireContext().registerReceiver(playBroadcastReceiver, filter)
+        if(User.imageAvatar != ""){
+            Glide.with(this)
+                .load(User.imageAvatar)
+                .placeholder(R.drawable.profile) // Hình ảnh hiển thị trong khi chờ tải
+                .error(R.drawable.profile) // Hình ảnh hiển thị khi tải thất bại
+                .into(binding.imvAvatar)
+        }
+        binding.txtUsername.setText(User.username)
     }
 
     override fun onPause() {
         super.onPause()
         requireContext().unregisterReceiver(playBroadcastReceiver)
     }
+
 
     private fun sendPlayStateToActivity() {
         val intent = Intent("com.example.syncbuttons.PLAY_ACTION")
@@ -86,30 +99,27 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        albumsViewModel.getTop6Albums(
-            apiKey = "e65449d181214f936368984d4f4d4ae8",
-            format = "json",
-            method = "artist.getTopAlbums",
-            mbid = "f9b593e6-4503-414c-99a0-46595ecd2e23"
-        )
-        tracksViewModel.getTop5tracks(
-            apiKey = "e65449d181214f936368984d4f4d4ae8",
-            format = "json",
-            method = "artist.getTopTracks",
-            mbid = "f9b593e6-4503-414c-99a0-46595ecd2e23"
-        )
-        artistsViewModel.fetchTop5Artists(
-            apiKey = "e65449d181214f936368984d4f4d4ae8",
-            format = "json",
-            method = "chart.gettopartists",
-        )
+        getData()
 
 
+        if(User.imageAvatar != ""){
+            Glide.with(this)
+                .load(User.imageAvatar)
+                .placeholder(R.drawable.profile) // Hình ảnh hiển thị trong khi chờ tải
+                .error(R.drawable.profile) // Hình ảnh hiển thị khi tải thất bại
+                .into(binding.imvAvatar)
+        }
+        binding.txtUsername.setText(User.username)
 
+        binding.imvAvatar.setOnClickListener {
+            val intent = Intent(requireActivity(),ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
-        val parentAdapter = HomeParentAdapter(requireContext(), parentItemList)
+        val parentAdapter = HomeParentAdapter(requireContext(), parentItemList,this)
         binding.rccParent.layoutManager = LinearLayoutManager(requireContext())
         binding.rccParent.adapter = parentAdapter
+
 
 
         albumsViewModel.album.observe(viewLifecycleOwner, Observer { state ->
@@ -119,17 +129,20 @@ class HomeFragment : Fragment() {
                     Log.d("YourFragment", "Success---: $albumList")
                     parentItemList.removeAll {it is ChildItem.TypeAlbum}
 
-                    if(albumList != null&& albumList.isNotEmpty()){
+                    if(albumList != null && albumList.isNotEmpty()){
                         parentItemList.add(0, ChildItem.TypeAlbum(albumList))
                         parentAdapter.notifyDataSetChanged()
                     }
                     successCount++
+                    Log.d("YourFragment", "Success---: $successCount")
                     checkAllLoaded()
 
                 }
                 is State.Error -> {
                     val errorMessage = state.exception
                     Log.e("YourFragment", "Error: $errorMessage")
+                    errorCount++
+                    checkError()
                     // Handle error state
                 }
                 is State.Loading -> {
@@ -148,18 +161,23 @@ class HomeFragment : Fragment() {
                 is State.Success -> {
                     val trackList = state.data
                     parentItemList.removeAll { it is ChildItem.TypeTracks }
+                    Log.d("YourFragment", "Success---: $trackList")
 
                     if(trackList != null && trackList.isNotEmpty()){
                         parentItemList.add(ChildItem.TypeTracks(trackList))
                         parentAdapter.notifyDataSetChanged()
                     }
                     successCount++
+                    Log.d("YourFragment", "Success---: $successCount")
+
                     checkAllLoaded()
                 }
                 is State.Error -> {
                     val errorMessage = state.exception
                     Log.e("YourFragment", "Error: $errorMessage")
                     // Handle error state
+                    errorCount++
+                    checkError()
                 }
                 is State.Loading -> {
                     // Handle loading state
@@ -185,12 +203,17 @@ class HomeFragment : Fragment() {
                         parentAdapter.notifyDataSetChanged()
                     }
                     successCount++
+
                     checkAllLoaded()
                 }
                 is State.Error -> {
                     val errorMessage = state.exception
                     Log.e("YourFragment", "Error: $errorMessage")
                     // Handle error state
+                    errorCount++
+                    Log.d("YourFragment", "Success---: $successCount")
+
+                    checkError()
                 }
                 is State.Loading -> {
                     // Handle loading state
@@ -206,6 +229,34 @@ class HomeFragment : Fragment() {
 
         })
 
+        binding.btnTryAgain.setOnClickListener {
+            binding.vAnimation.visibility = View.VISIBLE
+            binding.grNoInternet.visibility = View.GONE
+            getData()
+            checkError()
+        }
+    }
+    private fun getData(){
+        successCount = 0
+        errorCount = 0
+
+        albumsViewModel.getTop6Albums(
+            apiKey = "e65449d181214f936368984d4f4d4ae8",
+            format = "json",
+            method = "artist.getTopAlbums",
+            mbid = "f9b593e6-4503-414c-99a0-46595ecd2e23"
+        )
+        tracksViewModel.getTop5tracks(
+            apiKey = "e65449d181214f936368984d4f4d4ae8",
+            format = "json",
+            method = "artist.getTopTracks",
+            mbid = "f9b593e6-4503-414c-99a0-46595ecd2e23"
+        )
+        artistsViewModel.fetchTop5Artists(
+            apiKey = "e65449d181214f936368984d4f4d4ae8",
+            format = "json",
+            method = "chart.gettopartists"
+        )
 
     }
     private fun sortParentItemList() {
@@ -224,6 +275,18 @@ class HomeFragment : Fragment() {
             binding.vAnimation.visibility = View.GONE
             binding.rccParent.visibility = View.VISIBLE
         }
+    }
+    private fun checkError() {
+        if(errorCount != 0){
+            binding.vAnimation.visibility = View.GONE
+            binding.grNoInternet.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onSeeAll(type : Int) {
+        val intent = Intent(requireActivity(), SeeAllActivity::class.java)
+        intent.putExtra("type", type)
+        startActivity(intent)
     }
 
 

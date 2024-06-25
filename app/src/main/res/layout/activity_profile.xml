@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.profile.ProfileActivity">
+    <ImageButton
+        android:id="@+id/imbBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/txtProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Profile"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imbBack"
+        />
+
+    <ImageButton
+        android:id="@+id/imbOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_ok"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imvAvatar"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile"
+        android:padding="6dp"
+        app:shapeAppearanceOverlay="@style/CircleImageView"
+        app:strokeColor="#00DBFC"
+        app:strokeWidth="3dp"
+        android:layout_marginStart="20dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imvCamera"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@android:color/darker_gray"
+        android:padding="6dp"
+        android:scaleType="center"
+        android:src="@drawable/camera"
+        app:layout_constraintBottom_toBottomOf="@+id/imvAvatar"
+        app:layout_constraintEnd_toEndOf="@+id/imvAvatar"
+        app:layout_constraintStart_toStartOf="@+id/imvAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/imvAvatar"
+        app:shapeAppearanceOverlay="@style/CircleImageView"
+        app:strokeColor="#00DBFC"
+        app:strokeWidth="3dp"
+        tools:ignore="MissingConstraints" />
+    <EditText
+        android:drawableStart="@drawable/ic_username"
+        android:drawablePadding="10dp"
+        android:id="@+id/edtUsername"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:ems="10"
+        android:hint="@string/SignUp_username_hint"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:textColor="#888888"
+        android:textColorHint="@color/HindTextField"
+        app:layout_constraintTop_toBottomOf="@id/imvCamera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:drawableStart="@drawable/ic_mail"
+        android:drawablePadding="10dp"
+        android:id="@+id/edtEmailSignup"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/rounded_edittext_background"
+        android:ems="10"
+        android:hint="@string/SignUp_email_hint"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:textColor="#888888"
+        android:textColorHint="@color/HindTextField"
+        app:layout_constraintTop_toBottomOf="@+id/edtUsername"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/vDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/txtLogOut"
+        app:constraint_referenced_ids="vDivider,imvLogOut,vLogOut"
+        />
+    <View
+        android:id="@+id/vDivider"
+        android:layout_width="match_parent"
+        android:background="#525252"
+        android:layout_height="2dp"
+        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imvLogOut"/>
+    <View
+        android:id="@+id/vLogOut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/vDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/txtLogOut"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/imvLogOut"
+        android:src="@drawable/ic_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintStart_toStartOf="@+id/vDivider"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtLogOut"
+        android:layout_marginHorizontal="10dp"
+        android:text="Log Out"
+        android:textColor="#D00000"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imvLogOut"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

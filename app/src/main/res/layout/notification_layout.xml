@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/imvLogo"
+        android:src="@drawable/ic_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:layout_marginStart="20dp"
+        android:id="@+id/txtApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notification Title"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/imvLogo"
+        app:layout_constraintBottom_toBottomOf="@+id/imvLogo"
+        app:layout_constraintTop_toTopOf="@+id/imvLogo"
+        />
+    <TextView
+        android:layout_marginStart="20dp"
+        android:id="@+id/txtNumberCurrentMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/txtApp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtApp"
+        app:layout_constraintTop_toTopOf="@+id/txtApp"
+        />
+    <TextView
+        android:id="@+id/txtSpace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/txtNumberCurrentMusic"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNumberCurrentMusic"
+        app:layout_constraintTop_toTopOf="@+id/txtNumberCurrentMusic"
+        />
+    <TextView
+        android:id="@+id/txtFullNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/txtSpace"
+        app:layout_constraintBottom_toBottomOf="@+id/txtSpace"
+        app:layout_constraintTop_toTopOf="@+id/txtSpace"
+        />
+
+    <TextView
+        android:id="@+id/txtNameMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="Name Music"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/imvLogo"
+        app:layout_constraintTop_toBottomOf="@+id/imvLogo"/>
+    <TextView
+        android:id="@+id/txtArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="artist"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/txtNameMusic"
+        app:layout_constraintStart_toStartOf="@+id/txtNameMusic"/>
+
+    <ImageButton
+        android:id="@+id/imvDelete"
+        android:src="@drawable/ic_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNameMusic"
+
+        />
+    <ImageButton
+        android:id="@+id/imvNext"
+        android:src="@drawable/ic_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/imvDelete"
+        app:layout_constraintTop_toTopOf="@+id/imvDelete"
+        app:layout_constraintBottom_toBottomOf="@+id/imvDelete"
+
+        />
+    <ImageButton
+        android:id="@+id/imvPlay"
+        android:src="@drawable/ic_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/imvNext"
+        app:layout_constraintTop_toTopOf="@+id/imvDelete"
+        app:layout_constraintBottom_toBottomOf="@+id/imvDelete"
+
+        />
+    <ImageView
+        android:id="@+id/imvPrevious"
+        android:src="@drawable/ic_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/imvPlay"
+        app:layout_constraintTop_toTopOf="@+id/imvDelete"
+        app:layout_constraintBottom_toBottomOf="@+id/imvDelete"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

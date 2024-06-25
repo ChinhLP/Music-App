@@ -273,18 +273,6 @@ class HomeScreenActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        val myUser = setMyUser()
-        saveUser(myUser)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        val myUser = setMyUser()
-        saveUser(myUser)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         if (::foregroundService.isInitialized) {
@@ -297,8 +285,6 @@ class HomeScreenActivity : AppCompatActivity() {
             // Nếu chỉ có một fragment trong ngăn xếp, kết thúc activity
             finish()
         }
-        val myUser = setMyUser()
-        saveUser(myUser)
     }
 
 }

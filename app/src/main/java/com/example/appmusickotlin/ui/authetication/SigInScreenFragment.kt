@@ -24,6 +24,8 @@ import com.example.appmusickotlin.model.User.username
 import com.example.appmusickotlin.ui.authetication.viewmodel.AuthViewModel
 import com.example.appmusickotlin.ui.home.HomeScreenActivity
 import com.example.appmusickotlin.data.local.db.viewmodel.UserViewModel
+import com.example.appmusickotlin.model.saveUser
+import com.example.appmusickotlin.model.setMyUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -77,6 +79,9 @@ class SigInScreenFragment : Fragment() {
 
                         val intent = Intent(requireActivity(), HomeScreenActivity::class.java)
                         startActivity(intent)
+
+                        val myUser = setMyUser()
+                        saveUser(myUser)
 
                         requireActivity().finish()
                     } else {

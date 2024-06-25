@@ -7,7 +7,9 @@ import android.app.PendingIntent
 import android.app.Service.NOTIFICATION_SERVICE
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startForegroundService
@@ -17,10 +19,14 @@ import com.example.appmusickotlin.ui.home.HomeScreenActivity
 
 class NotificationManager(private val context: Context) {
 
+    private lateinit var mediaSession: MediaSessionCompat
+
     private val CHANNEL_ID = "MusicPlayerChannel"
 
     init {
         createNotificationChannel()
+        initializeMediaSession()
+
     }
 
     private fun createNotificationChannel() {
@@ -39,13 +45,10 @@ class NotificationManager(private val context: Context) {
         }
     }
 
-    fun buildNotification(contentText: String): Notification {
-
+    fun buildNotification(context: Context, contentText: String): Notification {
         val notificationIntent = Intent(context, ListenMusicActivity::class.java)
-
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
-        // bao bọc notificationIntent và có thể được sử dụng để khởi chạy ListenMusicActivity khi người dùng nhấn vào thông báo
         val pendingIntent = PendingIntent.getActivity(
             context,
             0,
@@ -53,20 +56,30 @@ class NotificationManager(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // Build the notification
+        // Load large icon from drawable
+        val largeIcon = BitmapFactory.decodeResource(context.resources, R.drawable.avatas)
+
+        // Build notification using NotificationCompat.Builder
         return NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setSubText("Tincoder")
             .setContentTitle("Media Service")
             .setContentText(contentText)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentIntent(pendingIntent)
+            .setLargeIcon(largeIcon)
             .addAction(R.drawable.ic_previous, "Previous", null)
             .addAction(R.drawable.ic_play, "Play", null)
             .addAction(R.drawable.ic_next, "Next", null)
-            .addAction(R.drawable.ic_remove, "Cancel", null)
+            .addAction(R.drawable.ic_delete, "Cancel", null)
             .setStyle(
                 androidx.media.app.NotificationCompat.MediaStyle()
-                    .setShowActionsInCompactView(0, 1, 2)
+                    .setShowActionsInCompactView( 0,1,2).setMediaSession(mediaSession.sessionToken) // Show previous, play, next buttons in compact view
             )
+
+//            .setContentIntent(pendingIntent)
+
             .build()
+    }
+    private fun initializeMediaSession() {
+        mediaSession = MediaSessionCompat(context, "MusicPlayerSession")
     }
 }

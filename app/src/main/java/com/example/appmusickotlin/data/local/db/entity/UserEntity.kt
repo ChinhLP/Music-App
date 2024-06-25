@@ -9,5 +9,6 @@ data class UserEntity(
     val id: Long = System.currentTimeMillis(),
     val username: String,
     val email: String,
-    val password: String
+    val password: String,
+    var imageAvatar: String? = ""
 )

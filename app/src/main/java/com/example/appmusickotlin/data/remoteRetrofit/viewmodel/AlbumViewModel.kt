@@ -11,8 +11,10 @@ import com.example.appmusickotlin.data.remoteRetrofit.repository.AlbumRepository
 class AlbumViewModel : ViewModel() {
     private val albumRepository = AlbumRepository()
     private val _album = MutableLiveData<State<MutableList<Album>>>()
+    private val _allAlbum = MutableLiveData<State<MutableList<Album>>>()
 
      val album : LiveData<State<MutableList<Album>>> get() = _album
+    val allAlbum : LiveData<State<MutableList<Album>>> get() = _allAlbum
 
     fun getTop6Albums (apiKey : String , format : String, method : String, mbid : String , limit : Int = 6){
         _album.value = State.Loading
@@ -22,6 +24,16 @@ class AlbumViewModel : ViewModel() {
             } else if (albumList != null) {
                 val limitedArtistList = albumList.take(limit).toMutableList()
                 _album.value = State.Success(limitedArtistList)
+            }
+        }
+    }
+    fun getAllAlbum (apiKey : String , format : String, method : String, mbid : String ) {
+        _allAlbum.value = State.Loading
+        albumRepository.getTopAlbums(apiKey, format, method, mbid) { albumList, error ->
+            if(error != null){
+                _allAlbum.value = State.Error(error)
+            } else if (albumList != null) {
+                _allAlbum.value = State.Success(albumList)
             }
         }
     }

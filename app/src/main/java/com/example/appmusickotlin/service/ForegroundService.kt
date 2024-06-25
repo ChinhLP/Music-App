@@ -51,13 +51,12 @@ class ForegroundService : Service() {
 
         musicPlayer = MusicPlayer(this)
         notificationManager = NotificationManager(this)
-
-        // Create and display the foreground notification
-        val notification = notificationManager.buildNotification("Service is running")
-        startForeground(NOTIFICATION_ID, notification)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+        val notification = notificationManager.buildNotification(this,"Service is running")
+        startForeground(NOTIFICATION_ID, notification)
 
 
         when (intent!!.action) {
@@ -140,6 +139,7 @@ class ForegroundService : Service() {
             handleActionNext()  // Chuyển sang bài hát tiếp theo khi bài hát hiện tại kết thúc
         }
     }
+
     fun findPositionById(musicId: Long): Long {
         listMusic?.let { list ->
             for (index in list.indices) {

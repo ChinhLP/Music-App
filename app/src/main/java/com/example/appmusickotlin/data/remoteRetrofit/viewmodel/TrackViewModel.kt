@@ -10,8 +10,10 @@ import com.example.appmusickotlin.data.remoteRetrofit.repository.TrackRepository
 class TrackViewModel : ViewModel() {
     private val trackRepository = TrackRepository()
     private val _track = MutableLiveData<State<MutableList<Track>>>()
+    private val _allTrack = MutableLiveData<State<MutableList<Track>>>()
 
     val track : LiveData<State<MutableList<Track>>> get() = _track
+    val allTrack : LiveData<State<MutableList<Track>>> get() = _allTrack
 
     fun getTop5tracks (apiKey : String , format : String, method : String, mbid : String , limit : Int = 5){
         _track.value = State.Loading
@@ -21,6 +23,16 @@ class TrackViewModel : ViewModel() {
             } else if (albumList != null) {
                 val limitedArtistList = albumList.take(limit).toMutableList()
                 _track.value = State.Success(limitedArtistList)
+            }
+        }
+    }
+    fun getAllTracks (apiKey : String , format : String, method : String, mbid : String ){
+        _allTrack.value = State.Loading
+        trackRepository.getTopTrack(apiKey, format, method, mbid){ albumList,error ->
+            if(error != null){
+                _allTrack.value = State.Error(error)
+            } else if (albumList != null) {
+                _allTrack.value = State.Success(albumList)
             }
         }
     }

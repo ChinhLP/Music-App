@@ -37,31 +37,38 @@ class SplashActivity : AppCompatActivity() {
 //
 
         Handler().postDelayed({
+
             val isLoggedIn = isLoggedIn()
 
             if (isLoggedIn) {
+                Log.e("SplashActivity", "$isLoggedIn")
+
                 val user = getUser()
                 if (user != null) {
                     User.userId = user.userId!!
                     User.username = user.username
                     User.password = user.password
                     User.email = user.email
+                    User.imageAvatar = user.imageAvatar
                     //User.albumsLst = user.albumsLst
+
+                    // Điều hướng đến HomeScreenActivity
                     val intent = Intent(this, HomeScreenActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
+                    finish()
                 } else {
                     Log.e("SplashActivity", "Failed to load user data")
                     finish()
                 }
             } else {
+                // Điều hướng đến AuthActivity (màn hình đăng nhập)
                 val intent = Intent(this, AuthActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
             }
-
-
         }, splashTimeOut)
-
 
     }
 

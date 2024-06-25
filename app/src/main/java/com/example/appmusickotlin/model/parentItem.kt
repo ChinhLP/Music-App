@@ -11,7 +11,3 @@ sealed class ChildItem {
     data class TypeArtist(val data: MutableList<Artist>?) : ChildItem()
 }
 
-data class ParentItem(
-    var title: String? = null,
-    var childItemList: State<MutableList<Artist>>? = null
-)

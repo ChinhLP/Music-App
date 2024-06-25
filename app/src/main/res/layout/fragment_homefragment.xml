@@ -26,7 +26,7 @@ tools:context=".ui.home.Fragment.HomeFragment">
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-        android:src="@drawable/avatar_user"
+        android:src="@drawable/profile"
         android:padding="6dp"
         app:shapeAppearanceOverlay="@style/CircleImageView"
         app:strokeColor="#00DBFC"
@@ -35,7 +35,6 @@ tools:context=".ui.home.Fragment.HomeFragment">
         tools:ignore="MissingConstraints"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="25dp"
         />
 
     <TextView
@@ -100,6 +99,43 @@ tools:context=".ui.home.Fragment.HomeFragment">
         >
 
     </androidx.recyclerview.widget.RecyclerView>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grNoInternet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="imvNoInternet,imvTextNoInternet,btnTryAgain"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/imvNoInternet"
+        android:src="@drawable/ic_nointernet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <ImageView
+        android:id="@+id/imvTextNoInternet"
+        android:src="@drawable/ic_textnointernet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/imvNoInternet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTryAgain"
+        android:text="Try again"
+        android:layout_marginTop="20dp"
+        android:background="#00C2CB"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/imvTextNoInternet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/vAnimation"
@@ -113,6 +149,7 @@ tools:context=".ui.home.Fragment.HomeFragment">
         app:layout_constraintTop_toBottomOf="@+id/imvKing"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+
 
 
 

@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.ListenMusic.ListenMusicActivity">
 
 
@@ -12,7 +13,6 @@
         android:id="@+id/txtTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:lineHeight="20dp"
         android:text="Now Playing"
         android:textColor="@color/TitleText"

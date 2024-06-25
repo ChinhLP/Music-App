@@ -1,6 +1,5 @@
 package com.example.appmusickotlin.data.remoteRetrofit.model
 
-import com.example.appmusickotlin.model.Image
 import com.google.gson.annotations.SerializedName
 
 data class Artist(
@@ -10,7 +9,7 @@ data class Artist(
     val mbid: String? = null,
     val url: String? = null,
     val streamable: String? = null,
-    val images: List<Image>? = null,
+    val image: List<ImageArtist>? = null,
 )
 
 data class ImageArtist(

@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -26,10 +26,14 @@
         android:theme="@style/Base.Theme.AppMusicKotlin"
         tools:targetApi="31">
         <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SeeAll.SeeAllActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.HomeScreenActivity"
-            android:exported="true" />
-
-        <!-- android:name=".broadcastReceivers.BluetoothReceiver" -->
+            android:exported="true" /> <!-- android:name=".broadcastReceivers.BluetoothReceiver" -->
         <!-- android:exported="true"> -->
         <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.AIRPLANE_MODE_CHANGED" /> -->
@@ -44,8 +48,8 @@
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
-
-        <service android:name=".service.ForegroundService"
+        <service
+            android:name=".service.ForegroundService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
@@ -65,6 +69,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>
