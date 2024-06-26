@@ -19,7 +19,7 @@
         android:id="@+id/txtSeeAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="See all"
+        android:text="@string/Home_seeAll_title"
         android:textColor="#00C2CB"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"

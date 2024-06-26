@@ -26,8 +26,29 @@
 
     // Name music
     <string name="Item_music_song_title">kem duyen</string>
+    <string name="Home_welcome_title">Welcome back !</string>
+    <string name="Setting_title">Settings</string>
+    <string name="Home_Rankings_title">Rankings</string>
+    <string name="Home_topAlbum_title">Top Albums</string>
+    <string name="Home_seeAll_title">See all</string>
+    <string name="Profile_profile_title">Profile</string>
+    <string name="Profile_username_hint">username</string>
+    <string name="Setting_Language">Language</string>
+    <string name="Home_local_title">Local</string>
+    <string name="Home_Remote_title">Remote</string>
+    <string name="Popup_playlist_add_music">Add to playlist</string>
+    <string name="popup_playlist_share">Share</string>
+    <string name="popup_remove_playlist">Remove playlist</string>
+    <string name="popup_rename_playlist">Rename</string>
+    <string name="popup_remove_music">Remove from playlist</string>
+    <string name="Dialog_choose_playlist_title">Choose playlist</string>
+    <string name="Dialog_add_playlist_title">New Playlist</string>
+    <string name="Dialog_hint_add_playlist">Give your playlist a title</string>
+    <string name="Dialog_button_create">Create</string>
+    <string name="Dialog_button_cancel">Cancel</string>
+    <string name="Dialog_Rename_playlist_title">Rename Playlist</string>
+    <string name="Dialog_change_name_button">Change</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

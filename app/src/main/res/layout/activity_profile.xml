@@ -23,7 +23,7 @@
         android:id="@+id/txtProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Top Profile"
+        android:text="@string/Profile_profile_title"
         android:layout_marginTop="20dp"
         android:textSize="20dp"
         android:textStyle="bold"

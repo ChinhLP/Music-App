@@ -76,6 +76,7 @@ class SigInScreenFragment : Fragment() {
                         User.username = user.username
                         User.password = user.password
                         User.email = user.email
+                        User.imageAvatar = user.imageAvatar
 
                         val intent = Intent(requireActivity(), HomeScreenActivity::class.java)
                         startActivity(intent)

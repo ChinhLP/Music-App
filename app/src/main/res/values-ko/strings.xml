@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">app music kotlin</string>
+    <string name="home_button_theme">테마 변경</string>
+    <string name="home_home_item">홈</string>
+    <string name="home_library_item">라이브러리</string>
+    <string name="home_playlist_item">플레이리스트</string>
+    <string name="home_button_langue">ko</string>
+    <string name="SignIn_email_hint">이메일</string>
+    <string name="SignIn_password_hint">비밀번호</string>
+    <string name="SignIn_Login_button">로그인</string>
+    <string name="SignIn_SignUp_textview">회원가입</string>
+    <string name="SignUp_title_textview">회원가입</string>
+    <string name="SignUp_username_hint">사용자 이름</string>
+    <string name="SignUp_email_hint">이메일</string>
+    <string name="SignUp_phone_hint">전화번호</string>
+    <string name="SignUp_password_hint">비밀번호</string>
+    <string name="SignUp_repassword">비밀번호 확인</string>
+    <string name="SignUp_location_hint">위치</string>
+    <string name="SignUp_requitePassword_hint">8자리 이상, 숫자 1개 이상, 특수문자 1개 이상 포함해야 합니다.</string>
+    <string name="SignUp_question_textview">이미 계정이 있나요?</string>
+    <string name="SignUp_SignIn_textview">로그인</string>
+    <string name="home_logout_button">로그아웃</string>
+    <string name="playlist_title_textview">내 플레이리스트</string>
+
+
+    <string name="Item_music_song_title">케 듀옌 (Kem Duyen)</string>
+    <string name="Home_welcome_title">환영합니다!</string>
+    <string name="Setting_title">설정</string>
+    <string name="Home_Rankings_title">랭킹</string>
+    <string name="Home_topAlbum_title">인기 앨범</string>
+    <string name="Home_seeAll_title">모두 보기</string>
+    <string name="Profile_profile_title">프로필</string>
+    <string name="Profile_username_hint">사용자 이름</string>
+    <string name="Setting_Language">언어</string>
+    <string name="Home_local_title">로컬</string>
+    <string name="Home_Remote_title">원격</string>
+    <string name="Popup_playlist_add_music">플레이리스트에 추가</string>
+    <string name="popup_playlist_share">공유</string>
+    <string name="popup_remove_playlist">플레이리스트 삭제</string>
+    <string name="popup_rename_playlist">이름 바꾸기</string>
+    <string name="popup_remove_music">플레이리스트에서 제거</string>
+    <string name="Dialog_choose_playlist_title">플레이리스트 선택</string>
+    <string name="Dialog_add_playlist_title">새로운 플레이리스트</string>
+    <string name="Dialog_hint_add_playlist">플레이리스트에 제목을 지정하세요.</string>
+    <string name="Dialog_button_create">만들기</string>
+    <string name="Dialog_button_cancel">취소</string>
+    <string name="Dialog_Rename_playlist_title">플레이리스트 이름 바꾸기</string>
+    <string name="Dialog_change_name_button">변경</string>
+</resources>

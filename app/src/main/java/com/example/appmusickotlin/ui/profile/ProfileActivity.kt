@@ -10,6 +10,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.data.local.db.entity.UserEntity
@@ -18,6 +20,7 @@ import com.example.appmusickotlin.databinding.ActivityProfileBinding
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.model.logout
 import com.example.appmusickotlin.ui.authetication.AuthActivity
+import com.example.appmusickotlin.ui.home.HomeScreenActivity
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding : ActivityProfileBinding
@@ -32,7 +35,9 @@ class ProfileActivity : AppCompatActivity() {
         binding.edtUsername.setText(User.username)
         binding.edtEmailSignup.setText(User.email)
         binding.imbBack.setOnClickListener {
-            finish()
+            val intent = Intent(this,HomeScreenActivity::class.java)
+            startActivity(intent)
+            this.finish()
         }
         binding.imvCamera.setOnClickListener {
             openGallery()
@@ -52,6 +57,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+    @UnstableApi
     override fun onResume() {
         super.onResume()
         if(User.imageAvatar != ""){

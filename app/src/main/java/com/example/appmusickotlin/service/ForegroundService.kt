@@ -1,12 +1,14 @@
 package com.example.appmusickotlin.service
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.appmusickotlin.model.Song
 
 
@@ -23,7 +25,7 @@ class ForegroundService : Service() {
     private val _song = MutableLiveData<Song>()
     val song: LiveData<Song> get() = _song
 
-    private var listMusic : MutableList<Song>? = mutableListOf()
+    private var listMusic: MutableList<Song>? = mutableListOf()
     private var musicIndex: Int = 0
 
     companion object {
@@ -55,8 +57,7 @@ class ForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        val notification = notificationManager.buildNotification(this,"Service is running")
-        startForeground(NOTIFICATION_ID, notification)
+// Cập nhật notification mới
 
 
         when (intent!!.action) {
@@ -70,10 +71,14 @@ class ForegroundService : Service() {
             "ACTION_NEXT" -> handleActionNext()
             "ACTION_PREVIOUS" -> handleActionPrevious()
         }
+
+
+
+
         return START_NOT_STICKY
     }
 
-    private fun handleACtionLoadList(intent : Intent?) {
+    private fun handleACtionLoadList(intent: Intent?) {
         listMusic = (intent?.getSerializableExtra("listSong") as? MutableList<Song>)!!
     }
 
@@ -97,17 +102,16 @@ class ForegroundService : Service() {
         Log.d("ddds", "$musicIndex ---- ${listMusic!![musicIndex]}")
     }
 
-    private fun handleActionMix(){
+    private fun handleActionMix() {
     }
 
-    private fun handleActionLoop(){
+    private fun handleActionLoop() {
 
     }
 
     private fun handleActionResume(intent: Intent?) {
         val song = (intent?.getSerializableExtra("song") as? Song) ?: return
         musicIndex = findPositionById(song.id).toInt()
-        //Log.d("dddd", "${listMusic!![musicIndex]} trong danh sách.")
 
         if (musicIndex == -1) {
             Log.d("dddd", "Không tìm thấy bài hát có ID ${song.id} trong danh sách.")
@@ -118,15 +122,37 @@ class ForegroundService : Service() {
 
     private fun handleActionPause() {
         musicPlayer.pause()
+        if (listMusic != null && song.value != null && isPrepared.value != null) {
+            val notification = notificationManager.buildNotification(
+                song.value!!, musicIndex,
+                listMusic!!.size, isPrepared.value!!
+            )
+            // Sử dụng startForeground để cập nhật notification
+            startForeground(NOTIFICATION_ID, notification)
+        }
     }
 
     private fun handleActionPlay() {
 
         musicPlayer.play()
+        if (listMusic != null && song.value != null && isPrepared.value != null) {
+            val notification = notificationManager.buildNotification(
+                song.value!!, musicIndex,
+                listMusic!!.size, isPrepared.value!!
+            )
+            // Sử dụng startForeground để cập nhật notification
+            startForeground(NOTIFICATION_ID, notification)
+        }
     }
 
     private fun handleActionClose() {
         musicPlayer.stopAndRelease()
+        stopForeground(true)
+
+
+        // Dừng service
+        stopSelf()
+
     }
 
     private fun playCurrentSong() {
@@ -137,6 +163,14 @@ class ForegroundService : Service() {
         musicPlayer.setDataSource(listMusic!![musicIndex])
         musicPlayer.setupMediaPlayerListeners {
             handleActionNext()  // Chuyển sang bài hát tiếp theo khi bài hát hiện tại kết thúc
+        }
+        if (listMusic != null && song.value != null && isPrepared.value != null) {
+            val notification = notificationManager.buildNotification(
+                song.value!!, musicIndex,
+                listMusic!!.size, isPrepared.value!!
+            )
+            // Sử dụng startForeground để cập nhật notification
+            startForeground(NOTIFICATION_ID, notification)
         }
     }
 

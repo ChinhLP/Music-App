@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:showAsAction="always">
 
-    <item android:title="Remove playlist"
+    <item android:title="@string/popup_remove_playlist"
         android:id="@+id/remove"
         android:icon="@drawable/ic_remove"
         app:showAsAction="ifRoom"
         />
-    <item android:title="Rename"
+    <item android:title="@string/popup_rename_playlist"
         android:id="@+id/rename"
         android:icon="@drawable/ic_rename"
         app:showAsAction="ifRoom"/>

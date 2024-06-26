@@ -73,7 +73,6 @@ class HomeScreenActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -213,7 +212,6 @@ class HomeScreenActivity : AppCompatActivity() {
 
     private fun fragmentCheckManager() {
 
-
         val fragmentManager = supportFragmentManager
         val fragmentCount = fragmentManager.backStackEntryCount
 
@@ -221,10 +219,8 @@ class HomeScreenActivity : AppCompatActivity() {
             val fragment = HomeFragment()
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_container, fragment)
-            transaction.addToBackStack("HomeFragment")
             transaction.commit()
         }
-
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
 
@@ -279,12 +275,12 @@ class HomeScreenActivity : AppCompatActivity() {
             foregroundService.currentPosition.removeObserver(currentPositionObserver)
             unbindService(serviceConnection)
         }
-        if (supportFragmentManager.backStackEntryCount > 1) {
-            supportFragmentManager.popBackStack()
-        } else {
-            // Nếu chỉ có một fragment trong ngăn xếp, kết thúc activity
-            finish()
+        // Xóa tất cả các fragment trong back stack
+        val fragmentManager = supportFragmentManager
+        while (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStackImmediate()
         }
+        finish()
     }
 
 }

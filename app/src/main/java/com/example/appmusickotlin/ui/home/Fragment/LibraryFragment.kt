@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -128,6 +129,15 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
             binding.recyclerView.visibility = View.GONE
         }
 
+        // không cho back lại
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+            }
+        })
+
+
     }
 
 
@@ -146,7 +156,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
     }
 
     override fun onItemClick(song: Song, listPlays: MutableList<Song>) {
-        viewModel.playSong(song,listPlays)
+        viewModel.playSong(song, listPlays)
     }
 
 

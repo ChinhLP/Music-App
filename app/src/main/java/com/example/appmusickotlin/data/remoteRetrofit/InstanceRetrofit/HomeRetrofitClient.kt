@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object HomeRetrofitClient {
     private const val BASE_URL = "https://ws.audioscrobbler.com/"
-    private const val BASE_ALBUM_URL = "http://ws.audioscrobbler.com/"
 
 
     private val retrofit: Retrofit by lazy {

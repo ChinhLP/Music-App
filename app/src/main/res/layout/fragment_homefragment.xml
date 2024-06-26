@@ -41,7 +41,7 @@ tools:context=".ui.home.Fragment.HomeFragment">
         android:id="@+id/txtWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome back !"
+        android:text="@string/Home_welcome_title"
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_marginStart="15dp"
@@ -77,7 +77,7 @@ tools:context=".ui.home.Fragment.HomeFragment">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rankings"
+        android:text="@string/Home_Rankings_title"
         android:textColor="#00C2CB"
         android:textStyle="bold"
         android:textSize="24dp"
