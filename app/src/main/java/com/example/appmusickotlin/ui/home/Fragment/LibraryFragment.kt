@@ -1,5 +1,7 @@
 package com.example.appmusickotlin.ui.home.Fragment
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -24,6 +26,7 @@ import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
 import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.data.remoteRetrofit.Result.State
 import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.MusicRemoteViewModel
+import com.example.appmusickotlin.ui.popup.DialogPermissionsStorageFragment
 
 
 class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListener {
@@ -53,6 +56,14 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (checkStoragePermission()) {
+            // Quyền đã được cấp, bạn có thể truy cập vào bộ nhớ lưu trữ
+
+        } else {
+            val dialog = DialogPermissionsStorageFragment()
+            dialog.show(childFragmentManager,"dialog permissions storage")
+        }
 
         val listMusic = MusicLoader(requireContext()).getAllMusic()
 
@@ -136,10 +147,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
             }
         })
-
-
     }
-
 
     override fun onEditButtonClick(song: Song) {
 
@@ -159,5 +167,11 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
         viewModel.playSong(song, listPlays)
     }
 
+    private fun checkStoragePermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 
 }

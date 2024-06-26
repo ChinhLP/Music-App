@@ -61,7 +61,7 @@ class NotificationManager(private val context: Context) {
         notificationLayout.setTextViewText(R.id.txtApp, "Music App")
         notificationLayout.setTextViewText(R.id.txtNameMusic, song!!.name)
         notificationLayout.setTextViewText(R.id.txtArtist,song.artist)
-        notificationLayout.setTextViewText(R.id.txtNumberCurrentMusic, currentIndex.toString())
+        notificationLayout.setTextViewText(R.id.txtNumberCurrentMusic, (currentIndex!! + 1).toString())
         notificationLayout.setTextViewText(R.id.txtFullNumber, maxIndex.toString())
 
         if(isPrepared) {

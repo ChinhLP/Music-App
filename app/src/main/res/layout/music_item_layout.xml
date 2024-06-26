@@ -22,7 +22,7 @@
     <TextView
         android:layout_marginHorizontal="10dp"
         android:id="@+id/songTitleTextView"
-        android:layout_width="0dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Song Title"
         android:textColor="@color/TitleText"
@@ -33,7 +33,7 @@
         android:lineHeight="24px"
         app:layout_constraintStart_toEndOf="@+id/avatarImageView"
         app:layout_constraintTop_toTopOf="@+id/avatarImageView"
-        app:layout_constraintEnd_toStartOf="@+id/editButton"/>
+        />
 
     <!-- Tiêu đề phụ -->
     <TextView
@@ -74,19 +74,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.5"
 
         />
     <ImageButton
         android:id="@+id/editButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="5dp"
         android:backgroundTint="@android:color/transparent"
         android:src="@drawable/ic_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.5"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

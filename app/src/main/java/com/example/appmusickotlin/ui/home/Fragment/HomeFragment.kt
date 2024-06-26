@@ -13,6 +13,7 @@ import android.view.View
 
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ import com.example.appmusickotlin.model.ChildItem
 import com.example.appmusickotlin.model.User
 import com.example.appmusickotlin.ui.SeeAll.SeeAllActivity
 import com.example.appmusickotlin.ui.adapter.HomeParentAdapter
+import com.example.appmusickotlin.ui.popup.DialogPermissionsFragment
 import com.example.appmusickotlin.ui.profile.ProfileActivity
 import com.example.appmusickotlin.ui.setting.SettingActivity
 import com.example.appmusickotlin.util.callBack.OnSeeALLListener
@@ -48,8 +50,6 @@ class HomeFragment : Fragment() , OnSeeALLListener {
     private var successCount = 0
     private var errorCount = 0
 
-
-    private var isPlay: Boolean = false
 
 
 
@@ -82,6 +82,12 @@ class HomeFragment : Fragment() , OnSeeALLListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        // check quyen
+        if (!NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()) {
+            val dialog = DialogPermissionsFragment()
+            dialog.show(childFragmentManager, "dialog permissions notifications")
+        }
 
         getData()
         if(User.imageAvatar != ""){

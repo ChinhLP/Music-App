@@ -50,5 +50,8 @@
     <string name="SignIn_Rememberme">nhớ tôi</string>
     <string name="Signin_forgot_password">Quên mật khẩu?</string>
     <string name="Signin_don_have_account">Bạn chưa có tài khoản?</string>
+    <string name="dialog_click_button_add">Bạn không có bất kỳ danh sách phát nào. Nhấp vào nút \"+\" để thêm</string>
+    <string name="SignUp_invalid_format">Định dạng không hợp lệ</string>
+    <string name="SignUp_confirmation_password">Mật khẩu xác nhận không khớp</string>
 
 </resources>

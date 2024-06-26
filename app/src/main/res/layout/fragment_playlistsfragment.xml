@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="120dp"
         android:layout_marginTop="200dp"
-        android:text="You don't have any playlists. Click the “+” button to add"
+        android:text="@string/dialog_click_button_add"
         android:textAlignment="center"
         android:textColor="@color/TitleText"
         android:textSize="20dp"

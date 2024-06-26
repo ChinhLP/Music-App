@@ -18,7 +18,7 @@ class DialogPermissionsFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDialogPermissionsNotificationBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -34,7 +34,6 @@ class DialogPermissionsFragment : DialogFragment() {
         binding.tvCancel.setOnClickListener {
             dismiss()
         }
-
     }
 }
 

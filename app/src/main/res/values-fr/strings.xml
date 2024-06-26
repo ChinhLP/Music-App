@@ -50,4 +50,7 @@
     <string name="SignIn_Rememberme">Souviens-toi de moi</string>
     <string name="Signin_forgot_password">Vous avez oublié le mot de passe ?</string>
     <string name="Signin_don_have_account">Vous n\'avez pas de compte ?</string>
+    <string name="dialog_click_button_add">Vous n\'avez aucune playlist. Cliquez sur le bouton \"+\" pour ajouter</string>
+    <string name="SignUp_invalid_format">Format invalide</string>
+    <string name="SignUp_confirmation_password">Le mot de passe de confirmation ne correspond pas</string>
 </resources>
