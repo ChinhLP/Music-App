@@ -23,12 +23,6 @@ class SettingActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val currentLocale = Locale.getDefault()
-        val currentLanguage = currentLocale.language
-        when (currentLanguage) {
-            "vi" -> binding.txtSetLanguage.text = "Vietnamese"
-            "en" -> binding.txtSetLanguage.text = "English"
-        }
         binding.imbBack.setOnClickListener {
             val intent = Intent(this, HomeScreenActivity::class.java)
             startActivity(intent)

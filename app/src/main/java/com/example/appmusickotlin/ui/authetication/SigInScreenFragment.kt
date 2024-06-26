@@ -26,6 +26,7 @@ import com.example.appmusickotlin.ui.home.HomeScreenActivity
 import com.example.appmusickotlin.data.local.db.viewmodel.UserViewModel
 import com.example.appmusickotlin.model.saveUser
 import com.example.appmusickotlin.model.setMyUser
+import com.example.appmusickotlin.ui.popup.DialogPermissionsFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -53,6 +54,10 @@ class SigInScreenFragment : Fragment() {
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         playlistViewModel = ViewModelProvider(requireActivity()).get(PlaylistViewModel::class.java)
         musicViewModel = ViewModelProvider(requireActivity()).get(MusicViewModel::class.java)
+
+
+        val dialog = DialogPermissionsFragment()
+        dialog.show(childFragmentManager, "MyDialogFragment")
 
 
         authViewModel.user.observe(requireActivity(), Observer { user ->

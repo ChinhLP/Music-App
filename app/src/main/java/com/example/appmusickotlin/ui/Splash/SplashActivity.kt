@@ -17,6 +17,7 @@ import com.example.appmusickotlin.model.getUser
 import com.example.appmusickotlin.model.isLoggedIn
 import com.example.appmusickotlin.ui.authetication.AuthActivity
 import com.example.appmusickotlin.ui.home.HomeScreenActivity
+import com.example.appmusickotlin.ui.popup.DialogPermissionsFragment
 import com.orhanobut.hawk.Hawk
 
 class SplashActivity : AppCompatActivity() {
@@ -35,6 +36,7 @@ class SplashActivity : AppCompatActivity() {
         }
         Hawk.init(this).build()
 //
+
 
         Handler().postDelayed({
 

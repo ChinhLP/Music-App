@@ -48,6 +48,11 @@
     <string name="Dialog_button_cancel">Cancel</string>
     <string name="Dialog_Rename_playlist_title">Rename Playlist</string>
     <string name="Dialog_change_name_button">Change</string>
+    <string name="Setting_set_language">English</string>
+    <string name="Signin_Title">Login to your account</string>
+    <string name="SignIn_Rememberme">Remember me</string>
+    <string name="Signin_forgot_password">Forgot the password?</string>
+    <string name="Signin_don_have_account">Don\'t have an account?</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 

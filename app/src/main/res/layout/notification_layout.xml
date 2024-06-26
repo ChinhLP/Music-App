@@ -37,7 +37,7 @@
         android:id="@+id/imvLogo"
         android:layout_width="20dp"
         android:layout_marginStart="10dp"
-
+        android:layout_marginTop="5dp"
         android:layout_height="20dp"
         android:src="@drawable/ic_notification"
         android:layout_alignParentStart="true"
@@ -97,6 +97,7 @@
         android:maxLines="1"
         android:layout_marginStart="10dp"
         android:maxLength="15"
+        android:singleLine="true"
         android:ellipsize="end"
         android:text="Name Music"
         android:textStyle="bold"
@@ -112,6 +113,9 @@
         android:layout_height="wrap_content"
         android:text="artist"
         android:textSize="18sp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:maxLength="15"
         android:layout_below="@id/txtNameMusic"
         android:layout_alignStart="@id/txtNameMusic"/>

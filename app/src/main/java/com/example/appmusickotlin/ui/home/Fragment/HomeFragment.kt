@@ -98,7 +98,6 @@ class HomeFragment : Fragment() , OnSeeALLListener {
         binding.imvAvatar.setOnClickListener {
             val intent = Intent(requireActivity(),ProfileActivity::class.java)
             startActivity(intent)
-            requireActivity().finish()
         }
 
         val parentAdapter = HomeParentAdapter(requireContext(), parentItemList,this)

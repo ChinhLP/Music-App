@@ -45,5 +45,10 @@
     <string name="Dialog_button_cancel">Hủy bỏ</string>
     <string name="Dialog_Rename_playlist_title">Đổi tên danh sách</string>
     <string name="Dialog_change_name_button">Thay đổi</string>
+    <string name="Setting_set_language">Tiếng việt</string>
+    <string name="Signin_Title">đăng nhập vào tài khoản của bạn</string>
+    <string name="SignIn_Rememberme">nhớ tôi</string>
+    <string name="Signin_forgot_password">Quên mật khẩu?</string>
+    <string name="Signin_don_have_account">Bạn chưa có tài khoản?</string>
 
 </resources>

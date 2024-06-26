@@ -11,10 +11,9 @@ import com.example.appmusickotlin.util.callBack.OnItemClickListener
 class AlbumAdapter(
     private val albumList: MutableList<DataListPlayList> ,
     private val listener: OnItemClickListener,
-    private val editPopupAlbumButtonClickListener: OnEditPopupAlbumButtonClickListener?
-
-
+    private val editPopupAlbumButtonClickListener: OnEditPopupAlbumButtonClickListener?,
 ) : RecyclerView.Adapter<AlbumAdapter.AlbumHolder>() {
+
 
     inner class AlbumHolder(val binding: PlaylistItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {

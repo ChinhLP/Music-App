@@ -65,7 +65,7 @@
 
     <TextView
         android:id="@+id/txtSetLanguage"
-        android:text="English"
+        android:text="@string/Setting_set_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/imbOk"

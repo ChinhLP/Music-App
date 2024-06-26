@@ -35,9 +35,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.edtUsername.setText(User.username)
         binding.edtEmailSignup.setText(User.email)
         binding.imbBack.setOnClickListener {
-            val intent = Intent(this,HomeScreenActivity::class.java)
-            startActivity(intent)
-            this.finish()
+            finish()
         }
         binding.imvCamera.setOnClickListener {
             openGallery()

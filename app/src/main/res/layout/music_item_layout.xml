@@ -27,8 +27,10 @@
         android:text="Song Title"
         android:textColor="@color/TitleText"
         android:textSize="18sp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:lineHeight="24px"
-        android:maxLength="18"
         app:layout_constraintStart_toEndOf="@+id/avatarImageView"
         app:layout_constraintTop_toTopOf="@+id/avatarImageView"
         app:layout_constraintEnd_toStartOf="@+id/editButton"/>

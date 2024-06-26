@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/rounded_popupmenu_background">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:text="“Apero Music” would like to send you notifications"
+        android:textAlignment="center"
+        android:textColor="@color/TitleText"
+        android:textFontWeight="700"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edtPlaylistTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/edtPlaylistTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="Enable notification to control playlist. These can be configured in Settings."
+        android:textColorHint="@color/HindTextField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+
+
+        />
+
+
+
+    <TextView
+        android:id="@+id/tvCancel"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="Don’t Allow"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@+id/edtPlaylistTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvCreate"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+       />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/TitleText"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvCancel" />
+
+    <TextView
+        android:id="@+id/tvCreate"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="OK"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/edtPlaylistTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvCancel"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

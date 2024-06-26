@@ -45,4 +45,9 @@
     <string name="Dialog_button_cancel">Annuler</string>
     <string name="Dialog_Rename_playlist_title">Renommer la playlist</string>
     <string name="Dialog_change_name_button">Modifier</string>
+    <string name="Setting_set_language">Français</string>
+    <string name="Signin_Title">Connectez-vous à votre compte</string>
+    <string name="SignIn_Rememberme">Souviens-toi de moi</string>
+    <string name="Signin_forgot_password">Vous avez oublié le mot de passe ?</string>
+    <string name="Signin_don_have_account">Vous n\'avez pas de compte ?</string>
 </resources>
