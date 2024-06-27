@@ -213,6 +213,8 @@ class HomeFragment : Fragment() , OnSeeALLListener {
                     Log.e("YourFragment", "Error: State is null")
                     // Handle null state if needed
                 }
+
+                else -> {}
             }
             sortParentItemList()
             parentAdapter.notifyDataSetChanged()

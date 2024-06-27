@@ -15,6 +15,7 @@ fun LiveData<MutableList<PlaylistEntity>>.toDataListPlayListLiveData(): LiveData
                 val dataListPlayList = DataListPlayList(
                     id = playlistEntity.id,
                     title = playlistEntity.name,
+                    numberMusic = playlistEntity.numberMusic,
                     userId = playlistEntity.userId
                 )
                 dataList.add(dataListPlayList)
@@ -28,6 +29,7 @@ fun DataListPlayList.toPlaylistEntity(): PlaylistEntity {
     return PlaylistEntity(
         id = this.id,
         name = this.title,
+        numberMusic = this.numberMusic,
         userId = this.userId
     )
 }
@@ -36,6 +38,7 @@ fun PlaylistEntity.toDataListPlayList(): DataListPlayList {
     return DataListPlayList(
         id = this.id,
         title = this.name,
+        numberMusic = this.numberMusic,
         userId = this.userId
         // Các trường khác nếu có
     )

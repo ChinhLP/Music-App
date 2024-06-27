@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.PopupMenu
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,6 +29,20 @@ class SettingActivity : AppCompatActivity() {
             startActivity(intent)
             this.finish()
         }
+        binding.imbOk.setOnClickListener {
+            val intent = Intent(this, HomeScreenActivity::class.java)
+            startActivity(intent)
+            this.finish()
+        }
+
+        //ngăn không cho back về bằng nút
+        this.onBackPressedDispatcher.addCallback(this, object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+            }
+        })
+
 
         binding.txtSetLanguage.setOnClickListener {
             val popup = PopupMenu(this, binding.txtSetLanguage, Gravity.END)
@@ -113,29 +128,29 @@ class SettingActivity : AppCompatActivity() {
         }
 
     }
-    fun getCurrentLanguage(context: Context) {
-        val currentLocale = Locale.getDefault()
-        val currentLanguage = currentLocale.language
-        var locale = Locale.getDefault()
-        if (currentLanguage == "en") {
-            // Chuyển từ tiếng Anh sang tiếng Việt
-            Locale.setDefault(Locale("vi"))
-            locale = Locale("vi")
-
-        } else if (currentLanguage == "vi") {
-            // Chuyển từ tiếng Việt sang tiếng Anh
-            Locale.setDefault(Locale("en"))
-            locale = Locale("en")
-
-        }
-
-        // Cập nhật cấu hình ngôn ngữ của tài nguyên
-        val config = Configuration()
-        config.locale = locale
-        resources.updateConfiguration(config, resources.displayMetrics)
-        this.recreate()
-
-
-    }
+//    fun getCurrentLanguage(context: Context) {
+//        val currentLocale = Locale.getDefault()
+//        val currentLanguage = currentLocale.language
+//        var locale = Locale.getDefault()
+//        if (currentLanguage == "en") {
+//            // Chuyển từ tiếng Anh sang tiếng Việt
+//            Locale.setDefault(Locale("vi"))
+//            locale = Locale("vi")
+//
+//        } else if (currentLanguage == "vi") {
+//            // Chuyển từ tiếng Việt sang tiếng Anh
+//            Locale.setDefault(Locale("en"))
+//            locale = Locale("en")
+//
+//        }
+//
+//        // Cập nhật cấu hình ngôn ngữ của tài nguyên
+//        val config = Configuration()
+//        config.locale = locale
+//        resources.updateConfiguration(config, resources.displayMetrics)
+//        this.recreate()
+//
+//
+//    }
 
 }

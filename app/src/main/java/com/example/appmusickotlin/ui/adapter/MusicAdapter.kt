@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.util.callBack.OnEditButtonClickListener
 import com.example.appmusickotlin.util.callBack.OnMusicClickListener
 import com.example.appmusickotlin.util.formatDuration.formatDuration
+import com.example.appmusickotlin.util.shareMusicFile.downloadAndShareMusic
 import java.util.Collections
 
 class MusicAdapter(
@@ -34,6 +36,14 @@ class MusicAdapter(
     private val isGrid: Boolean
     // Biến để đánh dấu kiểu hiển thị là grid hay linear
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    // Khai báo biến lưu vị trí bài hát được chọn hiện tại và trước đó
+    private var songCurrent: Song? = null
+    private var songPrevious: Song? = null
+
+    fun setCurrent(songCurrent: Song) {
+        this.songCurrent = songCurrent
+    }
 
     private var musicClickListener: OnMusicClickListener? = null
 
@@ -95,10 +105,37 @@ class MusicAdapter(
 
                 }
 
-                holder.itemView.setOnClickListener {
-                    val song = musicUriList[position]
-                    musicClickListener?.onItemClick(song , musicUriList)
+                // Xử lý animation
+                if (musicUri == songCurrent) {
+                    linearHolder.binding.itemMusic.setBackgroundResource(R.color.DialogBackground)
+                    linearHolder.binding.vAnimation.visibility = View.VISIBLE
+                } else {
+                    linearHolder.binding.itemMusic.setBackgroundResource(0)
+                    linearHolder.binding.vAnimation.visibility = View.GONE
                 }
+
+
+
+
+                holder.itemView.setOnClickListener {
+                    val previousSong = songCurrent
+                    songCurrent = musicUri
+
+                    // Notify item changes for animation
+                    previousSong?.let {
+                        val previousPosition = musicUriList.indexOf(it)
+                        notifyItemChanged(previousPosition)
+                    }
+                    songCurrent?.let {
+                        val currentPosition = musicUriList.indexOf(it)
+                        notifyItemChanged(currentPosition)
+                    }
+
+                    // Invoke item click listener
+                    musicClickListener?.onItemClick(musicUri, musicUriList)
+                    Log.d("oqpq", "$songCurrent")
+                }
+
 
                 // Thiết lập sự kiện cho nút chỉnh sửa nếu cần
                 linearHolder.binding.editButton.setOnClickListener {
@@ -130,6 +167,11 @@ class MusicAdapter(
 
                 gridHolder.binding.txtTime.text = musicUri.duration!!.formatDuration()
                 gridHolder.binding.subtitle.text = musicUri.artist
+
+                holder.itemView.setOnClickListener {
+                    val song = musicUriList[position]
+                    musicClickListener?.onItemClick(song , musicUriList)
+                }
 
                 // Thiết lập sự kiện cho nút chỉnh sửa nếu cần
                 gridHolder.binding.editButton.setOnClickListener {
@@ -206,6 +248,7 @@ class MusicAdapter(
                     }
 
                     R.id.share -> {
+                        downloadAndShareMusic(context!!, musicUri.path!!, musicUri.name!!)
                         Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
                         true
                     }
@@ -226,6 +269,7 @@ class MusicAdapter(
                     }
 
                     R.id.share -> {
+                        downloadAndShareMusic(context!!, musicUri.path!!, musicUri.name!!)
                         Toast.makeText(context, "Item 2 clicked", Toast.LENGTH_SHORT).show()
                         true
                     }

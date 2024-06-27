@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
@@ -31,6 +32,7 @@ import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
 import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.ui.popup.DialogRenamePlaylistFragment
+import com.example.appmusickotlin.util.callBack.NumberMusicInPlaylistListener
 import com.example.appmusickotlin.util.callBack.OnEditPopupAlbumButtonClickListener
 import com.example.appmusickotlin.util.callBack.OnMusicClickListener
 
@@ -64,6 +66,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 binding.group.visibility = View.VISIBLE
                 binding.rccAlbum.visibility = View.GONE
                 binding.rccMusicAlbum.visibility = View.GONE
+                binding.rccGridMusicAlbum.visibility = View.GONE
                 binding.grSwap.visibility = View.GONE
                 binding.ibnLinear.visibility = View.GONE
                 binding.ibnGrid.visibility = View.GONE
@@ -77,6 +80,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 binding.rccMusicAlbum.visibility = View.GONE
                 binding.grSwap.visibility = View.GONE
                 binding.ibnSwap.visibility = View.GONE
+                binding.rccGridMusicAlbum.visibility = View.GONE
                 binding.ibnGrid.visibility = View.GONE
                 binding.btnAddPlaylistFloatingAction.visibility = View.VISIBLE
 
@@ -95,6 +99,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 binding.ibnLinear.visibility = View.GONE
                 binding.ibnGrid.visibility = View.GONE
                 binding.btnAddPlaylistFloatingAction.visibility = View.VISIBLE
+                binding.rccGridMusicAlbum.visibility = View.GONE
             }
         })
 
@@ -112,12 +117,13 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
 
             musicViewModel.getMusic(idPlayList)
 
-            musicViewModel.music?.observe(viewLifecycleOwner, Observer { listMusic ->
+            musicViewModel.music.observe(viewLifecycleOwner, Observer { listMusic ->
 
                 if (listMusic.isNullOrEmpty()) {
                     binding.group.visibility = View.GONE
                     binding.rccAlbum.visibility = View.VISIBLE
                     binding.rccMusicAlbum.visibility = View.GONE
+                    binding.rccGridMusicAlbum.visibility = View.GONE
                     binding.grSwap.visibility = View.GONE
                     binding.ibnSwap.visibility = View.GONE
                     binding.ibnLinear.visibility = View.GONE
@@ -133,8 +139,6 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 }
 
             })
-
-
         }
 
 
@@ -143,7 +147,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
             binding.ibnGrid.visibility = View.VISIBLE
             musicViewModel.getMusic(idPlayList)
 
-            musicViewModel.music?.observe(viewLifecycleOwner, Observer { listMusic ->
+            musicViewModel.music.observe(viewLifecycleOwner, Observer { listMusic ->
                 if (listMusic.isNullOrEmpty()) {
                     binding.group.visibility = View.GONE
                     binding.rccAlbum.visibility = View.VISIBLE
@@ -218,6 +222,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                             requireContext(),
                             listMusic, this, false, true
                         )
+
                         musicGridAdapter.setOnMusicClickListener(this)
                         binding.rccGridMusicAlbum.layoutManager = GridLayoutManager(this.context, 2)
                         binding.rccGridMusicAlbum.adapter = musicGridAdapter
@@ -278,8 +283,9 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
     }
 
     override fun onDeleteButtonClick(song: Song, position: Int) {
-
         musicViewModel.delete(song.id, idPlayList)
+        playlistViewModel.updateNumberMusicPlaylist(idPlayList, false)
+
         Log.d("run", "delete")
     }
 
@@ -293,6 +299,13 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 R.id.remove -> {
                     playlistViewModel.deletePlaylist(albumId)
                     musicViewModel.deleteAll(albumId)
+                    playlistViewModel.allPlaylist.observe(viewLifecycleOwner, Observer { allplaylist ->
+                        if(allplaylist.size == 0){
+                            binding.rccAlbum.visibility = View.GONE
+                            binding.group.visibility = View.VISIBLE
+                        }
+
+                    })
                     //Toast.makeText(context, "deletePlaylist", Toast.LENGTH_SHORT).show()
                     true
                 }
@@ -317,5 +330,6 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
 
         viewModel.playSong(song,playList)
     }
+
 
 }

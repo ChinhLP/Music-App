@@ -103,6 +103,7 @@ class NotificationManager(private val context: Context) {
         // Set up intent for when notification is clicked
         val notificationIntent = Intent(context, SplashActivity::class.java)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
         val pendingIntent = PendingIntent.getActivity(
             context,
             0,

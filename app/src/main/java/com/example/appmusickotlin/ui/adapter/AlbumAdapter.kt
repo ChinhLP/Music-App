@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appmusickotlin.databinding.PlaylistItemLayoutBinding
 import com.example.appmusickotlin.model.DataListPlayList
+import com.example.appmusickotlin.util.callBack.NumberMusicInPlaylistListener
 import com.example.appmusickotlin.util.callBack.OnEditPopupAlbumButtonClickListener
 import com.example.appmusickotlin.util.callBack.OnItemClickListener
 
@@ -18,14 +19,6 @@ class AlbumAdapter(
     inner class AlbumHolder(val binding: PlaylistItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.root.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(position,albumList[position].id)
-                }
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumHolder {
@@ -38,9 +31,15 @@ class AlbumAdapter(
 
         override fun onBindViewHolder(holder: AlbumHolder, position: Int) {
 
+            holder.binding.root.setOnClickListener {
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(position,albumList[position].id)
+                }
+            }
+
             val album = albumList[position]
             holder.binding.txtTitle.text = album.title
-            //holder.binding.txtNumber.text = numberMusic.toString()?:  "0"
+            holder.binding.txtNumber.text = album.numberMusic.toString()
 
             holder.binding.editButton.setOnClickListener {
                 editPopupAlbumButtonClickListener?.onEditPopupAlbumButtonClick(holder.binding.editButton,album.id)

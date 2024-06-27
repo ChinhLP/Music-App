@@ -12,7 +12,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MusicRepository(private val musicDao: MusicDao) {
-    val allMusics: LiveData<MutableList<MusicEntity>> = musicDao.getAllMusics()
+    private val listMusicsEntity = musicDao.getAllMusics()
+
+    val allMusics: LiveData<MutableList<Song>> = listMusicsEntity.toSongListLiveData()
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     suspend fun insert(music: Song) {
@@ -38,6 +40,13 @@ class MusicRepository(private val musicDao: MusicDao) {
     suspend fun deleteAll(playlistId : Long) {
         coroutineScope.launch(Dispatchers.IO) {
             musicDao.deleteAllMusic(playlistId)
+        }
+    }
+    suspend fun getAllMusic() : LiveData<MutableList<Song>> {
+        return withContext(Dispatchers.IO) {
+            val listMusicEntity = musicDao.getAllMusics()
+            val song = listMusicEntity.toSongListLiveData()
+            song
         }
     }
 

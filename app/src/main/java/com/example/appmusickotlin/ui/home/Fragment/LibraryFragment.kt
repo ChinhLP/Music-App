@@ -1,8 +1,13 @@
 package com.example.appmusickotlin.ui.home.Fragment
 
 import android.Manifest
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,6 +31,7 @@ import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
 import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.data.remoteRetrofit.Result.State
 import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.MusicRemoteViewModel
+import com.example.appmusickotlin.service.ForegroundService
 import com.example.appmusickotlin.ui.popup.DialogPermissionsStorageFragment
 
 
@@ -36,6 +42,24 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
     private lateinit var musicViewModel: MusicViewModel
     private lateinit var playlistViewModel: PlaylistViewModel
     private lateinit var musicRemoteViewModel: MusicRemoteViewModel
+    private lateinit var foregroundService: ForegroundService
+    private lateinit var currentSongObserver : Observer<Song>
+
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as ForegroundService.LocalBinder
+            foregroundService = binder.getService()
+
+            // Quan sát currentPosition từ ForegroundService
+
+            foregroundService.song.observe(requireActivity(), currentSongObserver)
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            // Xử lý khi mất kết nối với Service
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +72,10 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
         playlistViewModel = ViewModelProvider(requireActivity()).get(PlaylistViewModel::class.java)
         musicRemoteViewModel =
             ViewModelProvider(requireActivity()).get(MusicRemoteViewModel::class.java)
+
+        val intent = Intent(requireContext(),ForegroundService::class.java)
+        activity?.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+
 
 
 
@@ -62,7 +90,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
         } else {
             val dialog = DialogPermissionsStorageFragment()
-            dialog.show(childFragmentManager,"dialog permissions storage")
+            dialog.show(childFragmentManager, "dialog permissions storage")
         }
 
         val listMusic = MusicLoader(requireContext()).getAllMusic()
@@ -91,12 +119,12 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
             binding.vAnimation.visibility = View.GONE
         }
 
+
+
         binding.btnRight.setOnClickListener {
 
             musicRemoteViewModel.fetchAllMusic()
             musicRemoteViewModel.musicList.observe(viewLifecycleOwner, Observer { state ->
-
-
                 when (state) {
                     is State.Success -> {
                         val musicRemoteList = state.data
@@ -121,6 +149,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
                         binding.recyclerRemoteView.visibility = View.GONE
                     }
 
+                    else -> {}
                 }
             })
 
@@ -140,6 +169,8 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
             binding.recyclerView.visibility = View.GONE
         }
 
+
+
         // không cho back lại
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
             OnBackPressedCallback(true) {
@@ -153,7 +184,16 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
         val addDialog = DialogAddLibraryFragment()
         val args = Bundle()
-        args.putSerializable("song", song) // Đặt đối tượng Song vào Bundle
+        val songee = Song(
+            name = song.name,
+            duration = song.duration,
+            kind = song.kind,
+            albumId = song.albumId,
+            artist = song.artist,
+            path = song.path,
+            playlistId = song.playlistId
+        )
+        args.putSerializable("song", songee) // Đặt đối tượng Song vào Bundle
         // Đặt Bundle vào DialogFragment
         addDialog.arguments = args
 

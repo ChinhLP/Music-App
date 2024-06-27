@@ -20,9 +20,11 @@ import kotlinx.coroutines.launch
 
 class MusicViewModel(application: Application) : AndroidViewModel(application) {
     private val _musicRepository: MusicRepository
-    val allMusic: LiveData<MutableList<MusicEntity>>
+    private val _allMusic =  MutableLiveData<MutableList<Song>>()
+    var allMusic: LiveData<MutableList<Song>> = _allMusic
 
     private val _music = MutableLiveData<MutableList<Song>>()
+
 
     val music: LiveData<MutableList<Song>> = _music
 
@@ -30,7 +32,6 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         val musicDao = AppDatabase.getDatabase(application).musicDao()
         _musicRepository = MusicRepository(musicDao)
         allMusic = _musicRepository.allMusics
-
     }
 
     fun insert(musicEntity: Song) = viewModelScope.launch {
@@ -43,6 +44,7 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getMusic(id: Long) = viewModelScope.launch {
+
         try {
             val musicList = _musicRepository.getMusic(id)
             musicList.observeForever { songs ->
@@ -55,6 +57,20 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
             e.printStackTrace()
         }
     }
+    fun getAllMusic() = viewModelScope.launch {
+        try {
+            val musicList = _musicRepository.getAllMusic()
+            musicList.observeForever { songs ->
+                if (songs != null) {
+                    _allMusic.postValue(songs)
+                    Log.d("ooo", "--------${_allMusic.value}")
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 
     fun deleteAll(playlistId: Long) = viewModelScope.launch {
         _musicRepository.deleteAll(playlistId)

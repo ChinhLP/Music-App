@@ -10,7 +10,6 @@ class MusicLoader(private val context: Context) {
         val musicUriList = mutableListOf<Song>()
 
         val musicProjection = arrayOf(
-            MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.ALBUM_ID,
@@ -31,7 +30,6 @@ class MusicLoader(private val context: Context) {
         )
 
         musicCursor?.use { cursor ->
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
             val titleColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
             val durationColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)
             val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
@@ -39,14 +37,13 @@ class MusicLoader(private val context: Context) {
             val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
 
             while (cursor.moveToNext()) {
-                val id = cursor.getLong(idColumn)
                 val title = cursor.getString(titleColumn)
                 val albumId = cursor.getLong(albumIdColumn)
                 val duration = cursor.getLong(durationColumn)
                 val artist = cursor.getString(artistColumn)
                 val data = cursor.getString(dataColumn)
 
-                val song = Song(id = id,name = title, duration = duration, albumId = albumId, artist =  artist, path = data)
+                val song = Song(name = title, duration = duration, albumId = albumId, artist =  artist, path = data)
                 musicUriList.add(song)
             }
         }

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
@@ -23,6 +24,7 @@ import com.example.appmusickotlin.ui.home.Fragment.PlayListsFragment
 import com.example.appmusickotlin.util.callBack.OnItemClickListener
 import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
 import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.util.callBack.NumberMusicInPlaylistListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -54,7 +56,7 @@ class DialogAddLibraryFragment : DialogFragment(), OnItemClickListener {
                 } else {
                     binding.groupTextViews.visibility = View.GONE
                     binding.rccAlbum.visibility = View.VISIBLE
-                    val adapter = AlbumAdapter(playlist, this,null)
+                    val adapter = AlbumAdapter(playlist, this, null)
                     binding.rccAlbum.layoutManager = LinearLayoutManager(requireContext())
                     binding.rccAlbum.adapter = adapter
                 }
@@ -84,18 +86,19 @@ class DialogAddLibraryFragment : DialogFragment(), OnItemClickListener {
         viewLifecycleOwner.lifecycleScope.cancel()
     }
 
-    override fun onItemClick(position: Int, idPlayList : Long) {
+    override fun onItemClick(position: Int, idPlayList: Long) {
 
-        var song: Song? = arguments?.getSerializable("song") as? Song
+        val song: Song? = arguments?.getSerializable("song") as? Song
         song!!.playlistId = idPlayList
-        musicViewModel.insert(song)
-        //musicViewModel.getMusic( song.id)
 
+        musicViewModel.insert(song)
+
+        musicViewModel.getAllMusic()
+        playlistViewModel.updateNumberMusicPlaylist(idPlayList, true)
         dismiss()
 
 
     }
-
 
 }
 

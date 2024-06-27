@@ -55,6 +55,7 @@ class HomeScreenActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         outState.putString("language_key", Locale.getDefault().language)
     }
+
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as ForegroundService.LocalBinder
@@ -93,6 +94,7 @@ class HomeScreenActivity : AppCompatActivity() {
         currentMediaObserver = Observer { isMedia ->
             if(isMedia){
                 binding.grPlayMusic.visibility = View.VISIBLE
+
                 currentSongObserver = Observer { song ->
                     binding.txtNameMusic.text = song.name
                     binding.txtDuration.text = song.duration!!.formatDuration()

@@ -51,4 +51,20 @@ class PlaylistViewModel(application: Application) : AndroidViewModel(application
         newPlaylist.title = name
         _playlistRepository.updatePlaylistName(newPlaylist)
     }
+    fun updateNumberMusicPlaylist(id : Long,sum : Boolean) = viewModelScope.launch {
+        if(sum == true){
+            val newPlaylist = _playlistRepository.getPlaylistById(id)
+            newPlaylist.numberMusic = newPlaylist.numberMusic?.plus(1)
+            Log.d("ddsaa","${newPlaylist.numberMusic}")
+            _playlistRepository.updatePlaylistName(newPlaylist)
+        } else {
+                val newPlaylist = _playlistRepository.getPlaylistById(id)
+                newPlaylist.numberMusic = newPlaylist.numberMusic?.minus(1)
+                Log.d("ddsaa","${newPlaylist.numberMusic}")
+                _playlistRepository.updatePlaylistName(newPlaylist)
+
+        }
+
+    }
+
 }

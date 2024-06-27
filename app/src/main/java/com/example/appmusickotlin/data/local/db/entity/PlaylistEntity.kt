@@ -9,5 +9,6 @@ data class PlaylistEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val name: String,
+    var numberMusic : Long? = 0,
     val userId: Long // Foreign key reference to UserEntity
 )

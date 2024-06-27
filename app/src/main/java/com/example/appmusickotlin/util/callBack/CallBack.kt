@@ -1,6 +1,7 @@
 package com.example.appmusickotlin.util.callBack
 
 import android.view.View
+import android.widget.TextView
 import com.example.appmusickotlin.model.DataListPlayList
 import com.example.appmusickotlin.model.Song
 
@@ -30,4 +31,8 @@ interface OnEditPopupAlbumButtonClickListener {
 
 interface OnSeeALLListener{
     fun onSeeAll(type: Int)
+}
+
+interface NumberMusicInPlaylistListener {
+    fun numberMusicInPlaylistListener(textView: TextView,albumId : Long)
 }
