@@ -9,7 +9,7 @@
         android:id="@+id/imvLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/rain"
+        android:src="@drawable/album_avatar"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

@@ -69,10 +69,11 @@ class HomeChildAdapter(
                 val albumItem = albumList!![position]
                 val imageAlbum = albumItem.image?.get(3)?.text
                 val albumViewHolder = holder as AlbumViewHolder
+
                 albumViewHolder.binding.root.context?.let {
                     Glide.with(it)
                         .load(imageAlbum)
-                        .apply(RequestOptions().placeholder(R.drawable.rectangle).centerCrop())
+                        .apply(RequestOptions().placeholder(R.drawable.samurai).centerCrop())
                         .into(albumViewHolder.binding.imvLogo)
                 }
                 albumViewHolder.binding.txtTitle.text = albumItem.name

@@ -96,7 +96,7 @@ class ListenMusicActivity : AppCompatActivity() {
                     // Sau đó, bạn có thể hiển thị bitmap này trong ImageView hoặc bất kỳ nơi nào bạn cần
                     binding.imgAvatar.setImageBitmap(bitmap)
                 } else {
-                    binding.imgAvatar.setImageResource(R.drawable.avatas)
+                    binding.imgAvatar.setImageResource(R.drawable.lofi_girl_logo)
                 }
 // Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
                 retriever.release()

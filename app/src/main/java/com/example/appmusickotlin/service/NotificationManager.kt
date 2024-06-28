@@ -82,7 +82,7 @@ class NotificationManager(private val context: Context) {
             } else {
                 Log.d("uuuq","37373")
 
-                notificationLayout.setImageViewResource(R.id.imvMusicImage,R.drawable.avatas)
+                notificationLayout.setImageViewResource(R.id.imvMusicImage,R.drawable.lofi_girl_logo)
 
             }
             retriever.release()

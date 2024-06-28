@@ -101,7 +101,7 @@ class MusicAdapter(
                         // Sau đó, bạn có thể hiển thị bitmap này trong ImageView hoặc bất kỳ nơi nào bạn cần
                         linearHolder.binding.avatarImageView.setImageBitmap(bitmap)
                     } else {
-                        linearHolder.binding.avatarImageView.setImageResource(R.drawable.avatas)
+                        linearHolder.binding.avatarImageView.setImageResource(R.drawable.lofi_girl_logo)
                     }
 // Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
                     retriever.release()
@@ -126,15 +126,15 @@ class MusicAdapter(
 
                 }
 
-                // Xử lý animation
-                if (musicUri == songCurrent&& isPlay == true) {
-                    linearHolder.binding.itemMusic.setBackgroundResource(R.color.DialogBackground)
-                    linearHolder.binding.vAnimation.visibility = View.VISIBLE
-                } else {
-                    linearHolder.binding.itemMusic.setBackgroundResource(0)
-                    linearHolder.binding.vAnimation.visibility = View.GONE
-                }
-
+//                // Xử lý animation
+//                if (musicUri == songCurrent&& isPlay == true) {
+//                    linearHolder.binding.itemMusic.setBackgroundResource(R.color.DialogBackground)
+//                    linearHolder.binding.vAnimation.visibility = View.VISIBLE
+//                } else {
+//                    linearHolder.binding.itemMusic.setBackgroundResource(0)
+//                    linearHolder.binding.vAnimation.visibility = View.GONE
+//                }
+//
 
 
 
@@ -185,7 +185,7 @@ class MusicAdapter(
                         // Sau đó, bạn có thể hiển thị bitmap này trong ImageView hoặc bất kỳ nơi nào bạn cần
                         gridHolder.binding.avatarImageView.setImageBitmap(bitmap)
                     } else {
-                        gridHolder.binding.avatarImageView.setImageResource(R.drawable.avatas)
+                        gridHolder.binding.avatarImageView.setImageResource(R.drawable.lofi_girl_logo)
                     }
 // Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
                     retriever.release()

@@ -155,6 +155,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 binding.ibnGrid.visibility = View.GONE
                 binding.btnAddPlaylistFloatingAction.visibility = View.VISIBLE
                 binding.rccGridMusicAlbum.visibility = View.GONE
+
             }
         })
 
@@ -250,7 +251,6 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
 
         musicViewModel.music.observe(viewLifecycleOwner, Observer { listMusic ->
 
-            Log.d("ooo", "observe")
 
                 if (listMusic.isNullOrEmpty()) {
                     binding.group.visibility = View.GONE
@@ -266,7 +266,8 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 } else {
                     if (binding.rccMusicAlbum.adapter == null) {
 
-                         musicAdapter = MusicAdapter(
+
+                        musicAdapter = MusicAdapter(
                             requireContext(),
                             listMusic, this, false, false
                         )
@@ -321,6 +322,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                         binding.ibnSwap.visibility = View.VISIBLE
                         binding.ibnGrid.visibility = View.VISIBLE
                         binding.btnAddPlaylistFloatingAction.visibility = View.GONE
+                        Log.d("ooo", "dddd")
 
                     }
                 }
@@ -339,6 +341,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
     }
 
     override fun onDeleteButtonClick(song: Song, position: Int) {
+
         musicViewModel.delete(song.id, idPlayList)
         playlistViewModel.updateNumberMusicPlaylist(idPlayList, false)
 
