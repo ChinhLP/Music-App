@@ -59,10 +59,11 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
             foregroundService = binder.getService()
 
             // Quan sát currentPosition từ ForegroundService
+            if (isAdded) {
 
-            foregroundService.song.observe(requireActivity(), currentSongObserver)
-            foregroundService.isPrepared.observe(requireActivity(), currentMediaObserver)
-
+                foregroundService.song.observe(requireActivity(), currentSongObserver)
+                foregroundService.isPrepared.observe(requireActivity(), currentMediaObserver)
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -247,7 +248,7 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
         viewModel.playSong(song, listPlays)
     }
 
-    private fun checkStoragePermission(): Boolean {
+    fun checkStoragePermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.READ_EXTERNAL_STORAGE

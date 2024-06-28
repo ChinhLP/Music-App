@@ -85,6 +85,7 @@ class ListenMusicActivity : AppCompatActivity() {
 
         currentSongObserver = Observer { song ->
             if(song.path != null){
+                try{
                 val retriever = MediaMetadataRetriever()
                 retriever.setDataSource(song.path )
 // Lấy ảnh đại diện album dưới dạng byte array
@@ -99,14 +100,14 @@ class ListenMusicActivity : AppCompatActivity() {
                 }
 // Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
                 retriever.release()
-
+                } catch (e: Exception) {
+                    android.util.Log.e("anh", e.toString())
+                }
             }
             binding.sbMusic.max = song.duration!!.toInt()
             binding.txtMusic.text = song.name
             binding.txtArtist.text = song.artist
             binding.txtNumberEnd.text = song.duration!!.formatDuration()
-
-
 
         }
 
@@ -162,6 +163,7 @@ class ListenMusicActivity : AppCompatActivity() {
             }
             startService(serviceIntent)
             val intent = Intent(this, HomeScreenActivity::class.java)
+            intent.putExtra("open_fragment", "LibraryFragment")
             startActivity(intent)
             finish()
         }

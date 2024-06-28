@@ -18,8 +18,8 @@ class MusicLoader(private val context: Context) {
         )
 
         // Thêm điều kiện cho câu truy vấn
-        val selection = "${MediaStore.Audio.Media.DURATION} >= ?"
-        val selectionArgs = arrayOf("1000") // Thời lượng >= 1000ms (1 giây)
+        val selection = "${MediaStore.Audio.Media.DURATION} >= ? AND ${MediaStore.Audio.Media.MIME_TYPE} = ?"
+        val selectionArgs = arrayOf("1000", "audio/mpeg") // Thời lượng >= 1000ms (1 giây)
 
         val musicCursor = context.contentResolver.query(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,

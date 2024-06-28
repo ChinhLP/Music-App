@@ -67,7 +67,7 @@ class NotificationManager(private val context: Context) {
         )
 
 
-
+        try{
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(song!!.path )
 // Lấy ảnh đại diện album dưới dạng byte array
@@ -85,13 +85,16 @@ class NotificationManager(private val context: Context) {
                 notificationLayout.setImageViewResource(R.id.imvMusicImage,R.drawable.avatas)
 
             }
-// Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
+            retriever.release()
 
+        } catch (e: Exception) {
+            android.util.Log.e("anh", e.toString())
+        }
 
 
         // Set text and image in the RemoteViews
         notificationLayout.setTextViewText(R.id.txtApp, "Music App")
-        notificationLayout.setTextViewText(R.id.txtNameMusic, song.name)
+        notificationLayout.setTextViewText(R.id.txtNameMusic, song!!.name)
         notificationLayout.setTextViewText(R.id.txtArtist,song.artist)
         notificationLayout.setTextViewText(R.id.txtNumberCurrentMusic, (currentIndex!! + 1).toString())
         notificationLayout.setTextViewText(R.id.txtFullNumber, maxIndex.toString())
@@ -149,7 +152,6 @@ class NotificationManager(private val context: Context) {
             .setCustomBigContentView(notificationLayout)
             .setAutoCancel(true) // Dismiss notification on click
 
-        retriever.release()
 
         return builder.build()
     }
