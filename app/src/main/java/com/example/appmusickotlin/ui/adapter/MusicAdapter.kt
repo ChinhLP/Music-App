@@ -4,6 +4,8 @@ package com.example.appmusickotlin.ui.adapter
 import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -88,15 +90,32 @@ class MusicAdapter(
                 val musicUri = musicUriList[position]
                 val linearHolder = holder as MusicLinearViewHolder
 
-                val sArt = Uri.parse("content://media/external/audio/albumart")
-                val uri = musicUri.albumId?.let { ContentUris.withAppendedId(sArt, it).toString() }
+//                val sArt = Uri.parse("content://media/external/audio/albumart")
+//                val uri = musicUri.albumId?.let { ContentUris.withAppendedId(sArt, it).toString() }
+//
+//                linearHolder.binding.root.context?.let {
+//                    Glide.with(it)
+//                        .load(musicUri.path)
+//                        .apply(RequestOptions().placeholder(R.drawable.rectangle).centerCrop())
+//                        .into(linearHolder.binding.avatarImageView)
+//                }
+//
 
-                linearHolder.binding.root.context?.let {
-                    Glide.with(it)
-                        .load(uri)
-                        .apply(RequestOptions().placeholder(R.drawable.rectangle).centerCrop())
-                        .into(linearHolder.binding.avatarImageView)
+                val retriever = MediaMetadataRetriever()
+                retriever.setDataSource(musicUri.path)
+// Lấy ảnh đại diện album dưới dạng byte array
+                val albumArtBytes = retriever.embeddedPicture
+// Để hiển thị ảnh đại diện album, bạn có thể chuyển đổi byte array thành Bitmap
+                if (albumArtBytes != null) {
+                    val bitmap = BitmapFactory.decodeByteArray(albumArtBytes, 0, albumArtBytes.size)
+                    // Sau đó, bạn có thể hiển thị bitmap này trong ImageView hoặc bất kỳ nơi nào bạn cần
+                    linearHolder.binding.avatarImageView.setImageBitmap(bitmap)
+                } else {
+                    linearHolder.binding.avatarImageView.setImageResource(R.drawable.avatas)
                 }
+// Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
+                retriever.release()
+
 
                 // Hiển thị thông tin vào các thành phần UI
                 linearHolder.binding.songTitleTextView.text = musicUri.name
@@ -160,16 +179,32 @@ class MusicAdapter(
                 val musicUri = musicUriList[position]
                 val gridHolder = holder as MusicGridViewHolder
 
-                val sArt = Uri.parse("content://media/external/audio/albumart")
+//                val sArt = Uri.parse("content://media/external/audio/albumart")
+//
+//                val uri = ContentUris.withAppendedId(sArt, musicUri.albumId!!).toString()
+//
+//                gridHolder.binding.root.context?.let {
+//                    Glide.with(it)
+//                        .load(uri)
+//                        .apply(RequestOptions().placeholder(R.drawable.rectangle).centerCrop())
+//                        .into(gridHolder.binding.avatarImageView)
+//                }
 
-                val uri = ContentUris.withAppendedId(sArt, musicUri.albumId!!).toString()
-
-                gridHolder.binding.root.context?.let {
-                    Glide.with(it)
-                        .load(uri)
-                        .apply(RequestOptions().placeholder(R.drawable.rectangle).centerCrop())
-                        .into(gridHolder.binding.avatarImageView)
+                val retriever = MediaMetadataRetriever()
+                retriever.setDataSource(musicUri.path)
+// Lấy ảnh đại diện album dưới dạng byte array
+                val albumArtBytes = retriever.embeddedPicture
+// Để hiển thị ảnh đại diện album, bạn có thể chuyển đổi byte array thành Bitmap
+                if (albumArtBytes != null) {
+                    val bitmap = BitmapFactory.decodeByteArray(albumArtBytes, 0, albumArtBytes.size)
+                    // Sau đó, bạn có thể hiển thị bitmap này trong ImageView hoặc bất kỳ nơi nào bạn cần
+                    gridHolder.binding.avatarImageView.setImageBitmap(bitmap)
                 }
+                else {
+                    gridHolder.binding.avatarImageView.setImageResource(R.drawable.avatas)
+                }
+// Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
+                retriever.release()
 
                 // Hiển thị thông tin vào các thành phần UI
                 gridHolder.binding.txtTitle.text = musicUri.name

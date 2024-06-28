@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
@@ -61,10 +62,26 @@ class NotificationManager(private val context: Context) {
             Color.parseColor("#464646")
         )
 
+            val retriever = MediaMetadataRetriever()
+            retriever.setDataSource(song!!.path )
+// Lấy ảnh đại diện album dưới dạng byte array
+            val albumArtBytes = retriever.embeddedPicture
+// Để hiển thị ảnh đại diện album, bạn có thể chuyển đổi byte array thành Bitmap
+            if (albumArtBytes != null) {
+                val bitmap = BitmapFactory.decodeByteArray(albumArtBytes, 0, albumArtBytes.size)
+                // Sau đó, bạn có thể hiển thị bitmap này trong ImageView hoặc bất kỳ nơi nào bạn cần
+                notificationLayout.setImageViewBitmap(R.id.imvMusicImage,bitmap)
+            } else {
+                notificationLayout.setImageViewResource(R.id.imvMusicImage,R.drawable.avatas)
+
+            }
+// Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
+
+
 
         // Set text and image in the RemoteViews
         notificationLayout.setTextViewText(R.id.txtApp, "Music App")
-        notificationLayout.setTextViewText(R.id.txtNameMusic, song!!.name)
+        notificationLayout.setTextViewText(R.id.txtNameMusic, song.name)
         notificationLayout.setTextViewText(R.id.txtArtist,song.artist)
         notificationLayout.setTextViewText(R.id.txtNumberCurrentMusic, (currentIndex!! + 1).toString())
         notificationLayout.setTextViewText(R.id.txtFullNumber, maxIndex.toString())
@@ -76,7 +93,6 @@ class NotificationManager(private val context: Context) {
             notificationLayout.setImageViewResource(R.id.imvPlay,R.drawable.ic_play)
 
         }
-
 
 // Create intents for each action
         val playIntent = Intent(context, ForegroundService::class.java).apply { action = "ACTION_PLAY" }
@@ -123,6 +139,8 @@ class NotificationManager(private val context: Context) {
             .setCustomContentView(notificationLayout)
             .setCustomBigContentView(notificationLayout)
             .setAutoCancel(true) // Dismiss notification on click
+
+        retriever.release()
 
         return builder.build()
     }

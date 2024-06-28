@@ -159,6 +159,7 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
         })
 
 
+
         binding.btnAddPlaylist.setOnClickListener {
             val dialogAddPlaylist = DialogAddPlaylistFragment()
             dialogAddPlaylist.setPlaylistAddedListener(this) // phải thêm hàm này vào

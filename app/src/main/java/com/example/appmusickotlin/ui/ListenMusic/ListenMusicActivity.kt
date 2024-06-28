@@ -6,6 +6,8 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -74,22 +76,28 @@ class ListenMusicActivity : AppCompatActivity() {
         }
 
         currentSongObserver = Observer { song ->
+            if(song.path != null){
+                val retriever = MediaMetadataRetriever()
+                retriever.setDataSource(song.path )
+// Lấy ảnh đại diện album dưới dạng byte array
+                val albumArtBytes = retriever.embeddedPicture
+// Để hiển thị ảnh đại diện album, bạn có thể chuyển đổi byte array thành Bitmap
+                if (albumArtBytes != null) {
+                    val bitmap = BitmapFactory.decodeByteArray(albumArtBytes, 0, albumArtBytes.size)
+                    // Sau đó, bạn có thể hiển thị bitmap này trong ImageView hoặc bất kỳ nơi nào bạn cần
+                    binding.imgAvatar.setImageBitmap(bitmap)
+                } else {
+                    binding.imgAvatar.setImageResource(R.drawable.avatas)
+                }
+// Đừng quên giải phóng các tài nguyên khi bạn đã hoàn thành
+                retriever.release()
+
+            }
             binding.sbMusic.max = song.duration!!.toInt()
             binding.txtMusic.text = song.name
             binding.txtArtist.text = song.artist
             binding.txtNumberEnd.text = song.duration!!.formatDuration()
-            if(song.albumId != null){
-                val sArt = Uri.parse("content://media/external/audio/albumart")
 
-                val uri = ContentUris.withAppendedId(sArt, song.albumId!!).toString()
-
-                binding.root.context?.let {
-                    Glide.with(it)
-                        .load(uri)
-                        .apply(RequestOptions().placeholder(R.drawable.avatas).centerCrop())
-                        .into(binding.imgAvatar)
-                }
-            }
 
 
         }
@@ -141,6 +149,8 @@ class ListenMusicActivity : AppCompatActivity() {
                 action = "ACTION_CLOSE"
             }
             startService(serviceIntent)
+            val intent = Intent(this, HomeScreenActivity::class.java)
+            startActivity(intent)
             finish()
         }
 
