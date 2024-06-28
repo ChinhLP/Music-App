@@ -2,9 +2,11 @@ package com.example.appmusickotlin.ui.ListenMusic
 
 import android.content.BroadcastReceiver
 import android.content.ComponentName
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Parcelable
@@ -15,10 +17,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.databinding.ActivityListenMusicBinding
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.service.ForegroundService
+import com.example.appmusickotlin.ui.home.HomeScreenActivity
 import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.util.formatDuration.formatDuration
 
@@ -67,11 +72,24 @@ class ListenMusicActivity : AppCompatActivity() {
             binding.sbMusic.progress = newPosition
             binding.txtNumberPlay.text = newPosition.toLong().formatDuration()
         }
+
         currentSongObserver = Observer { song ->
             binding.sbMusic.max = song.duration!!.toInt()
             binding.txtMusic.text = song.name
             binding.txtArtist.text = song.artist
             binding.txtNumberEnd.text = song.duration!!.formatDuration()
+            if(song.albumId != null){
+                val sArt = Uri.parse("content://media/external/audio/albumart")
+
+                val uri = ContentUris.withAppendedId(sArt, song.albumId!!).toString()
+
+                binding.root.context?.let {
+                    Glide.with(it)
+                        .load(uri)
+                        .apply(RequestOptions().placeholder(R.drawable.avatas).centerCrop())
+                        .into(binding.imgAvatar)
+                }
+            }
 
 
         }
@@ -113,6 +131,8 @@ class ListenMusicActivity : AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener {
+            val intent = Intent(this, HomeScreenActivity::class.java)
+            startActivity(intent)
             finish()
         }
         binding.btnClose.setOnClickListener {
@@ -123,7 +143,6 @@ class ListenMusicActivity : AppCompatActivity() {
             startService(serviceIntent)
             finish()
         }
-
 
 
         setContentView(binding.root)

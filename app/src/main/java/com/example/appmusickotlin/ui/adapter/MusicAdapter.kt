@@ -38,11 +38,19 @@ class MusicAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // Khai báo biến lưu vị trí bài hát được chọn hiện tại và trước đó
+
     private var songCurrent: Song? = null
-    private var songPrevious: Song? = null
+    private var isPlay: Boolean? = true
 
     fun setCurrent(songCurrent: Song) {
         this.songCurrent = songCurrent
+        notifyDataSetChanged()
+    }
+
+    fun setIsPlay(isPlay: Boolean) {
+        this.isPlay = isPlay
+        notifyDataSetChanged()
+
     }
 
     private var musicClickListener: OnMusicClickListener? = null
@@ -106,7 +114,7 @@ class MusicAdapter(
                 }
 
                 // Xử lý animation
-                if (musicUri == songCurrent) {
+                if (musicUri == songCurrent&& isPlay == true) {
                     linearHolder.binding.itemMusic.setBackgroundResource(R.color.DialogBackground)
                     linearHolder.binding.vAnimation.visibility = View.VISIBLE
                 } else {
@@ -153,6 +161,7 @@ class MusicAdapter(
                 val gridHolder = holder as MusicGridViewHolder
 
                 val sArt = Uri.parse("content://media/external/audio/albumart")
+
                 val uri = ContentUris.withAppendedId(sArt, musicUri.albumId!!).toString()
 
                 gridHolder.binding.root.context?.let {

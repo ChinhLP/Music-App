@@ -31,7 +31,7 @@ class MusicRepository(private val musicDao: MusicDao) {
         }
     }
 
-    suspend fun delete(id: Long) {
+    fun delete(id: Long) {
         coroutineScope.launch(Dispatchers.IO) {
             musicDao.deleteMusic(id)
         }

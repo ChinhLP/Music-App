@@ -31,6 +31,7 @@ import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
 import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
 import com.example.appmusickotlin.data.remoteRetrofit.Result.State
 import com.example.appmusickotlin.data.remoteRetrofit.viewmodel.MusicRemoteViewModel
+import com.example.appmusickotlin.model.currentSong
 import com.example.appmusickotlin.service.ForegroundService
 import com.example.appmusickotlin.ui.popup.DialogPermissionsStorageFragment
 
@@ -44,6 +45,12 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
     private lateinit var musicRemoteViewModel: MusicRemoteViewModel
     private lateinit var foregroundService: ForegroundService
     private lateinit var currentSongObserver : Observer<Song>
+    private lateinit var currentMediaObserver: Observer<Boolean>
+
+
+    private var adapter : MusicAdapter? = null
+    private var adapterRemote : MusicAdapter? = null
+
 
 
     private val serviceConnection = object : ServiceConnection {
@@ -54,10 +61,25 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
             // Quan sát currentPosition từ ForegroundService
 
             foregroundService.song.observe(requireActivity(), currentSongObserver)
+            foregroundService.isPrepared.observe(requireActivity(), currentMediaObserver)
+
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             // Xử lý khi mất kết nối với Service
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(currentSong.currentSong != null){
+            adapter!!.setCurrent(currentSong.currentSong!!)
+
+            adapterRemote!!.setCurrent(currentSong.currentSong!!)
+        }
+
+        currentSongObserver = Observer { music ->
+            adapter?.setCurrent(music)
         }
     }
 
@@ -75,12 +97,10 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
         val intent = Intent(requireContext(),ForegroundService::class.java)
         activity?.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-
-
-
-
         return binding.root
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,9 +115,31 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
         val listMusic = MusicLoader(requireContext()).getAllMusic()
 
-        val adapter = MusicAdapter(this.context, listMusic, this, true, false)
+         adapter = MusicAdapter(this.context, listMusic, this, true, false)
 
-        adapter.setOnMusicClickListener(this)
+        if(currentSong.currentSong != null){
+            adapter!!.setCurrent(currentSong.currentSong!!)
+
+              adapterRemote!!.setCurrent(currentSong.currentSong!!)
+    }
+
+    currentSongObserver = Observer { music ->
+            adapter!!.setCurrent(music)
+            currentSong.currentSong = music
+        }
+        currentMediaObserver = Observer { isPlay ->
+            adapter!!.setIsPlay(isPlay)
+            currentSong.isPlay = isPlay
+
+        }
+
+        currentSongObserver = Observer { music ->
+            adapterRemote!!.setCurrent(music)
+            currentSong.currentSong = music
+
+        }
+
+        adapter!!.setOnMusicClickListener(this)
         binding.recyclerView.adapter = adapter
 
         binding.btnLeft.setOnClickListener {
@@ -122,15 +164,15 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
 
         binding.btnRight.setOnClickListener {
-
             musicRemoteViewModel.fetchAllMusic()
+
             musicRemoteViewModel.musicList.observe(viewLifecycleOwner, Observer { state ->
                 when (state) {
                     is State.Success -> {
                         val musicRemoteList = state.data
-                        val adapterRemote =
+                        adapterRemote =
                             MusicAdapter(this.context, musicRemoteList!!, this, true, false)
-                        adapterRemote.setOnMusicClickListener(this)
+                        adapterRemote!!.setOnMusicClickListener(this)
                         binding.recyclerRemoteView.adapter = adapterRemote
                         binding.recyclerRemoteView.visibility = View.VISIBLE
                         binding.grNoInternet.visibility = View.GONE
@@ -168,8 +210,6 @@ class LibraryFragment : Fragment(), OnEditButtonClickListener, OnMusicClickListe
 
             binding.recyclerView.visibility = View.GONE
         }
-
-
 
         // không cho back lại
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :

@@ -1,7 +1,12 @@
 package com.example.appmusickotlin.ui.home.Fragment
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
@@ -30,6 +35,8 @@ import com.example.appmusickotlin.util.callBack.OnItemClickListener
 import com.example.appmusickotlin.util.callBack.PlaylistAddedListener
 import com.example.appmusickotlin.data.local.db.viewmodel.MusicViewModel
 import com.example.appmusickotlin.data.local.db.viewmodel.PlaylistViewModel
+import com.example.appmusickotlin.model.currentSong
+import com.example.appmusickotlin.service.ForegroundService
 import com.example.appmusickotlin.ui.home.viewmodel.HomeViewModel
 import com.example.appmusickotlin.ui.popup.DialogRenamePlaylistFragment
 import com.example.appmusickotlin.util.callBack.NumberMusicInPlaylistListener
@@ -44,7 +51,45 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
     private lateinit var viewModel: HomeViewModel
     private lateinit var playlistViewModel: PlaylistViewModel
     private lateinit var musicViewModel: MusicViewModel
+    private lateinit var foregroundService: ForegroundService
+    private lateinit var currentSongObserver : Observer<Song>
+    private lateinit var currentMediaObserver: Observer<Boolean>
 
+    private var musicAdapter : MusicAdapter? = null
+    private var music : Song? = null
+
+
+
+
+    private val serviceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as ForegroundService.LocalBinder
+            foregroundService = binder.getService()
+
+            // Quan sát currentPosition từ ForegroundService
+            foregroundService.isPrepared.observe(requireActivity(), currentMediaObserver)
+
+            foregroundService.song.observe(requireActivity(), currentSongObserver)
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            // Xử lý khi mất kết nối với Service
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(currentSong.currentSong != null){
+            musicAdapter!!.setCurrent(currentSong.currentSong!!)
+        }
+        currentMediaObserver = Observer { isPlay ->
+            musicAdapter?.setIsPlay(isPlay)
+        }
+        currentSongObserver = Observer { music ->
+            musicAdapter?.setCurrent(music)
+            Log.d("trr","${music}")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +104,10 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
         playlistViewModel = ViewModelProvider(requireActivity()).get(PlaylistViewModel::class.java)
         musicViewModel = ViewModelProvider(requireActivity()).get(MusicViewModel::class.java)
         viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        val intent = Intent(requireContext(),ForegroundService::class.java)
+        activity?.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
         Log.d("ppp", "ccccc1")
+
 
         playlistViewModel.playlist?.observe(viewLifecycleOwner, Observer { playlist ->
             if (playlist.isNullOrEmpty()) {
@@ -86,7 +134,14 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
 
             }
         })
-
+        if(currentSong.currentSong != null){
+            musicAdapter!!.setCurrent(currentSong.currentSong!!)
+        }
+        currentSongObserver = Observer { music ->
+            this.music = music
+            musicAdapter?.setCurrent(music)
+            currentSong.currentSong = music
+        }
         //hien lai man hinh album khi back lai
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
             OnBackPressedCallback(true) {
@@ -210,11 +265,11 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                 } else {
                     if (binding.rccMusicAlbum.adapter == null) {
 
-                        val musicAdapter = MusicAdapter(
+                         musicAdapter = MusicAdapter(
                             requireContext(),
                             listMusic, this, false, false
                         )
-                        musicAdapter.setOnMusicClickListener(this)
+                        musicAdapter!!.setOnMusicClickListener(this)
                         binding.rccMusicAlbum.layoutManager = LinearLayoutManager(this.context)
                         binding.rccMusicAlbum.adapter = musicAdapter
 
@@ -239,16 +294,16 @@ class PlayListsFragment : Fragment(), PlaylistAddedListener, OnItemClickListener
                         binding.ibnSwap.setOnClickListener {
                             binding.grSwap.visibility = View.VISIBLE
                             binding.ibnSwap.visibility = View.GONE
-                            musicAdapter.setSwap(swap = true)
+                            musicAdapter!!.setSwap(swap = true)
                             musicGridAdapter.enableSwipeAndDrag(binding.rccGridMusicAlbum, true)
-                            musicAdapter.enableSwipeAndDrag(binding.rccMusicAlbum, true)
+                            musicAdapter!!.enableSwipeAndDrag(binding.rccMusicAlbum, true)
                         }
                         binding.grSwap.setOnClickListener {
                             binding.grSwap.visibility = View.GONE
                             binding.ibnSwap.visibility = View.VISIBLE
-                            musicAdapter.setSwap(swap = false)
+                            musicAdapter!!.setSwap(swap = false)
                             musicGridAdapter.enableSwipeAndDrag(binding.rccGridMusicAlbum, false)
-                            musicAdapter.enableSwipeAndDrag(binding.rccMusicAlbum, false)
+                            musicAdapter!!.enableSwipeAndDrag(binding.rccMusicAlbum, false)
                         }
 
                         Log.d("ooo", "visible")

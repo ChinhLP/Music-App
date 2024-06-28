@@ -5,16 +5,20 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service.NOTIFICATION_SERVICE
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startForegroundService
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.appmusickotlin.R
 import com.example.appmusickotlin.model.Song
 import com.example.appmusickotlin.ui.ListenMusic.ListenMusicActivity
@@ -56,6 +60,7 @@ class NotificationManager(private val context: Context) {
             "setBackgroundColor",
             Color.parseColor("#464646")
         )
+
 
         // Set text and image in the RemoteViews
         notificationLayout.setTextViewText(R.id.txtApp, "Music App")
@@ -101,14 +106,14 @@ class NotificationManager(private val context: Context) {
         notificationLayout.setImageViewBitmap(R.id.imvMusicImage, customIcon)
 
         // Set up intent for when notification is clicked
-        val notificationIntent = Intent(context, SplashActivity::class.java)
+        val notificationIntent = Intent(context, ListenMusicActivity::class.java)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
         val pendingIntent = PendingIntent.getActivity(
             context,
             0,
             notificationIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_MUTABLE
         )
 
         // Build the notification

@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -170,6 +171,7 @@ class HomeScreenActivity : AppCompatActivity() {
             val intent = Intent(this,ListenMusicActivity::class.java)
 
             startActivity(intent)
+            finish()
         }
         binding.ibnCloseService.setOnClickListener {
             val serviceIntent = Intent(this, ForegroundService::class.java).apply {
@@ -249,28 +251,41 @@ class HomeScreenActivity : AppCompatActivity() {
 
     }
 
-    private fun showHomeFragment() {
-        supportFragmentManager.commit {
-            //setReorderingAllowed(false)
-            replace(binding.fragmentContainer.id, HomeFragment())
+    private fun showFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+
+        // Hide all fragments
+        supportFragmentManager.fragments.forEach {
+            transaction.hide(it)
         }
+
+        // Show the specified fragment
+        if (supportFragmentManager.fragments.contains(fragment)) {
+            transaction.show(fragment)
+        } else {
+            transaction.add(binding.fragmentContainer.id, fragment)
+        }
+
+        transaction.commit()
+    }
+
+    private fun showHomeFragment() {
+        val homeFragment = supportFragmentManager.findFragmentByTag(HomeFragment::class.java.simpleName)
+            ?: HomeFragment()
+        showFragment(homeFragment)
     }
 
     private fun showLibraryFragment() {
-        supportFragmentManager.commit {
-            //setReorderingAllowed(false)
-            replace(binding.fragmentContainer.id, LibraryFragment())
-        }
+        val libraryFragment = supportFragmentManager.findFragmentByTag(LibraryFragment::class.java.simpleName)
+            ?: LibraryFragment()
+        showFragment(libraryFragment)
     }
 
     private fun showPlayListsFragment() {
-        lifecycleScope.launch {
-            supportFragmentManager.commit {
-                replace(binding.fragmentContainer.id, PlayListsFragment())
-            }
-        }
+        val playListsFragment = supportFragmentManager.findFragmentByTag(PlayListsFragment::class.java.simpleName)
+            ?: PlayListsFragment()
+        showFragment(playListsFragment)
     }
-
     override fun onDestroy() {
         super.onDestroy()
         if (::foregroundService.isInitialized) {

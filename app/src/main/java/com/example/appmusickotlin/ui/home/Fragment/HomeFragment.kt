@@ -52,7 +52,6 @@ class HomeFragment : Fragment() , OnSeeALLListener {
 
 
 
-
     override fun onResume() {
         super.onResume()
 
