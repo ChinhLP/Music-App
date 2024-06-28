@@ -219,12 +219,21 @@ class HomeScreenActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentCount = fragmentManager.backStackEntryCount
 
-        if (fragmentCount == 0) {
+        val fragmentTag = intent.getStringExtra("open_fragment")
+
+        if(fragmentTag != null){
+            showLibraryFragment()
+            binding.bottomNavigationView.selectedItemId = R.id.btnLibrary
+        }
+
+
+        if (fragmentCount == 0 && fragmentTag == null) {
             val fragment = HomeFragment()
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_container, fragment)
             transaction.commit()
         }
+
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
 

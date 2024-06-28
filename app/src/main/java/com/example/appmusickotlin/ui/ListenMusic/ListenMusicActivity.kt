@@ -12,6 +12,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Parcelable
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -68,6 +70,12 @@ class ListenMusicActivity : AppCompatActivity() {
         bindService(Intent(this, ForegroundService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
 
 
+        this.onBackPressedDispatcher.addCallback(this, object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+            }
+        })
 
 
         currentPositionObserver = Observer { newPosition ->
@@ -138,8 +146,12 @@ class ListenMusicActivity : AppCompatActivity() {
             changePlayMusic()
         }
 
+
+
+
         binding.btnBack.setOnClickListener {
             val intent = Intent(this, HomeScreenActivity::class.java)
+            intent.putExtra("open_fragment", "LibraryFragment")
             startActivity(intent)
             finish()
         }

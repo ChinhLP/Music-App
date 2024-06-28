@@ -15,9 +15,12 @@ import android.net.Uri
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.widget.RemoteViews
+import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startForegroundService
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.appmusickotlin.R
@@ -52,6 +55,7 @@ class NotificationManager(private val context: Context) {
         }
     }
 
+    @OptIn(UnstableApi::class)
     fun buildNotification(song : Song?,currentIndex : Int? , maxIndex : Int?,isPrepared : Boolean): Notification {
 
         val notificationLayout = RemoteViews(context.packageName, R.layout.notification_layout)
@@ -62,6 +66,8 @@ class NotificationManager(private val context: Context) {
             Color.parseColor("#464646")
         )
 
+
+
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(song!!.path )
 // Lấy ảnh đại diện album dưới dạng byte array
@@ -70,8 +76,12 @@ class NotificationManager(private val context: Context) {
             if (albumArtBytes != null) {
                 val bitmap = BitmapFactory.decodeByteArray(albumArtBytes, 0, albumArtBytes.size)
                 // Sau đó, bạn có thể hiển thị bitmap này trong ImageView hoặc bất kỳ nơi nào bạn cần
+                Log.d("uuuq","$bitmap")
+
                 notificationLayout.setImageViewBitmap(R.id.imvMusicImage,bitmap)
             } else {
+                Log.d("uuuq","37373")
+
                 notificationLayout.setImageViewResource(R.id.imvMusicImage,R.drawable.avatas)
 
             }
@@ -118,11 +128,10 @@ class NotificationManager(private val context: Context) {
         notificationLayout.setOnClickPendingIntent(R.id.imvDelete,closePendingIntent)
 
         // Load custom icon (optional)
-        val customIcon = BitmapFactory.decodeResource(context.resources, R.drawable.avatas)
-        notificationLayout.setImageViewBitmap(R.id.imvMusicImage, customIcon)
 
         // Set up intent for when notification is clicked
         val notificationIntent = Intent(context, ListenMusicActivity::class.java)
+
         notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
         val pendingIntent = PendingIntent.getActivity(
